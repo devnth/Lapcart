@@ -1,0 +1,379 @@
+2022/07/04 14:36:57 
+Connected to database: lapcart
+2022/07/04 14:36:57 Api is listening on port: 8000
+2022/07/04 14:38:00 Checking whether Admin exists.
+2022/07/04 14:47:10 
+Connected to database: lapcart
+2022/07/04 14:47:10 Api is listening on port: 8000
+2022/07/04 14:47:22 Checking whether Admin exists.
+2022/07/04 14:47:22 Please enter correct admin details
+2022/07/04 14:49:09 
+Connected to database: lapcart
+2022/07/04 14:49:09 Api is listening on port: 8000
+2022/07/04 14:49:14 Checking whether Admin exists.
+2022/07/04 14:49:14 Please enter correct admin details
+2022/07/04 14:49:34 
+Connected to database: lapcart
+2022/07/04 14:49:34 Api is listening on port: 8000
+2022/07/04 15:00:32 
+Connected to database: lapcart
+2022/07/04 15:00:32 Api is listening on port: 8000
+2022/07/04 15:00:37 Checking whether Admin exists.
+2022/07/04 15:00:37 Please enter correct admin details
+2022/07/04 15:00:49 Checking whether Admin exists.
+2022/07/04 15:01:08 Checking whether Admin exists.
+2022/07/04 15:01:08 Invalid Password.
+2022/07/04 15:01:20 Checking whether Admin exists.
+2022/07/04 17:14:46 
+Connected to database: lapcart
+2022/07/04 17:14:46 Api is listening on port: 8000
+2022/07/04 17:18:19 
+Connected to database: lapcart
+2022/07/04 17:18:19 Api is listening on port: 8000
+2022/07/04 17:18:48 Product added.
+2022/07/04 17:19:08 
+Connected to database: lapcart
+2022/07/04 17:19:08 Api is listening on port: 8000
+2022/07/04 17:19:12 Product added.
+2022/07/04 17:30:54 
+Connected to database: lapcart
+2022/07/04 17:30:54 Api is listening on port: 8000
+2022/07/04 17:31:01 Success
+2022/07/04 18:12:32 
+Connected to database: lapcart
+2022/07/04 18:12:32 Api is listening on port: 8000
+2022/07/04 18:13:19 Success
+2022/07/04 18:14:06 Length of Token not equal to
+2022/07/04 18:14:43 Length of Token not equal to
+2022/07/04 18:15:13 Checking whether user exists.
+2022/07/04 18:15:13 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/04 18:15:13 Signed Up Successfully
+2022/07/04 18:15:23 Checking whether User exists.
+2022/07/04 18:15:23 sql: expected 9 destination arguments in Scan, not 8
+2022/07/04 18:18:40 
+Connected to database: lapcart
+2022/07/04 18:18:40 Api is listening on port: 8000
+2022/07/04 18:18:49 Checking whether User exists.
+2022/07/04 18:19:05 Success
+2022/07/04 18:19:13 signing method (alg) is unavailable.
+2022/07/04 18:22:18 
+Connected to database: lapcart
+2022/07/04 18:22:18 Api is listening on port: 8000
+2022/07/04 18:22:22 Error parsing jwt: signing method (alg) is unavailable.
+2022/07/04 18:22:22 Token Invalid.
+2022/07/04 18:22:30 Error parsing jwt: invalid character '8' after object key
+2022/07/04 18:22:30 Token Invalid.
+2022/07/04 18:28:58 
+Connected to database: lapcart
+2022/07/04 18:28:58 Api is listening on port: 8000
+2022/07/04 18:29:02 Error parsing jwt: invalid character '8' after object key
+2022/07/04 18:30:07 
+Connected to database: lapcart
+2022/07/04 18:30:07 Api is listening on port: 8000
+2022/07/04 18:30:10 Error parsing jwt: invalid character '8' after object key
+2022/07/04 18:30:30 Success
+2022/07/04 18:30:41 Checking whether Admin exists.
+2022/07/04 18:30:41 Please enter correct admin details
+2022/07/04 18:31:11 Checking whether Admin exists.
+2022/07/04 18:31:11 Please enter correct admin details
+2022/07/04 18:34:08 Checking whether Admin exists.
+2022/07/04 18:34:08 Please enter correct admin details
+2022/07/04 18:35:35 
+Connected to database: lapcart
+2022/07/04 18:35:35 Api is listening on port: 8000
+2022/07/04 18:35:47 Checking whether Admin exists.
+2022/07/04 18:35:47 Please enter correct admin details
+2022/07/04 18:37:10 
+Connected to database: lapcart
+2022/07/04 18:37:10 Api is listening on port: 8000
+2022/07/04 18:37:15 Checking whether Admin exists.
+2022/07/04 21:05:17 
+Connected to database: lapcart
+2022/07/04 21:05:17 Api is listening on port: 8000
+2022/07/04 21:05:28 Checking whether User exists.
+2022/07/04 21:05:34 Checking whether user exists.
+2022/07/04 21:05:34 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/04 21:05:34 Signed Up Successfully
+2022/07/04 21:06:48 
+Connected to database: lapcart
+2022/07/04 21:06:48 Api is listening on port: 8000
+2022/07/04 21:07:01 Checking whether user exists.
+2022/07/04 21:07:01 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/04 21:07:01 Signed Up Successfully
+2022/07/04 21:10:11 
+Connected to database: lapcart
+2022/07/04 21:10:11 Api is listening on port: 8000
+2022/07/04 21:10:24 Checking whether user exists.
+2022/07/04 21:10:24 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/04 21:10:24 pq: INSERT has more target columns than expressions
+2022/07/04 21:11:41 
+Connected to database: lapcart
+2022/07/04 21:11:41 Api is listening on port: 8000
+2022/07/04 21:11:47 Checking whether user exists.
+2022/07/04 21:11:47 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/04 21:11:47 pq: got 6 parameters but the statement requires 5
+2022/07/04 21:12:33 
+Connected to database: lapcart
+2022/07/04 21:12:33 Api is listening on port: 8000
+2022/07/04 21:12:37 Checking whether user exists.
+2022/07/04 21:12:37 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/04 21:12:37 Signed Up Successfully
+2022/07/04 21:12:54 Checking whether User exists.
+2022/07/04 21:13:03 Checking whether User exists.
+2022/07/04 21:13:08 Checking whether User exists.
+2022/07/04 21:13:11 Checking whether User exists.
+2022/07/04 21:13:19 Checking whether User exists.
+2022/07/04 21:54:21 
+Connected to database: lapcart
+2022/07/04 21:54:21 Api is listening on port: 8000
+2022/07/04 21:54:31 
+Connected to database: lapcart
+2022/07/04 21:54:31 Api is listening on port: 8000
+2022/07/04 21:58:49 <nil>
+2022/07/04 22:00:21 
+Connected to database: lapcart
+2022/07/04 22:00:21 Api is listening on port: 8000
+2022/07/04 22:00:31 <nil>
+2022/07/04 22:01:21 <nil>
+2022/07/04 22:02:31 Checking whether user exists.
+2022/07/04 22:02:31 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/04 22:02:31 Signed Up Successfully
+2022/07/04 22:02:49 <nil>
+2022/07/04 22:14:05 
+Connected to database: lapcart
+2022/07/04 22:14:05 Api is listening on port: 8000
+2022/07/04 22:14:12 <nil>
+2022/07/04 22:14:26 <nil>
+2022/07/04 22:15:25 
+Connected to database: lapcart
+2022/07/04 22:15:25 Api is listening on port: 8000
+2022/07/04 22:16:32 
+Connected to database: lapcart
+2022/07/04 22:16:32 Api is listening on port: 8000
+2022/07/04 22:16:38 <nil>
+2022/07/04 22:17:07 <nil>
+2022/07/04 22:17:19 <nil>
+2022/07/04 22:19:32 
+Connected to database: lapcart
+2022/07/04 22:19:32 Api is listening on port: 8000
+2022/07/04 22:19:38 <nil>
+2022/07/04 22:19:51 <nil>
+2022/07/04 22:20:09 <nil>
+2022/07/04 22:20:22 <nil>
+2022/07/04 22:20:47 Checking whether User exists.
+2022/07/04 22:20:47 user been blocked.
+2022/07/04 22:20:59 <nil>
+2022/07/04 22:21:03 Checking whether User exists.
+2022/07/04 22:43:44 user does not exist
+2022/07/04 22:43:58 <nil>
+2022/07/04 23:40:53 
+Connected to database: lapcart
+2022/07/04 23:40:53 Api is listening on port: 8000
+2022/07/04 23:41:08 
+Connected to database: lapcart
+2022/07/04 23:41:08 Api is listening on port: 8000
+2022/07/04 23:41:57 No token
+2022/07/04 23:46:23 
+Connected to database: lapcart
+2022/07/04 23:46:23 Api is listening on port: 8000
+2022/07/04 23:46:30 Product added.
+2022/07/04 23:48:34 Product added.
+2022/07/05 09:32:08 
+Connected to database: lapcart
+2022/07/05 09:32:08 Api is listening on port: 8000
+2022/07/05 09:36:55 
+Connected to database: lapcart
+2022/07/05 09:36:55 Api is listening on port: 8000
+2022/07/05 09:40:19 Checking whether Admin exists.
+2022/07/05 09:40:19 Invalid Password.
+2022/07/05 09:40:44 Checking whether Admin exists.
+2022/07/05 09:40:44 Invalid Password.
+2022/07/05 09:41:10 Success
+2022/07/05 09:41:25 Product added.
+2022/07/05 09:41:31 Success
+2022/07/05 09:41:48 Checking whether Admin exists.
+2022/07/05 09:41:48 Invalid Password.
+2022/07/05 09:42:24 Checking whether user exists.
+2022/07/05 09:42:47 Checking whether user exists.
+2022/07/05 09:42:47 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/05 09:42:47 Signed Up Successfully
+2022/07/05 09:43:02 Checking whether Admin exists.
+2022/07/05 09:43:02 Invalid Password.
+2022/07/05 09:43:08 Checking whether Admin exists.
+2022/07/05 09:43:08 Invalid Password.
+2022/07/05 09:43:15 Checking whether Admin exists.
+2022/07/05 09:43:15 Invalid Password.
+2022/07/05 09:57:17 
+Connected to database: lapcart
+2022/07/05 09:57:17 Api is listening on port: 8000
+2022/07/05 09:57:25 Checking whether Admin exists.
+2022/07/05 09:57:31 Checking whether Admin exists.
+2022/07/05 09:57:31 Please enter correct admin details
+2022/07/05 10:00:05 Checking whether Admin exists.
+2022/07/05 10:00:05 Please enter correct admin details
+2022/07/05 10:00:10 Checking whether Admin exists.
+2022/07/05 10:00:13 Checking whether Admin exists.
+2022/07/05 10:00:13 Invalid Password.
+2022/07/05 10:00:57 Checking whether User exists.
+2022/07/05 10:01:04 Checking whether User exists.
+2022/07/05 10:01:07 Checking whether User exists.
+2022/07/05 10:01:11 Checking whether User exists.
+2022/07/05 10:01:20 Checking whether Admin exists.
+2022/07/05 10:01:20 Invalid Password.
+2022/07/05 10:01:21 Checking whether Admin exists.
+2022/07/05 10:01:21 Invalid Password.
+2022/07/05 10:01:22 Checking whether Admin exists.
+2022/07/05 10:01:22 Invalid Password.
+2022/07/05 10:01:26 Checking whether Admin exists.
+2022/07/05 10:01:26 Invalid Password.
+2022/07/05 10:01:33 Checking whether Admin exists.
+2022/07/05 10:01:37 Checking whether Admin exists.
+2022/07/05 10:01:37 Please enter correct admin details
+2022/07/05 10:01:43 Checking whether Admin exists.
+2022/07/05 10:01:48 Checking whether Admin exists.
+2022/07/05 10:01:48 Invalid Password.
+2022/07/05 10:01:55 Checking whether Admin exists.
+2022/07/05 10:07:50 Checking whether User exists.
+2022/07/05 10:07:58 Checking whether User exists.
+2022/07/06 09:31:38 
+Connected to database: lapcart
+2022/07/06 09:31:38 Api is listening on port: 8000
+2022/07/06 09:31:54 Error parsing jwt: token is expired by 14h54m39s
+2022/07/06 09:32:26 Checking whether Admin exists.
+2022/07/06 09:33:16 Error parsing jwt: token is expired by 14h56m1s
+2022/07/06 09:33:24 <nil>
+2022/07/06 09:33:32 
+Connected to database: lapcart
+2022/07/06 09:33:32 Api is listening on port: 8000
+2022/07/06 09:33:41 <nil>
+2022/07/06 09:34:15 
+Connected to database: lapcart
+2022/07/06 09:34:15 Api is listening on port: 8000
+2022/07/06 09:34:41 <nil>
+2022/07/06 09:37:35 
+Connected to database: lapcart
+2022/07/06 09:37:35 Api is listening on port: 8000
+2022/07/06 09:37:42 <nil>
+2022/07/06 09:38:15 
+Connected to database: lapcart
+2022/07/06 09:38:15 Api is listening on port: 8000
+2022/07/06 09:38:22 <nil>
+2022/07/06 09:44:01 
+Connected to database: lapcart
+2022/07/06 09:44:01 Api is listening on port: 8000
+2022/07/06 09:44:02 <nil>
+2022/07/06 09:45:24 Checking whether user exists.
+2022/07/06 09:45:24 Hashed Password:  5f4dcc3b5aa765d61d8327deb882cf99
+2022/07/06 09:45:24 Signed Up Successfully
+2022/07/06 09:45:40 <nil>
+2022/07/06 09:46:29 user does not exist
+2022/07/06 09:48:31 
+Connected to database: lapcart
+2022/07/06 09:48:31 Api is listening on port: 8000
+2022/07/06 09:48:36 user does not exist
+2022/07/06 09:48:47 user does not exist
+2022/07/06 09:49:28 Checking whether User exists.
+2022/07/06 09:49:28 user been blocked.
+2022/07/07 21:02:49 
+Connected to database: lapcart
+2022/07/07 21:02:49 Api is listening on port: 8000
+2022/07/07 21:02:57 Checking whether Admin exists.
+2022/07/07 21:13:16 
+Connected to database: lapcart
+2022/07/07 21:13:16 Api is listening on port: 8000
+2022/07/07 21:16:22 
+Connected to database: lapcart
+2022/07/07 21:16:57 
+Connected to database: lapcart
+2022/07/07 21:16:57 Api is listening on port: 8000
+2022/07/07 21:18:12 
+Connected to database: lapcart
+2022/07/07 21:18:12 Api is listening on port: 8000
+2022/07/07 21:21:32 Product added.
+2022/07/07 21:22:08 Product added.
+2022/07/07 21:23:44 Product added.
+2022/07/07 21:25:47 Product added.
+2022/07/07 21:26:00 Product added.
+2022/07/07 23:28:48 
+Connected to database: lapcart
+2022/07/07 23:28:48 Api is listening on port: 8000
+2022/07/07 23:30:33 
+Connected to database: lapcart
+2022/07/07 23:30:33 Api is listening on port: 8000
+2022/07/07 23:30:48 Checking whether User exists.
+2022/07/07 23:30:48 user been blocked.
+2022/07/07 23:30:55 Checking whether User exists.
+2022/07/07 23:38:13 
+Connected to database: lapcart
+2022/07/07 23:38:13 Api is listening on port: 8000
+2022/07/07 23:40:22 
+Connected to database: lapcart
+2022/07/07 23:40:22 Api is listening on port: 8000
+2022/07/07 23:40:24 sql: converting argument $2 type: unsupported type []models.Product, a slice of struct
+2022/07/07 23:44:38 
+Connected to database: lapcart
+2022/07/07 23:44:38 Api is listening on port: 8000
+2022/07/08 00:15:35 
+Connected to database: lapcart
+2022/07/08 00:15:35 Api is listening on port: 8000
+2022/07/08 00:17:15 
+Connected to database: lapcart
+2022/07/08 00:17:15 Api is listening on port: 8000
+2022/07/08 00:19:33 
+Connected to database: lapcart
+2022/07/08 00:19:33 Api is listening on port: 8000
+2022/07/08 00:19:35 pq: missing FROM-clause entry for table "product"
+2022/07/08 00:20:14 
+Connected to database: lapcart
+2022/07/08 00:20:14 Api is listening on port: 8000
+2022/07/08 00:20:16 pq: missing FROM-clause entry for table "product"
+2022/07/08 00:21:00 
+Connected to database: lapcart
+2022/07/08 00:21:00 Api is listening on port: 8000
+2022/07/08 13:14:02 
+Connected to database: lapcart
+2022/07/08 13:14:02 Api is listening on port: 8000
+2022/07/08 13:15:41 Checking whether Admin exists.
+2022/07/08 13:18:50 Checking whether User exists.
+2022/07/08 13:18:50 user been blocked.
+2022/07/08 13:19:20 Checking whether User exists.
+2022/07/08 13:21:43 
+Connected to database: lapcart
+2022/07/08 13:21:43 Api is listening on port: 8000
+2022/07/08 13:40:06 
+Connected to database: lapcart
+2022/07/08 13:40:06 Api is listening on port: 8000
+2022/07/08 13:40:30 Error in Executing Query for Product View: pq: relation "products" does not exist
+2022/07/08 13:40:53 
+Connected to database: lapcart
+2022/07/08 13:40:53 Api is listening on port: 8000
+2022/07/08 13:55:32 
+Connected to database: lapcart
+2022/07/08 13:55:32 Api is listening on port: 8000
+2022/07/08 14:05:58 
+Connected to database: lapcart
+2022/07/08 14:05:58 Api is listening on port: 8000
+2022/07/08 14:21:29 
+Connected to database: lapcart
+2022/07/08 14:21:29 Api is listening on port: 8000
+2022/07/08 14:24:53 
+Connected to database: lapcart
+2022/07/08 14:24:53 Api is listening on port: 8000
+2022/07/08 14:25:33 
+Connected to database: lapcart
+2022/07/08 14:25:33 Api is listening on port: 8000
+2022/07/08 14:26:42 
+Connected to database: lapcart
+2022/07/08 14:26:42 Api is listening on port: 8000
+2022/07/08 14:30:09 
+Connected to database: lapcart
+2022/07/08 14:30:09 Api is listening on port: 8000
+2022/07/08 14:30:12 sql: no rows in result set
+2022/07/08 14:30:12 sql: no rows in result set
+2022/07/08 14:30:25 
+Connected to database: lapcart
+2022/07/08 14:30:25 Api is listening on port: 8000
+2022/07/08 14:30:50 Success
+2022/07/11 10:04:43 Error parsing jwt: token is expired by 58h33m48s
+2022/07/11 10:05:01 Checking whether User exists.
+2022/07/11 10:07:38 Success

@@ -9,15 +9,21 @@ import (
 
 type AuthService interface {
 	VerifyAdminCredential(email, password string) error
+	VerifyUserCredential(email, password string) error
 }
 
 type authService struct {
 	adminRepo repo.AdminRepository
+	userRepo  repo.UserRepository
 }
 
-func NewAuthService(adminRepo repo.AdminRepository) AuthService {
+func NewAuthService(
+	adminRepo repo.AdminRepository,
+	userRepo repo.UserRepository,
+) AuthService {
 	return &authService{
 		adminRepo: adminRepo,
+		userRepo:  userRepo,
 	}
 }
 
@@ -37,11 +43,20 @@ func (c *authService) VerifyAdminCredential(email, password string) error {
 	return nil
 }
 
-func HashPassword(password string) string {
-	data := []byte(password)
-	password = fmt.Sprintf("%x", md5.Sum(data))
-	return password
+func (c *authService) VerifyUserCredential(email, password string) error {
 
+	user, err := c.userRepo.FindUserByEmail(email)
+
+	if err != nil {
+		return errors.New("failed to login. check your email")
+	}
+
+	isValidPassword := VerifyPassword(password, user.Password)
+	if !isValidPassword {
+		return errors.New("failed to login. check your credential")
+	}
+
+	return nil
 }
 
 func VerifyPassword(requestPassword, dbPassword string) bool {

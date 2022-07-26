@@ -19,6 +19,7 @@ type UserResponse struct {
 	Last_Name    string `json:"last_name"`
 	Email        string `json:"email"`
 	Phone_Number int    `json:"phone_number"`
+	Password     string `json:"password,omitempty"`
 	// UserAddress  []UserAddressResponse `json:"address,omitempty"`
 	Token string `json:"token,omitempty"`
 }

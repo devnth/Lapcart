@@ -33,25 +33,33 @@ func main() {
 	}
 	log.SetOutput(file)
 
-	var (
-		db              *sql.DB              = config.ConnectDB()
-		adminRepo       repo.AdminRepository = repo.NewAdminRepo(db)
-		jwtAdminService service.JWTService   = service.NewJWTAdminService()
-		authService     service.AuthService  = service.NewAuthService(adminRepo)
-		adminService    service.AdminService = service.NewAdminService(adminRepo)
-		authHandler     v1.AuthHandler       = v1.NewAdminHandler(jwtAdminService, authService, adminService)
-		adminRoute      routes.AdminRoute    = routes.NewAdminRoute()
-	)
 	// creating an instance of chi r
 	router := chi.NewRouter()
 
 	// using logger to display each request
 
 	router.Use(middleware.Logger)
-	// database injection
-	// routes.UserRoute(router, *controller)
+
+	var (
+		db              *sql.DB              = config.ConnectDB()
+		adminRepo       repo.AdminRepository = repo.NewAdminRepo(db)
+		userRepo        repo.UserRepository  = repo.NewUserRepo(db)
+		jwtAdminService service.JWTService   = service.NewJWTAdminService()
+		jwtUserService  service.JWTService   = service.NewJWTUserService()
+		authService     service.AuthService  = service.NewAuthService(adminRepo, userRepo)
+		adminService    service.AdminService = service.NewAdminService(adminRepo)
+		userService     service.UserService  = service.NewUserService(userRepo)
+		authHandler     v1.AuthHandler       = v1.NewAdminHandler(jwtAdminService,
+			jwtUserService, authService,
+			adminService,
+			userService)
+		adminRoute routes.AdminRoute = routes.NewAdminRoute()
+		userRoute  routes.UserRoute  = routes.NewUserRoute()
+	)
+
+	//routing
 	adminRoute.AdminRouter(router, authHandler)
-	// router.Post("/admin/login", authHandler.AdminLogin())
+	userRoute.UserRouter(router, authHandler)
 
 	log.Println("Api is listening on port:", port)
 	// Starting server

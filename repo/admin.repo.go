@@ -2,6 +2,7 @@ package repo
 
 import (
 	"database/sql"
+	"fmt"
 	"lapcart/model"
 )
 
@@ -27,7 +28,7 @@ func (c *adminRepo) FindAdminByEmail(email string) (model.AdminResponse, error) 
 	var admin model.AdminResponse
 
 	query := `SELECT 
-			user_id,
+			id,
 			first_name,
 			last_name,
 			password,
@@ -43,6 +44,8 @@ func (c *adminRepo) FindAdminByEmail(email string) (model.AdminResponse, error) 
 		&admin.Password,
 		&admin.Email,
 		&admin.Phone_Number)
+
+	fmt.Println(admin)
 	return admin, err
 }
 

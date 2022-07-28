@@ -1,55 +1,77 @@
 package v1
 
-// type AdminHandler interface {
-// 	AdminLogin() http.HandlerFunc
-// }
+import (
+	"encoding/json"
+	"lapcart/common/response"
+	"lapcart/model"
+	"lapcart/service"
+	"lapcart/utils"
+	"net/http"
+)
 
-// type adminHandler struct {
-// 	jwtService  service.JWTService
-// 	authService service.AuthService
-// }
+type AdminHandler interface {
+	ViewUsers() http.HandlerFunc
+	ManageUsers() http.HandlerFunc
+}
 
-// func NewAdminHandler(
-// 	jwtService service.JWTService,
-// 	authService service.AuthService,
-// ) AdminHandler {
-// 	return &adminHandler{
-// 		jwtService:  jwtService,
-// 		authService: authService,
-// 	}
-// }
+type adminHandler struct {
+	adminService service.AdminService
+	userService  service.UserService
+}
 
-// func (c *adminHandler) AdminLogin() http.HandlerFunc {
-// 	return func(w http.ResponseWriter, r *http.Request) {
+func NewAdminHandler(
+	adminService service.AdminService,
+	userService service.UserService,
+) AdminHandler {
+	return &adminHandler{
+		adminService: adminService,
+		userService:  userService,
+	}
+}
 
-// 		var admin model.Admin
+func (c *adminHandler) ViewUsers() http.HandlerFunc {
+	return func(w http.ResponseWriter, _ *http.Request) {
 
-// 		json.NewDecoder(r.Body).Decode(&admin)
+		users, err := c.adminService.AllUsers()
 
-// 		requestPassword := admin.Password
+		if err != nil {
+			response := response.BuildErrorResponse("error getting users from database", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			utils.ResponseJSON(w, response)
+			return
+		}
 
-// 		//checking whether admin exists
-// 		adminResponse, err := c.authService.VerifyAdminCredential(admin.Email, )
+		response := response.BuildResponse(true, "OK", users)
+		utils.ResponseJSON(w, response)
 
-// 		if err != nil {
-// 			if err == sql.ErrNoRows {
-// 				response := response.BuildErrorResponse("Please enter correct admin details", err.Error(), nil)
-// 				utils.ResponseJSON(w, response)
-// 				w.WriteHeader(http.StatusUnauthorized)
-// 				return
-// 			}
-// 		} else {
-// 			response := response.BuildErrorResponse("Failed to process request", err.Error(), nil)
-// 			utils.ResponseJSON(w, response)
-// 			w.WriteHeader(http.StatusBadRequest)
-// 			return
-// 		}
+	}
+}
 
-// 		//getting hashed password from database
-// 		dbPassword := admin.Password
+func (c *adminHandler) ManageUsers() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
-// 		//verifying password
-// 		passwordMatch := VerifyPassword(requestPassword, dbPassword)
-// 	}
+		var requestData model.User
 
-// }
+		json.NewDecoder(r.Body).Decode(&requestData)
+
+		err := c.adminService.ManageUsers(requestData.Email, requestData.IsActive)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error managing users", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		user, _ := c.userService.FindUserByEmail(requestData.Email)
+		user.Password = ""
+
+		response := response.BuildResponse(true, "OK!", user)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}

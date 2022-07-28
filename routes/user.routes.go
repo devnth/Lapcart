@@ -2,12 +2,17 @@ package routes
 
 import (
 	v1 "lapcart/handler/v1"
+	m "lapcart/middleware"
 
 	"github.com/go-chi/chi"
 )
 
 type UserRoute interface {
-	UserRouter(router chi.Router, authHandler v1.AuthHandler)
+	UserRouter(router chi.Router,
+		authHandler v1.AuthHandler,
+		middleware m.Middleware,
+		userHandler v1.UserHandler,
+	)
 }
 
 type userRoute struct{}
@@ -16,9 +21,16 @@ func NewUserRoute() UserRoute {
 	return &userRoute{}
 }
 
-func (r *userRoute) UserRouter(routes chi.Router, authHandler v1.AuthHandler) {
+func (r *userRoute) UserRouter(routes chi.Router,
+	authHandler v1.AuthHandler,
+	middleware m.Middleware,
+	userHandler v1.UserHandler) {
 
 	routes.Post("/user/register", authHandler.UserRegister())
 	routes.Post("/user/login", authHandler.UserLogin())
+	routes.Group(func(r chi.Router) {
+		r.Use(middleware.AuthorizeJwt)
+		r.Post("/user/add/address", userHandler.AddAddress())
+	})
 
 }

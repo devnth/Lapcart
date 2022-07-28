@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 // user schema for user table
 type User struct {
 	First_Name   string `json:"first_name"`
@@ -7,6 +9,7 @@ type User struct {
 	Password     string `json:"password"`
 	Email        string `json:"email"`
 	Phone_Number int    `json:"phone_number"`
+	IsActive     bool   `json:"is_active,omitempty"`
 }
 
 //table schema for user address
@@ -27,4 +30,59 @@ type Admin struct {
 	Password     string `json:"password"`
 	Email        string `json:"email"`
 	Phone_Number int    `json:"phone_number"`
+}
+
+type Product struct {
+	ID          []uint    `json:"id,omitempty"`
+	Code        string    `json:"code"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Brand       Brand     `json:"brand"`
+	Processor   Processor `json:"processor"`
+	Category    Category  `json:"category"`
+	Colors      []Color   `json:"colors"`
+	Price       float64   `json:"price"`
+	// Discount    Discount  `json:"discount,omitempty"`
+	Rating    float32 `json:"rating"`
+	Image     string  `json:"image"`
+	IsDeleted bool    `json:"is_deleted,omitempty"`
+}
+
+// table schema for product_category
+type Category struct {
+	ID          uint   `json:"id,omitempty"`
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+}
+
+//table scehma for product_branding
+type Brand struct {
+	ID          uint   `json:"id,omitempty"`
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+}
+
+//table schema for product color
+type Color struct {
+	Name  string `json:"name"`
+	Stock int    `json:"quantity"`
+}
+
+//tabel schema for product_processor
+type Processor struct {
+	ID          uint   `json:"id,omitempty"`
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+}
+
+//table schema for product_discount
+type Discount struct {
+	ID          uint      `json:"id,omitempty"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Percentage  float32   `json:"percentage"`
+	Status      bool      `json:"status"`
+	Created_At  time.Time `json:"created_at"`
+	// Product_Discount_Updated_At  time.Time `json:"product_discount_updated_at"`
+	// Product_Discount_Deleted_At  time.Time `json:"product_discount_deleted_at"`
 }

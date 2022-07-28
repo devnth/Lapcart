@@ -51,6 +51,10 @@ func (c *authService) VerifyUserCredential(email, password string) error {
 		return errors.New("failed to login. check your email")
 	}
 
+	if !user.IsActive {
+		return errors.New("failed to login. your account is blocked")
+	}
+
 	isValidPassword := VerifyPassword(password, user.Password)
 	if !isValidPassword {
 		return errors.New("failed to login. check your credential")

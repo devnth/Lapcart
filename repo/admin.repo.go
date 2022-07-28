@@ -2,7 +2,6 @@ package repo
 
 import (
 	"database/sql"
-	"fmt"
 	"lapcart/model"
 )
 
@@ -45,7 +44,6 @@ func (c *adminRepo) FindAdminByEmail(email string) (model.AdminResponse, error) 
 		&admin.Email,
 		&admin.Phone_Number)
 
-	fmt.Println(admin)
 	return admin, err
 }
 

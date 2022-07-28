@@ -23,7 +23,7 @@ type authHandler struct {
 	userService     service.UserService
 }
 
-func NewAdminHandler(
+func NewAuthHandler(
 	jwtAdminService service.JWTService,
 	jwtUserService service.JWTService,
 	authService service.AuthService,

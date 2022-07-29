@@ -31,6 +31,8 @@ func (r *userRoute) UserRouter(routes chi.Router,
 	routes.Group(func(r chi.Router) {
 		r.Use(middleware.AuthorizeJwt)
 		r.Post("/user/add/address", userHandler.AddAddress())
+		r.Get("/user/view/address", userHandler.ViewAddress())
+		r.Delete("/user/delete/address-id-{addressid}", userHandler.DeleteAddress())
 	})
 
 }

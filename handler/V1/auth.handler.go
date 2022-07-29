@@ -63,7 +63,7 @@ func (c *authHandler) AdminLogin() http.HandlerFunc {
 		token := c.jwtAdminService.GenerateToken(admin.ID, admin.Email, "admin")
 		admin.Password = ""
 		admin.Token = token
-		response := response.BuildResponse(true, "OK!", admin)
+		response := response.BuildResponse(true, "OK!", admin.Token)
 		utils.ResponseJSON(w, response)
 	}
 
@@ -92,7 +92,7 @@ func (c *authHandler) UserLogin() http.HandlerFunc {
 		token := c.jwtUserService.GenerateToken(user.ID, user.Email, "user")
 		user.Password = ""
 		user.Token = token
-		response := response.BuildResponse(true, "OK", user)
+		response := response.BuildResponse(true, "OK", user.Token)
 		utils.ResponseJSON(w, response)
 	}
 }

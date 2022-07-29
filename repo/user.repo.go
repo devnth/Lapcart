@@ -1,7 +1,9 @@
 package repo
 
 import (
+	"context"
 	"database/sql"
+	"fmt"
 	"lapcart/model"
 )
 
@@ -10,6 +12,9 @@ type UserRepository interface {
 	InsertUser(user model.User) (int, error)
 	AllUsers() ([]model.UserResponse, error)
 	ManageUsers(email string, isActive bool) error
+	AddAddress(address model.Address) (int, error)
+	GetAddressByUserID(user_id int) ([]model.AddressResponse, error)
+	DeleteAddressById(user_id, address_id int) error
 }
 
 type userRepo struct {
@@ -132,4 +137,127 @@ func (c *userRepo) ManageUsers(email string, isActive bool) error {
 		email).Err()
 
 	return err
+}
+
+func (c *userRepo) AddAddress(address model.Address) (int, error) {
+
+	var id int
+
+	query := `INSERT INTO address(
+				type,
+				user_id,
+				house_name,
+				street_name,
+				landmark,
+				district,
+				state,
+				country,
+				pincode,
+				created_at)
+				VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)	
+				RETURNING id;`
+
+	err := c.db.QueryRow(query,
+		address.AddressType,
+		address.User_id,
+		address.HouseName,
+		address.StreetName,
+		address.Landmark,
+		address.District,
+		address.State,
+		address.Country,
+		address.PinCode,
+		address.Created_At).Scan(&id)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return id, err
+}
+
+func (c *userRepo) GetAddressByUserID(user_id int) ([]model.AddressResponse, error) {
+
+	//writing query
+	query := `SELECT 
+				id,
+				type,
+				house_name,
+				street_name,
+				landmark,
+				district,
+				state,
+				country,
+				pincode
+				FROM address
+				WHERE user_id = $1;`
+
+	rows, err := c.db.Query(query, user_id)
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var addresses []model.AddressResponse
+
+	for rows.Next() {
+		var address model.AddressResponse
+		err := rows.Scan(
+			&address.Id,
+			&address.AddressType,
+			&address.HouseName,
+			&address.StreetName,
+			&address.Landmark,
+			&address.District,
+			&address.State,
+			&address.Country,
+			&address.PinCode)
+		if err != nil {
+			return addresses, err
+		}
+
+		addresses = append(addresses, address)
+	}
+
+	if err := rows.Err(); err != nil {
+		return addresses, err
+	}
+
+	return addresses, nil
+}
+
+func (c *userRepo) DeleteAddressById(user_id, address_id int) error {
+
+	deletequery := `
+				DELETE FROM address
+				WHERE id = $1; `
+
+	checkquery := `SELECT id FROM address WHERE user_id = $1 AND id = $2;`
+
+	ctx := context.Background()
+
+	tx, err := c.db.BeginTx(ctx, nil)
+
+	if err != nil {
+		return err
+	}
+
+	err = tx.QueryRow(checkquery, user_id, address_id).Scan(&address_id)
+
+	if err != nil {
+		return err
+	}
+
+	err = tx.QueryRow(deletequery, address_id).Err()
+	if err != nil {
+		fmt.Println("from delete:", err.Error())
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+	return nil
 }

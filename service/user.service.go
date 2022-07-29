@@ -7,11 +7,15 @@ import (
 	"fmt"
 	"lapcart/model"
 	"lapcart/repo"
+	"time"
 )
 
 type UserService interface {
 	FindUserByEmail(email string) (*model.UserResponse, error)
 	CreateUser(registerRequest model.User) error
+	AddAddress(address model.Address) error
+	GetAddressByUserID(user_id int) (*[]model.AddressResponse, error)
+	DeleteAddress(user_id, address_id int) error
 }
 
 type userService struct {
@@ -55,6 +59,43 @@ func (c *userService) CreateUser(registerRequest model.User) error {
 	}
 	return nil
 
+}
+
+func (c *userService) AddAddress(address model.Address) error {
+
+	address.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+	_, err := c.userRepo.AddAddress(address)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *userService) GetAddressByUserID(user_id int) (*[]model.AddressResponse, error) {
+
+	address, err := c.userRepo.GetAddressByUserID(user_id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if address == nil {
+		return nil, errors.New("no address found")
+	}
+
+	return &address, nil
+}
+
+func (c *userService) DeleteAddress(user_id, address_id int) error {
+
+	err := c.userRepo.DeleteAddressById(user_id, address_id)
+
+	if err != nil {
+		return errors.New("unable to delete the requested address")
+	}
+	return nil
 }
 
 func HashPassword(password string) string {

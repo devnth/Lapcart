@@ -27,16 +27,16 @@ type UserResponse struct {
 }
 
 //table schema for user address
-type UserAddressResponse struct {
-	ID         uint      `json:"id"`
-	HouseName  string    `json:"house_name"`
-	StreetName string    `json:"stree_name"`
-	Landmark   string    `json:"landmark"`
-	District   string    `json:"district"`
-	State      string    `json:"state"`
-	Country    string    `json:"country"`
-	PinCode    int       `json:"pincode"`
-	Created_At time.Time `json:"created_at,omitempty"`
+type AddressResponse struct {
+	Id          int    `json:"address_id"`
+	AddressType string `json:"address_type"`
+	HouseName   string `json:"house_name"`
+	StreetName  string `json:"stree_name"`
+	Landmark    string `json:"landmark"`
+	District    string `json:"district"`
+	State       string `json:"state"`
+	Country     string `json:"country"`
+	PinCode     int    `json:"pincode"`
 }
 
 type ProductResponse struct {

@@ -13,7 +13,8 @@ type User struct {
 }
 
 //table schema for user address
-type UserAddress struct {
+type Address struct {
+	User_id     int    `json:"user_id,omitempty"`
 	AddressType string `json:"address_type"`
 	HouseName   string `json:"house_name"`
 	StreetName  string `json:"stree_name"`
@@ -22,6 +23,7 @@ type UserAddress struct {
 	State       string `json:"state"`
 	Country     string `json:"country"`
 	PinCode     int    `json:"pincode"`
+	Created_At  time.Time
 }
 
 type Admin struct {

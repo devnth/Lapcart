@@ -88,3 +88,8 @@ type Discount struct {
 	// Product_Discount_Updated_At  time.Time `json:"product_discount_updated_at"`
 	// Product_Discount_Deleted_At  time.Time `json:"product_discount_deleted_at"`
 }
+
+type WishList struct {
+	User_Id     int
+	ProductCode string `json:"product_code"`
+}

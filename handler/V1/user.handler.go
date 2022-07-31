@@ -16,6 +16,7 @@ type UserHandler interface {
 	AddAddress() http.HandlerFunc
 	ViewAddress() http.HandlerFunc
 	DeleteAddress() http.HandlerFunc
+	GetAllProductUser() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -94,5 +95,41 @@ func (c *userHandler) DeleteAddress() http.HandlerFunc {
 
 		response := response.BuildResponse(true, "OK", "address deleted")
 		utils.ResponseJSON(w, response)
+	}
+}
+
+func (c *userHandler) GetAllProductUser() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
+		page, _ := strconv.Atoi(chi.URLParam(r, "page"))
+
+		pagenation := utils.Filter{
+			Page:     page,
+			PageSize: 3,
+		}
+
+		products, metadata, err := c.userService.GetAllProductsUser(user_id, pagenation)
+
+		result := struct {
+			Products *[]model.GetProduct
+			Meta     *utils.Metadata
+		}{
+			Products: products,
+			Meta:     metadata,
+		}
+
+		if err != nil {
+
+			response := response.BuildErrorResponse("could not process the request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK", result)
+		utils.ResponseJSON(w, response)
+
 	}
 }

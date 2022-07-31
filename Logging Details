@@ -310,3 +310,816 @@ Connected to database: lapcart
 2022/07/30 13:53:38 
 Connected to database: lapcart
 2022/07/30 13:53:38 Api is listening on port: 8000
+2022/07/30 15:19:46 
+Connected to database: lapcart
+2022/07/30 15:19:46 Api is listening on port: 8000
+2022/07/30 15:22:06 
+Connected to database: lapcart
+2022/07/30 15:22:06 Api is listening on port: 8000
+2022/07/30 15:24:14 
+Connected to database: lapcart
+2022/07/30 15:24:14 Api is listening on port: 8000
+2022/07/30 15:27:03 
+Connected to database: lapcart
+2022/07/30 15:27:03 Api is listening on port: 8000
+2022/07/30 15:29:49 
+Connected to database: lapcart
+2022/07/30 15:29:49 Api is listening on port: 8000
+2022/07/30 15:30:13 
+Connected to database: lapcart
+2022/07/30 15:30:13 Api is listening on port: 8000
+2022/07/30 15:31:20 
+Connected to database: lapcart
+2022/07/30 15:31:20 Api is listening on port: 8000
+2022/07/30 15:32:32 
+Connected to database: lapcart
+2022/07/30 15:32:32 Api is listening on port: 8000
+2022/07/30 15:33:00 
+Connected to database: lapcart
+2022/07/30 15:33:00 Api is listening on port: 8000
+2022/07/30 15:33:55 
+Connected to database: lapcart
+2022/07/30 15:33:55 Api is listening on port: 8000
+2022/07/30 15:34:44 
+Connected to database: lapcart
+2022/07/30 15:34:44 Api is listening on port: 8000
+2022/07/30 15:35:35 
+Connected to database: lapcart
+2022/07/30 15:35:35 Api is listening on port: 8000
+2022/07/30 15:36:34 
+Connected to database: lapcart
+2022/07/30 15:36:34 Api is listening on port: 8000
+2022/07/31 18:30:42 
+Connected to database: lapcart
+2022/07/31 18:30:42 Api is listening on port: 8000
+2022/07/31 18:34:03 
+Connected to database: lapcart
+2022/07/31 18:34:03 Api is listening on port: 8000
+2022/07/31 18:34:05 http: panic serving [::1]:51190: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102a2f500, 0x102c3fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x10278c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129e3db78, 0x1400022a8c0}, 0x1400023a300)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x102a597a0?, {0x129e3db78?, 0x1400022a8c0?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129e3db78, 0x1400022a8c0}, 0x1400023a300)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x129e3db78?, 0x1400022a8c0?}, 0x140002262e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x102a2d5a0?, {0x129e3db78?, 0x1400022a8c0?}, 0x140002100a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x129e3db78, 0x1400022a8c0}, 0x1400023a300)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400023a200?, {0x129e3db78?, 0x1400022a8c0?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a82cc0, 0x1400022c0e0}, 0x1400023a200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a82f30?, {0x102a82cc0?, 0x1400022c0e0?}, 0x102c3feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x102a82cc0, 0x1400022c0e0}, 0x1400023a100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x140002046f0?}, {0x102a82cc0, 0x1400022c0e0}, 0x1400023a100)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400021f040, {0x102a82fd8, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:34:11 http: panic serving [::1]:51201: runtime error: invalid memory address or nil pointer dereference
+goroutine 5 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102a2f500, 0x102c3fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x10278c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129e3db78, 0x1400002a200}, 0x14000286200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x102a597a0?, {0x129e3db78?, 0x1400002a200?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129e3db78, 0x1400002a200}, 0x14000286200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x129e3db78?, 0x1400002a200?}, 0x14000292078?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x102a2d5a0?, {0x129e3db78?, 0x1400002a200?}, 0x14000022044?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x129e3db78, 0x1400002a200}, 0x14000286200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000286100?, {0x129e3db78?, 0x1400002a200?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a82cc0, 0x1400028e000}, 0x14000286100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a82f30?, {0x102a82cc0?, 0x1400028e000?}, 0x102c3feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x102a82cc0, 0x1400028e000}, 0x14000286000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000280090?}, {0x102a82cc0, 0x1400028e000}, 0x14000286000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x14000282000, {0x102a82fd8, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:34:12 http: panic serving [::1]:51205: runtime error: invalid memory address or nil pointer dereference
+goroutine 8 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102a2f500, 0x102c3fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x10278c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129e3db78, 0x1400002a400}, 0x14000286600)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x102a597a0?, {0x129e3db78?, 0x1400002a400?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129e3db78, 0x1400002a400}, 0x14000286600)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x129e3db78?, 0x1400002a400?}, 0x14000292218?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x102a2d5a0?, {0x129e3db78?, 0x1400002a400?}, 0x140000220c4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x129e3db78, 0x1400002a400}, 0x14000286600)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000286500?, {0x129e3db78?, 0x1400002a400?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a82cc0, 0x1400028e0e0}, 0x14000286500)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a82f30?, {0x102a82cc0?, 0x1400028e0e0?}, 0x102c3feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x102a82cc0, 0x1400028e0e0}, 0x14000286400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x140002804b0?}, {0x102a82cc0, 0x1400028e0e0}, 0x14000286400)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x14000282140, {0x102a82fd8, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:34:12 http: panic serving [::1]:51207: runtime error: invalid memory address or nil pointer dereference
+goroutine 11 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102a2f500, 0x102c3fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x10278c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129e3db78, 0x1400022aa40}, 0x1400023a600)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x102a597a0?, {0x129e3db78?, 0x1400022aa40?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129e3db78, 0x1400022aa40}, 0x1400023a600)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x129e3db78?, 0x1400022aa40?}, 0x140002267c8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x102a2d5a0?, {0x129e3db78?, 0x1400022aa40?}, 0x14000210144?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x129e3db78, 0x1400022aa40}, 0x1400023a600)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400023a500?, {0x129e3db78?, 0x1400022aa40?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a82cc0, 0x1400022c1c0}, 0x1400023a500)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a82f30?, {0x102a82cc0?, 0x1400022c1c0?}, 0x102c3feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x102a82cc0, 0x1400022c1c0}, 0x14000286800)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x140002808d0?}, {0x102a82cc0, 0x1400022c1c0}, 0x14000286800)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x14000282280, {0x102a82fd8, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:34:13 http: panic serving [::1]:51210: runtime error: invalid memory address or nil pointer dereference
+goroutine 13 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102a2f500, 0x102c3fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x10278c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129e3db78, 0x1400002a700}, 0x14000286c00)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x102a597a0?, {0x129e3db78?, 0x1400002a700?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129e3db78, 0x1400002a700}, 0x14000286c00)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x129e3db78?, 0x1400002a700?}, 0x140002922e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x102a2d5a0?, {0x129e3db78?, 0x1400002a700?}, 0x14000022144?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x129e3db78, 0x1400002a700}, 0x14000286c00)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000286b00?, {0x129e3db78?, 0x1400002a700?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a82cc0, 0x1400028e1c0}, 0x14000286b00)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a82f30?, {0x102a82cc0?, 0x1400028e1c0?}, 0x102c3feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x102a82cc0, 0x1400028e1c0}, 0x14000286a00)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000280ab0?}, {0x102a82cc0, 0x1400028e1c0}, 0x14000286a00)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140002823c0, {0x102a82fd8, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:34:13 http: panic serving [::1]:51212: runtime error: invalid memory address or nil pointer dereference
+goroutine 24 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102a2f500, 0x102c3fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x10278c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129e3db78, 0x14000146d80}, 0x1400019a400)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x102a597a0?, {0x129e3db78?, 0x14000146d80?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129e3db78, 0x14000146d80}, 0x1400019a400)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x129e3db78?, 0x14000146d80?}, 0x14000119b48?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x102a2d5a0?, {0x129e3db78?, 0x14000146d80?}, 0x14000154ac4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x129e3db78, 0x14000146d80}, 0x1400019a400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400019a300?, {0x129e3db78?, 0x14000146d80?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a82cc0, 0x140001de000}, 0x1400019a300)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a82f30?, {0x102a82cc0?, 0x140001de000?}, 0x102c3feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x102a82cc0, 0x140001de000}, 0x1400019a200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000117c80?}, {0x102a82cc0, 0x140001de000}, 0x1400019a200)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140001c8280, {0x102a82fd8, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:35:31 
+Connected to database: lapcart
+2022/07/31 18:35:31 Api is listening on port: 8000
+2022/07/31 18:37:10 
+Connected to database: lapcart
+2022/07/31 18:37:10 Api is listening on port: 8000
+2022/07/31 18:37:45 http: panic serving [::1]:51413: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x105253500, 0x105463ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x140000a6060, 0x1?, {0x4?, 0x104fb02c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x10584d9f8, 0x140000baa40}, 0x140000c2800)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x10527d7a0?, {0x10584d9f8?, 0x140000baa40?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x10584d9f8, 0x140000baa40}, 0x140000c2800)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000094330?, {0x10584d9f8?, 0x140000baa40?}, 0x140000b62e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1052515a0?, {0x10584d9f8?, 0x140000baa40?}, 0x140000a01c4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x10584d9f8, 0x140000baa40}, 0x140000c2800)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140000c2700?, {0x10584d9f8?, 0x140000baa40?}, 0x104f618d4?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1052a6cc0, 0x140000bc460}, 0x140000c2700)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1052a6f30?, {0x1052a6cc0?, 0x140000bc460?}, 0x105463eb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x1052a6cc0, 0x140000bc460}, 0x140000c2600)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000094660?}, {0x1052a6cc0, 0x140000bc460}, 0x140000c2600)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140000af040, {0x1052a6fd8, 0x14000094510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:38:39 
+Connected to database: lapcart
+2022/07/31 18:38:39 Api is listening on port: 8000
+2022/07/31 18:38:42 http: panic serving [::1]:51506: runtime error: invalid memory address or nil pointer dereference
+goroutine 24 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1050eb500, 0x1052fbff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x140000a6060, 0x1400012a008?, {0x14000169548?, 0x4?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x12c463af8, 0x14000146d80}, 0x1400019a400)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:114 +0x128
+net/http.HandlerFunc.ServeHTTP(0x1051157a0?, {0x12c463af8?, 0x14000146d80?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x12c463af8, 0x14000146d80}, 0x1400019a400)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000094330?, {0x12c463af8?, 0x14000146d80?}, 0x14000119a78?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1050e95a0?, {0x12c463af8?, 0x14000146d80?}, 0x14000154ac4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x12c463af8, 0x14000146d80}, 0x1400019a400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400019a300?, {0x12c463af8?, 0x14000146d80?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x10513ece0, 0x140001e4000}, 0x1400019a300)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x10513ef50?, {0x10513ece0?, 0x140001e4000?}, 0x1052fbeb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x10513ece0, 0x140001e4000}, 0x1400019a200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000117c80?}, {0x10513ece0, 0x140001e4000}, 0x1400019a200)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140001c8280, {0x10513eff8, 0x14000094510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:40:06 
+Connected to database: lapcart
+2022/07/31 18:40:06 Api is listening on port: 8000
+2022/07/31 18:40:08 http: panic serving [::1]:51597: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102993500, 0x102ba3ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x1026f02c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129d459f8, 0x1400022a840}, 0x1400023a200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1029bd7a0?, {0x129d459f8?, 0x1400022a840?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129d459f8, 0x1400022a840}, 0x1400023a200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x129d459f8?, 0x1400022a840?}, 0x140002262e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1029915a0?, {0x129d459f8?, 0x1400022a840?}, 0x140002100a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140001143c0, {0x129d459f8, 0x1400022a840}, 0x1400023a200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400023a100?, {0x129d459f8?, 0x1400022a840?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1029e6ce0, 0x1400022c0e0}, 0x1400023a100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1029e6f50?, {0x1029e6ce0?, 0x1400022c0e0?}, 0x102ba3eb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140001143c0, {0x1029e6ce0, 0x1400022c0e0}, 0x1400023a000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000204660?}, {0x1029e6ce0, 0x1400022c0e0}, 0x1400023a000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400021f040, {0x1029e6ff8, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:40:44 
+Connected to database: lapcart
+2022/07/31 18:40:44 Api is listening on port: 8000
+2022/07/31 18:40:46 http: panic serving [::1]:51647: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1027bb500, 0x1029cbff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x140000a4060, 0x1?, {0x4?, 0x1025182c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x129b001a8, 0x140000b8840}, 0x140000c8200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1027e57a0?, {0x129b001a8?, 0x140000b8840?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129b001a8, 0x140000b8840}, 0x140000c8200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000092330?, {0x129b001a8?, 0x140000b8840?}, 0x140000b42e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1027b95a0?, {0x129b001a8?, 0x140000b8840?}, 0x1400009e0a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x129b001a8, 0x140000b8840}, 0x140000c8200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140000c8100?, {0x129b001a8?, 0x140000b8840?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x10280ece0, 0x140000ba0e0}, 0x140000c8100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x10280ef50?, {0x10280ece0?, 0x140000ba0e0?}, 0x1029cbeb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x10280ece0, 0x140000ba0e0}, 0x140000c8000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000092660?}, {0x10280ece0, 0x140000ba0e0}, 0x140000c8000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140000ad040, {0x10280eff8, 0x14000092510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:41:50 
+Connected to database: lapcart
+2022/07/31 18:41:50 Api is listening on port: 8000
+2022/07/31 18:41:53 http: panic serving [::1]:51719: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x10087f500, 0x100a8fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x140000a6060, 0x1?, {0x4?, 0x1005dc2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductsUser.func1({0x127bf4a68, 0x14000144cc0}, 0x1400019a300)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1008a97a0?, {0x127bf4a68?, 0x14000144cc0?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x127bf4a68, 0x14000144cc0}, 0x1400019a300)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000094330?, {0x127bf4a68?, 0x14000144cc0?}, 0x140001198d8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x10087d5a0?, {0x127bf4a68?, 0x14000144cc0?}, 0x14000152ac4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x127bf4a68, 0x14000144cc0}, 0x1400019a300)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400019a200?, {0x127bf4a68?, 0x14000144cc0?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1008d2ce0, 0x140001da000}, 0x1400019a200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1008d2f50?, {0x1008d2ce0?, 0x140001da000?}, 0x100a8feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x1008d2ce0, 0x140001da000}, 0x140000c2100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x140000946f0?}, {0x1008d2ce0, 0x140001da000}, 0x140000c2100)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140000af040, {0x1008d2ff8, 0x14000094510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:43:05 
+Connected to database: lapcart
+2022/07/31 18:43:05 Api is listening on port: 8000
+2022/07/31 18:43:07 http: panic serving [::1]:51801: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x105263520, 0x105473ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000198060, 0x1?, {0x4?, 0x104fc02c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x12c5d0178, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x10528d7c0?, {0x12c5d0178?, 0x140001ac840?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x12c5d0178, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000186330?, {0x12c5d0178?, 0x140001ac840?}, 0x140001a82e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1052615c0?, {0x12c5d0178?, 0x140001ac840?}, 0x140001920a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b23c0, {0x12c5d0178, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140001b4100?, {0x12c5d0178?, 0x140001ac840?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1052b6d00, 0x140001ae0e0}, 0x140001b4100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1052b6f70?, {0x1052b6d00?, 0x140001ae0e0?}, 0x105473eb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b23c0, {0x1052b6d00, 0x140001ae0e0}, 0x140001b4000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000186660?}, {0x1052b6d00, 0x140001ae0e0}, 0x140001b4000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140001a1040, {0x1052b7018, 0x14000186510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:43:08 http: panic serving [::1]:51806: runtime error: invalid memory address or nil pointer dereference
+goroutine 6 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x105263520, 0x105473ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000198060, 0x1?, {0x4?, 0x104fc02c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x12c5d0178, 0x1400002a200}, 0x14000208200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x10528d7c0?, {0x12c5d0178?, 0x1400002a200?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x12c5d0178, 0x1400002a200}, 0x14000208200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000186330?, {0x12c5d0178?, 0x1400002a200?}, 0x14000214078?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1052615c0?, {0x12c5d0178?, 0x1400002a200?}, 0x14000022044?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b23c0, {0x12c5d0178, 0x1400002a200}, 0x14000208200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000208100?, {0x12c5d0178?, 0x1400002a200?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1052b6d00, 0x14000210000}, 0x14000208100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1052b6f70?, {0x1052b6d00?, 0x14000210000?}, 0x105473eb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b23c0, {0x1052b6d00, 0x14000210000}, 0x14000208000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x140002020f0?}, {0x1052b6d00, 0x14000210000}, 0x14000208000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140002040a0, {0x1052b7018, 0x14000186510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:43:08 http: panic serving [::1]:51808: runtime error: invalid memory address or nil pointer dereference
+goroutine 9 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x105263520, 0x105473ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000198060, 0x1?, {0x4?, 0x104fc02c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x12c5d0178, 0x1400002a400}, 0x14000208600)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x10528d7c0?, {0x12c5d0178?, 0x1400002a400?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x12c5d0178, 0x1400002a400}, 0x14000208600)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000186330?, {0x12c5d0178?, 0x1400002a400?}, 0x14000214218?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1052615c0?, {0x12c5d0178?, 0x1400002a400?}, 0x140000220c4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b23c0, {0x12c5d0178, 0x1400002a400}, 0x14000208600)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000208500?, {0x12c5d0178?, 0x1400002a400?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1052b6d00, 0x140002100e0}, 0x14000208500)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1052b6f70?, {0x1052b6d00?, 0x140002100e0?}, 0x105473eb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b23c0, {0x1052b6d00, 0x140002100e0}, 0x14000208400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000202510?}, {0x1052b6d00, 0x140002100e0}, 0x14000208400)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140002041e0, {0x1052b7018, 0x14000186510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:43:48 
+Connected to database: lapcart
+2022/07/31 18:43:48 Api is listening on port: 8000
+2022/07/31 18:43:50 http: panic serving [::1]:51856: runtime error: invalid memory address or nil pointer dereference
+goroutine 24 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x101213520, 0x101423ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000198060, 0x140000b0008?, {0x140000f1488?, 0x1?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x10858d9b8, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:115 +0xd8
+net/http.HandlerFunc.ServeHTTP(0x10123d7c0?, {0x10858d9b8?, 0x140001ac840?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x10858d9b8, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000186330?, {0x10858d9b8?, 0x140001ac840?}, 0x140001a82e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1012115c0?, {0x10858d9b8?, 0x140001ac840?}, 0x140001920a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b23c0, {0x10858d9b8, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140001b4100?, {0x10858d9b8?, 0x140001ac840?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x101266d10, 0x140001ae0e0}, 0x140001b4100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x101266f80?, {0x101266d10?, 0x140001ae0e0?}, 0x101423eb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b23c0, {0x101266d10, 0x140001ae0e0}, 0x14000122200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1400009dc80?}, {0x101266d10, 0x140001ae0e0}, 0x14000122200)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x14000150280, {0x101267028, 0x14000186510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:44:03 
+Connected to database: lapcart
+2022/07/31 18:44:03 Api is listening on port: 8000
+2022/07/31 18:44:05 http: panic serving [::1]:51883: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x10278f520, 0x10299fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000198060, 0x1?, {0x4?, 0x30000007d?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x129af19b8, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:113 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1027b97c0?, {0x129af19b8?, 0x140001ac840?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x129af19b8, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000186330?, {0x129af19b8?, 0x140001ac840?}, 0x140001a82e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x10278d5c0?, {0x129af19b8?, 0x140001ac840?}, 0x140001920a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b23c0, {0x129af19b8, 0x140001ac840}, 0x140001b4200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140001b4100?, {0x129af19b8?, 0x140001ac840?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1027e2d10, 0x140001ae0e0}, 0x140001b4100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1027e2f80?, {0x1027e2d10?, 0x140001ae0e0?}, 0x10299feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b23c0, {0x1027e2d10, 0x140001ae0e0}, 0x140001b4000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000186660?}, {0x1027e2d10, 0x140001ae0e0}, 0x140001b4000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140001a1040, {0x1027e3028, 0x14000186510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:44:20 
+Connected to database: lapcart
+2022/07/31 18:44:20 Api is listening on port: 8000
+2022/07/31 18:44:22 http: panic serving [::1]:51915: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1023af520, 0x1025bfff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000216060, 0x1?, {0x4?, 0x30000007d?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x1297b8200, 0x1400022a800}, 0x1400023a200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:113 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1023d97c0?, {0x1297b8200?, 0x1400022a800?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x1297b8200, 0x1400022a800}, 0x1400023a200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000204330?, {0x1297b8200?, 0x1400022a800?}, 0x140002262e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1023ad5c0?, {0x1297b8200?, 0x1400022a800?}, 0x140002100a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x1297b8200, 0x1400022a800}, 0x1400023a200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400023a100?, {0x1297b8200?, 0x1400022a800?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102402d10, 0x1400022c0e0}, 0x1400023a100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102402f80?, {0x102402d10?, 0x1400022c0e0?}, 0x1025bfeb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x102402d10, 0x1400022c0e0}, 0x1400023a000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000204660?}, {0x102402d10, 0x1400022c0e0}, 0x1400023a000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400021f040, {0x102403028, 0x14000204510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:44:41 
+Connected to database: lapcart
+2022/07/31 18:44:41 Api is listening on port: 8000
+2022/07/31 18:44:43 http: panic serving [::1]:51947: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102e9b520, 0x1030abff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000196060, 0x1?, {0x4?, 0x30?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x10a2501c0, 0x140001aa840}, 0x140001ba200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:113 +0x94
+net/http.HandlerFunc.ServeHTTP(0x102ec57c0?, {0x10a2501c0?, 0x140001aa840?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x10a2501c0, 0x140001aa840}, 0x140001ba200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000184330?, {0x10a2501c0?, 0x140001aa840?}, 0x140001a62e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x102e995c0?, {0x10a2501c0?, 0x140001aa840?}, 0x140001900a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b23c0, {0x10a2501c0, 0x140001aa840}, 0x140001ba200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140001ba100?, {0x10a2501c0?, 0x140001aa840?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102eeed10, 0x140001ac0e0}, 0x140001ba100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102eeef80?, {0x102eeed10?, 0x140001ac0e0?}, 0x1030abeb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b23c0, {0x102eeed10, 0x140001ac0e0}, 0x140001ba000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000184660?}, {0x102eeed10, 0x140001ac0e0}, 0x140001ba000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400019f040, {0x102eef028, 0x14000184510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:45:58 
+Connected to database: lapcart
+2022/07/31 18:45:58 Api is listening on port: 8000
+2022/07/31 18:46:02 http: panic serving [::1]:52041: runtime error: invalid memory address or nil pointer dereference
+goroutine 24 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1008bf520, 0x100acfff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x140000a6060, 0x1?, {0x4?, 0x10061c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:109 +0x9c
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x127c2e490, 0x14000144d80}, 0x1400019a400)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1008e97c0?, {0x127c2e490?, 0x14000144d80?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x127c2e490, 0x14000144d80}, 0x1400019a400)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000094330?, {0x127c2e490?, 0x14000144d80?}, 0x14000119668?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1008bd5c0?, {0x127c2e490?, 0x14000144d80?}, 0x14000152ac4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x127c2e490, 0x14000144d80}, 0x1400019a400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400019a300?, {0x127c2e490?, 0x14000144d80?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x100912d00, 0x140001e6000}, 0x1400019a300)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x100912f70?, {0x100912d00?, 0x140001e6000?}, 0x100acfeb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x100912d00, 0x140001e6000}, 0x1400019a200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x14000117c80?}, {0x100912d00, 0x140001e6000}, 0x1400019a200)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140001c8280, {0x100913018, 0x14000094510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:46:03 http: panic serving [::1]:52044: runtime error: invalid memory address or nil pointer dereference
+goroutine 27 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1008bf520, 0x100acfff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x140000a6060, 0x1?, {0x4?, 0x10061c2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:109 +0x9c
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x127c2e490, 0x14000144f80}, 0x1400019a800)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1008e97c0?, {0x127c2e490?, 0x14000144f80?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x127c2e490, 0x14000144f80}, 0x1400019a800)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x14000094330?, {0x127c2e490?, 0x14000144f80?}, 0x14000119b48?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x1008bd5c0?, {0x127c2e490?, 0x14000144f80?}, 0x14000152b64?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c3c0, {0x127c2e490, 0x14000144f80}, 0x1400019a800)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400019a700?, {0x127c2e490?, 0x14000144f80?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x100912d00, 0x140001e60e0}, 0x1400019a700)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x100912f70?, {0x100912d00?, 0x140001e60e0?}, 0x100acfeb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c3c0, {0x100912d00, 0x140001e60e0}, 0x1400019a600)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x140001ec240?}, {0x100912d00, 0x140001e60e0}, 0x1400019a600)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140001c83c0, {0x100913018, 0x14000094510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:46:48 
+Connected to database: lapcart
+2022/07/31 18:46:48 Api is listening on port: 8000
+2022/07/31 18:46:52 http: panic serving [::1]:52100: runtime error: invalid memory address or nil pointer dereference
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x10104f520, 0x10125fff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+lapcart/service.(*userService).GetAllProductsUser(0x14000220060, 0x1?, {0x4?, 0x100dac2c0?})
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/service/user.service.go:108 +0x58
+lapcart/handler/v1.(*userHandler).GetAllProductUser.func1({0x1283b4178, 0x14000234840}, 0x1400023c200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/user.handler.go:112 +0x94
+net/http.HandlerFunc.ServeHTTP(0x1010797c0?, {0x1283b4178?, 0x14000234840?}, 0x7?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+lapcart/middleware.(*middleware).AuthorizeJwt.func1({0x1283b4178, 0x14000234840}, 0x1400023c200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/middleware/middleware.go:65 +0x374
+net/http.HandlerFunc.ServeHTTP(0x1400020e330?, {0x1283b4178?, 0x14000234840?}, 0x140002302e8?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*ChainHandler).ServeHTTP(0x10104d5c0?, {0x1283b4178?, 0x14000234840?}, 0x1400021a0a4?)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/chain.go:31 +0x34
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140001143c0, {0x1283b4178, 0x14000234840}, 0x1400023c200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400023c100?, {0x1283b4178?, 0x14000234840?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1010a2d00, 0x140002360e0}, 0x1400023c100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1010a2f70?, {0x1010a2d00?, 0x140002360e0?}, 0x10125feb0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140001143c0, {0x1010a2d00, 0x140002360e0}, 0x1400023c000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1400020e660?}, {0x1010a2d00, 0x140002360e0}, 0x1400023c000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x14000229040, {0x1010a3018, 0x1400020e510})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/07/31 18:47:38 
+Connected to database: lapcart
+2022/07/31 18:47:38 Api is listening on port: 8000
+2022/07/31 18:48:34 
+Connected to database: lapcart
+2022/07/31 18:48:34 Api is listening on port: 8000
+2022/07/31 18:49:55 
+Connected to database: lapcart
+2022/07/31 18:49:55 Api is listening on port: 8000
+2022/07/31 18:50:59 
+Connected to database: lapcart
+2022/07/31 18:50:59 Api is listening on port: 8000
+2022/07/31 18:59:12 
+Connected to database: lapcart
+2022/07/31 18:59:12 Api is listening on port: 8000

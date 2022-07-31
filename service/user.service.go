@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"lapcart/model"
 	"lapcart/repo"
+	"lapcart/utils"
 	"time"
 )
 
@@ -16,15 +17,20 @@ type UserService interface {
 	AddAddress(address model.Address) error
 	GetAddressByUserID(user_id int) (*[]model.AddressResponse, error)
 	DeleteAddress(user_id, address_id int) error
+	GetAllProductsUser(user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
 }
 
 type userService struct {
-	userRepo repo.UserRepository
+	userRepo    repo.UserRepository
+	productRepo repo.ProductRepository
 }
 
-func NewUserService(userRepo repo.UserRepository) UserService {
+func NewUserService(
+	userRepo repo.UserRepository,
+	productRepo repo.ProductRepository) UserService {
 	return &userService{
-		userRepo: userRepo,
+		userRepo:    userRepo,
+		productRepo: productRepo,
 	}
 }
 
@@ -96,6 +102,19 @@ func (c *userService) DeleteAddress(user_id, address_id int) error {
 		return errors.New("unable to delete the requested address")
 	}
 	return nil
+}
+
+func (c *userService) GetAllProductsUser(user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error) {
+
+	products, metadata, err := c.productRepo.GetAllProductsUser(user_id, pagenation)
+
+	if err != nil {
+		return nil, &metadata, err
+
+	}
+
+	return &products, &metadata, nil
+
 }
 
 func HashPassword(password string) string {

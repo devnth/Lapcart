@@ -7,6 +7,7 @@ import (
 
 type WishListService interface {
 	AddOrDeleteWishList(wishList model.WishList) (string, error)
+	GetWishList(user_id int) (*[]model.GetProduct, error)
 }
 
 type wishListService struct {
@@ -30,5 +31,17 @@ func (c *wishListService) AddOrDeleteWishList(wishList model.WishList) (string, 
 	}
 
 	return message, nil
+
+}
+
+func (c *wishListService) GetWishList(user_id int) (*[]model.GetProduct, error) {
+
+	wishList, err := c.wishListRepo.GetWishList(user_id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &wishList, err
 
 }

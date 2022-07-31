@@ -12,6 +12,7 @@ import (
 
 type WishListHandler interface {
 	AddOrDeleteWishList() http.HandlerFunc
+	ViewWishList() http.HandlerFunc
 }
 
 type wishListHandler struct {
@@ -38,7 +39,7 @@ func (c *wishListHandler) AddOrDeleteWishList() http.HandlerFunc {
 		message, err := c.wishListService.AddOrDeleteWishList(userRequest)
 
 		if err != nil {
-			response := response.BuildErrorResponse("product could not add to wishlist", err.Error(), nil)
+			response := response.BuildErrorResponse("product not add/deleted to wishlist", err.Error(), nil)
 			w.Header().Add("Content-Type", "application/json")
 			w.WriteHeader(http.StatusUnprocessableEntity)
 			utils.ResponseJSON(w, response)
@@ -46,6 +47,26 @@ func (c *wishListHandler) AddOrDeleteWishList() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK", message)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *wishListHandler) ViewWishList() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
+
+		products, err := c.wishListService.GetWishList(user_id)
+
+		if err != nil {
+			response := response.BuildErrorResponse("could not reach the request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+		response := response.BuildResponse(true, "OK", products)
 		utils.ResponseJSON(w, response)
 
 	}

@@ -25,6 +25,7 @@ func (r *wishListRoute) WishListRouter(router chi.Router,
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.AuthorizeJwt)
 		r.Post("/user/add/wishlist", wishListHandler.AddOrDeleteWishList())
+		r.Get("/user/view/wishlist", wishListHandler.ViewWishList())
 	})
 
 }

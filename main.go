@@ -50,7 +50,7 @@ func main() {
 		jwtUserService  service.JWTService      = service.NewJWTUserService()
 		authService     service.AuthService     = service.NewAuthService(adminRepo, userRepo)
 		adminService    service.AdminService    = service.NewAdminService(adminRepo, userRepo)
-		userService     service.UserService     = service.NewUserService(userRepo)
+		userService     service.UserService     = service.NewUserService(userRepo, productRepo)
 		productService  service.ProductService  = service.NewProductService(productRepo)
 		wishListService service.WishListService = service.NewWishListService(wishListRepo)
 		authHandler     v1.AuthHandler          = v1.NewAuthHandler(jwtAdminService,

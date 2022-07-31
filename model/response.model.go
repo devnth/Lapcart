@@ -42,3 +42,48 @@ type AddressResponse struct {
 type ProductResponse struct {
 	Product `json:"product"`
 }
+
+type GetProduct struct {
+	ID           []int64 `json:"product_id"`
+	Code         string  `json:"product_code"`
+	Name         string  `json:"name"`
+	Description  string  `json:"description,omitempty"`
+	GetBrand     `json:"brand"`
+	GetProcessor `json:"processor"`
+	GetCategory  `json:"category"`
+	GetColor     `json:"colors"`
+	Price        float64 `json:"price"`
+	Image        string  `json:"image"`
+	WishList     bool    `json:"wishlist,omitempty"`
+}
+
+type GetBrand struct {
+	ID   uint   `json:"id,omitempty"`
+	Name string `json:"name"`
+}
+
+// table schema for product_category
+type GetCategory struct {
+	ID          uint   `json:"id,omitempty"`
+	Name        string `json:"name"`
+	Description string `json:"description,omitempty"`
+}
+
+//table schema for product color
+type GetColor struct {
+	Name []string `json:"name"`
+}
+
+type GetProcessor struct {
+	ID   int    `json:"id,omitempty"`
+	Name string `json:"name"`
+}
+
+//table schema for product_discount
+type GetDiscount struct {
+	ID          uint    `json:"id,omitempty"`
+	Name        string  `json:"name"`
+	Description string  `json:"description,omitempty"`
+	Percentage  float32 `json:"percentage,omitempty"`
+	Status      bool    `json:"status,omitempty"`
+}

@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"lapcart/model"
 	"lapcart/utils"
+
+	"github.com/lib/pq"
 )
 
 type ProductRepository interface {
@@ -13,7 +15,7 @@ type ProductRepository interface {
 	UpdateProductColor(newStock int, inStockColor string) error
 	UpdateProduct(color model.Color, product model.ProductResponse) error
 	GetAllProductCode(pagenation utils.Filter) ([]string, utils.Metadata, error)
-	// GetAllProducts(pagenation utils.Filter) ([]model.Product, utils.Metadata, error)
+	GetAllProductsUser(user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
 }
 
 type productRepo struct {
@@ -323,7 +325,7 @@ func (c *productRepo) GetAllProductCode(pagenation utils.Filter) ([]string, util
 
 	query := `WITH cte AS (
 		SELECT DISTINCT code FROM product)
-		SELECT DISTINCT code, count(*) over() FROM cte
+		SELECT DISTINCT code,  FROM cte
 		LIMIT $1 OFFSET $2;`
 
 	rows, err := c.db.Query(
@@ -351,5 +353,116 @@ func (c *productRepo) GetAllProductCode(pagenation utils.Filter) ([]string, util
 	}
 
 	return codes, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
+
+}
+
+func (c *productRepo) GetAllProductsUser(user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error) {
+
+	var totalRecords int
+
+	query := `WITH wishlist AS 
+				(
+				   SELECT
+					  true as wishlist,
+					  w.product_code 
+				   FROM
+					  wishlist w 
+				   WHERE
+					  w.user_id = $1
+				)
+				,
+				product AS 
+				(
+				   SELECT
+					  ARRAY_AGG(id) AS id,
+					  p.code,
+					  p.name,
+					  p.category_id,
+					  p.brand_id,
+					  p.processor_id,
+					  p.image,
+					  p.price,
+					  w.wishlist,
+					  ARRAY_AGG(color) AS colors 
+				   FROM
+					  product p 
+					  LEFT JOIN
+						 wishlist w 
+						 ON p.code = w.product_code 
+				   GROUP BY
+					  p.code,
+					  p.name,
+					  p.category_id,
+					  p.brand_id,
+					  p.processor_id,
+					  p.image,
+					  p.price,
+					  w.wishlist
+				)
+				SELECT
+				   COUNT(*) OVER(),
+				   p.id,
+				   p.name,
+				   c.name,
+				   b.name,
+				   pr.name,
+				   p.image,
+				   p.price,
+				   COALESCE(p.wishlist, false),
+				   p.colors 
+				FROM
+				   product p 
+				   JOIN
+					  category c 
+					  ON p.category_id = c.id 
+				   JOIN
+					  brand b 
+					  ON p.brand_id = b.id 
+				   JOIN
+					  processor pr 
+					  ON p.processor_ID = pr.id 
+				ORDER BY
+				   p.name LIMIT $2 OFFSET $3;`
+
+	rows, err := c.db.Query(
+		query,
+		user_id,
+		pagenation.Limit(),
+		pagenation.Offset())
+
+	if err != nil {
+		return nil, utils.Metadata{}, err
+	}
+
+	defer rows.Close()
+	var products []model.GetProduct
+
+	for rows.Next() {
+		var product model.GetProduct
+
+		err = rows.Scan(
+			&totalRecords,
+			pq.Array(&product.ID),
+			&product.Name,
+			&product.GetCategory.Name,
+			&product.GetBrand.Name,
+			&product.GetProcessor.Name,
+			&product.Image,
+			&product.Price,
+			&product.WishList,
+			pq.Array(&product.GetColor.Name),
+		)
+
+		if err != nil {
+			return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
+		}
+		products = append(products, product)
+	}
+
+	if err := rows.Err(); err != nil {
+		return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
+	}
+
+	return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
 
 }

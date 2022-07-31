@@ -33,6 +33,7 @@ func (r *userRoute) UserRouter(routes chi.Router,
 		r.Post("/user/add/address", userHandler.AddAddress())
 		r.Get("/user/view/address", userHandler.ViewAddress())
 		r.Delete("/user/delete/address-id-{addressid}", userHandler.DeleteAddress())
+		r.Get("/homepage/page-{page}", userHandler.GetAllProductUser())
 	})
 
 }

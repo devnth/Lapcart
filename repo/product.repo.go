@@ -16,6 +16,9 @@ type ProductRepository interface {
 	UpdateProduct(color model.Color, product model.ProductResponse) error
 	GetAllProductCode(pagenation utils.Filter) ([]string, utils.Metadata, error)
 	GetAllProductsUser(user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
+	FindCategory(category string) (int, bool)
+	FindBrand(brand string) (int, bool)
+	FindProductCode(product_code string) error
 }
 
 type productRepo struct {
@@ -325,7 +328,7 @@ func (c *productRepo) GetAllProductCode(pagenation utils.Filter) ([]string, util
 
 	query := `WITH cte AS (
 		SELECT DISTINCT code FROM product)
-		SELECT DISTINCT code,  FROM cte
+		SELECT COUNT(*) OVER(), code  FROM cte
 		LIMIT $1 OFFSET $2;`
 
 	rows, err := c.db.Query(
@@ -342,7 +345,7 @@ func (c *productRepo) GetAllProductCode(pagenation utils.Filter) ([]string, util
 	for rows.Next() {
 		var code string
 
-		if err = rows.Scan(&code, &totalRecords); err != nil {
+		if err = rows.Scan(&totalRecords, &code); err != nil {
 			return codes, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
 		}
 		codes = append(codes, code)
@@ -402,6 +405,7 @@ func (c *productRepo) GetAllProductsUser(user_id int, pagenation utils.Filter) (
 				SELECT
 				   COUNT(*) OVER(),
 				   p.id,
+				   p.code,
 				   p.name,
 				   c.name,
 				   b.name,
@@ -443,6 +447,7 @@ func (c *productRepo) GetAllProductsUser(user_id int, pagenation utils.Filter) (
 		err = rows.Scan(
 			&totalRecords,
 			pq.Array(&product.ID),
+			&product.Code,
 			&product.Name,
 			&product.GetCategory.Name,
 			&product.GetBrand.Name,
@@ -464,5 +469,20 @@ func (c *productRepo) GetAllProductsUser(user_id int, pagenation utils.Filter) (
 	}
 
 	return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
+
+}
+
+func (c *productRepo) FindProductCode(product_code string) error {
+
+	query := `SELECT
+			 	code 
+			  FROM
+			 	product 
+			  WHERE
+			 	code = $1;`
+
+	err := c.db.QueryRow(query, product_code).Scan(&product_code)
+
+	return err
 
 }

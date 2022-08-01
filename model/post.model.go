@@ -79,14 +79,19 @@ type Processor struct {
 
 //table schema for product_discount
 type Discount struct {
-	ID          uint      `json:"id,omitempty"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Percentage  float32   `json:"percentage"`
-	Status      bool      `json:"status"`
-	Created_At  time.Time `json:"created_at"`
-	// Product_Discount_Updated_At  time.Time `json:"product_discount_updated_at"`
-	// Product_Discount_Deleted_At  time.Time `json:"product_discount_deleted_at"`
+	ArgId        int
+	ID           int
+	AllProducts  bool      `json:"all_products"`
+	ProductCode  string    `json:"product_code"`
+	Brand        string    `json:"brand"`
+	Category     string    ` json:"category"`
+	DiscountName string    `json:"discount_name"`
+	Percentage   float32   `json:"percentage"`
+	Status       bool      `json:"status"`
+	Created_At   time.Time `json:"created_at"`
+	Expiry_Date  time.Time `json:"expiry_date"`
+	Updated_At   time.Time `json:"updated_at"`
+	Deleted_At   time.Time `json:"deleted_at"`
 }
 
 type WishList struct {

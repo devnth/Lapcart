@@ -1,6 +1,7 @@
 package service
 
 import (
+	"database/sql"
 	"errors"
 	"lapcart/model"
 	"lapcart/repo"
@@ -10,19 +11,23 @@ type AdminService interface {
 	FindAdminByEmail(email string) (*model.AdminResponse, error)
 	AllUsers() (*[]model.UserResponse, error)
 	ManageUsers(email string, isActive bool) error
+	AddDiscount(discount model.Discount) error
 }
 
 type adminService struct {
-	adminRepo repo.AdminRepository
-	userRepo  repo.UserRepository
+	adminRepo   repo.AdminRepository
+	userRepo    repo.UserRepository
+	productRepo repo.ProductRepository
 }
 
 func NewAdminService(
 	adminRepo repo.AdminRepository,
-	userRepo repo.UserRepository) AdminService {
+	userRepo repo.UserRepository,
+	productRepo repo.ProductRepository) AdminService {
 	return &adminService{
-		adminRepo: adminRepo,
-		userRepo:  userRepo,
+		adminRepo:   adminRepo,
+		userRepo:    userRepo,
+		productRepo: productRepo,
 	}
 }
 
@@ -57,5 +62,49 @@ func (c *adminService) ManageUsers(email string, isActive bool) error {
 	err = c.userRepo.ManageUsers(email, isActive)
 
 	return err
+
+}
+
+func (c *adminService) AddDiscount(discount model.Discount) error {
+
+	var err error
+	var ok bool
+
+	discount.ID, err = c.adminRepo.AddDiscount(discount)
+
+	if err != nil {
+		return err
+	}
+
+	if discount.Category != "" {
+		discount.ArgId, ok = c.productRepo.FindCategory(discount.Category)
+		if !ok {
+			return errors.New("category not found")
+		}
+
+	}
+
+	if discount.Brand != "" {
+		discount.ArgId, ok = c.productRepo.FindBrand(discount.Brand)
+		if !ok {
+			return errors.New("brand not found")
+		}
+	}
+
+	if discount.ProductCode != "" {
+		err = c.productRepo.FindProductCode(discount.ProductCode)
+
+		if err == sql.ErrNoRows {
+			return errors.New("product not found")
+		}
+	}
+
+	err = c.adminRepo.AddDiscountToProduct(discount)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }

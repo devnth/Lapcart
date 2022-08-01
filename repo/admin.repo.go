@@ -7,9 +7,8 @@ import (
 
 type AdminRepository interface {
 	FindAdminByEmail(email string) (model.AdminResponse, error)
-	// ViewUsers([]model.User, error)
-	// BlockUser(int) (int, error)
-	// ViewUser(int) (model.User, error)
+	AddDiscount(discount model.Discount) (int, error)
+	AddDiscountToProduct(discount model.Discount) error
 }
 
 type adminRepo struct {
@@ -47,8 +46,89 @@ func (c *adminRepo) FindAdminByEmail(email string) (model.AdminResponse, error) 
 	return admin, err
 }
 
-// func (c *adminRepo) ViewUsers([]model.User, error)
+func (c *adminRepo) AddDiscount(discount model.Discount) (int, error) {
 
-// func (c *adminRepo) BlockUser(int) (int, error)
+	query := `INSERT INTO
+				DISCOUNT ( name, percentage, created_at, updated_at, valid_till) 
+			  VALUES
+				(
+				   $1, $2, $3, $4, $5
+				)
+				ON CONFLICT(name) DO NOTHING;`
 
-// func (c *adminRepo) ViewUser(int) (model.User, error)
+	query2 := `SELECT
+				id 
+			 FROM
+				discount 
+			 WHERE
+				name = $1;`
+
+	err := c.db.QueryRow(
+		query,
+		discount.DiscountName,
+		discount.Percentage,
+		discount.Created_At,
+		discount.Updated_At,
+		discount.Expiry_Date).Err()
+
+	if err != nil {
+		return discount.ID, err
+	}
+
+	err = c.db.QueryRow(query2,
+		discount.DiscountName).Scan(&discount.ID)
+
+	return discount.ID, err
+}
+
+func (c *adminRepo) AddDiscountToProduct(discount model.Discount) error {
+
+	var query string
+
+	var arg int
+	var err error
+
+	if discount.Category != "" {
+
+		query = `
+				UPDATE
+				   product 
+				SET
+				   discount_id = $1
+				WHERE
+				   category_id = $2 ;`
+
+		arg = discount.ArgId
+
+	}
+
+	if discount.Brand != "" {
+
+		query = `
+				UPDATE
+				   product 
+				SET
+				   discount_id = $1
+				WHERE
+				   brand_id = $2;`
+		arg = discount.ArgId
+	}
+
+	if discount.ProductCode != "" {
+		query = `
+				UPDATE
+				   product 
+				SET
+				   discount_id = $1
+				WHERE
+				   code = $2;`
+
+		arg := discount.ProductCode
+		err = c.db.QueryRow(query, discount.ID, arg).Err()
+
+		return err
+	}
+	err = c.db.QueryRow(query, discount.ID, arg).Err()
+
+	return err
+}

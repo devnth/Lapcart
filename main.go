@@ -49,7 +49,7 @@ func main() {
 		jwtAdminService service.JWTService      = service.NewJWTAdminService()
 		jwtUserService  service.JWTService      = service.NewJWTUserService()
 		authService     service.AuthService     = service.NewAuthService(adminRepo, userRepo)
-		adminService    service.AdminService    = service.NewAdminService(adminRepo, userRepo)
+		adminService    service.AdminService    = service.NewAdminService(adminRepo, userRepo, productRepo)
 		userService     service.UserService     = service.NewUserService(userRepo, productRepo)
 		productService  service.ProductService  = service.NewProductService(productRepo)
 		wishListService service.WishListService = service.NewWishListService(wishListRepo)

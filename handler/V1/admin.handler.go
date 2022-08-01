@@ -7,11 +7,13 @@ import (
 	"lapcart/service"
 	"lapcart/utils"
 	"net/http"
+	"time"
 )
 
 type AdminHandler interface {
 	ViewUsers() http.HandlerFunc
 	ManageUsers() http.HandlerFunc
+	AddDiscount() http.HandlerFunc
 }
 
 type adminHandler struct {
@@ -69,6 +71,33 @@ func (c *adminHandler) ManageUsers() http.HandlerFunc {
 		user.Password = ""
 
 		response := response.BuildResponse(true, "OK!", user)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *adminHandler) AddDiscount() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var discount model.Discount
+
+		json.NewDecoder(r.Body).Decode(&discount)
+
+		discount.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+		discount.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+		err := c.adminService.AddDiscount(discount)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "new discount added")
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)

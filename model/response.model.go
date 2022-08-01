@@ -44,17 +44,19 @@ type ProductResponse struct {
 }
 
 type GetProduct struct {
-	ID           []int64 `json:"product_id"`
-	Code         string  `json:"product_code"`
-	Name         string  `json:"name"`
-	Description  string  `json:"description,omitempty"`
-	GetBrand     `json:"brand"`
-	GetProcessor `json:"processor"`
-	GetCategory  `json:"category"`
-	GetColor     `json:"colors"`
-	Price        float64 `json:"price"`
-	Image        string  `json:"image"`
-	WishList     bool    `json:"wishlist,omitempty"`
+	ID            []int64 `json:"product_id"`
+	Code          string  `json:"product_code"`
+	Name          string  `json:"name"`
+	Description   string  `json:"description,omitempty"`
+	GetBrand      `json:"brand"`
+	GetProcessor  `json:"processor"`
+	GetCategory   `json:"category"`
+	GetColor      `json:"colors"`
+	DiscountName  string  `json:"discount_name,omitempty"`
+	Price         float64 `json:"price"`
+	DiscountPrice float64 `json:"discount_price,omitempty"`
+	Image         string  `json:"image"`
+	WishList      bool    `json:"wishlist,omitempty"`
 }
 
 type GetBrand struct {

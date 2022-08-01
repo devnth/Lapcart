@@ -364,69 +364,91 @@ func (c *productRepo) GetAllProductsUser(user_id int, pagenation utils.Filter) (
 	var totalRecords int
 
 	query := `WITH wishlist AS 
-				(
-				   SELECT
-					  true as wishlist,
-					  w.product_code 
-				   FROM
-					  wishlist w 
-				   WHERE
-					  w.user_id = $1
-				)
-				,
-				product AS 
-				(
-				   SELECT
-					  ARRAY_AGG(id) AS id,
-					  p.code,
-					  p.name,
-					  p.category_id,
-					  p.brand_id,
-					  p.processor_id,
-					  p.image,
-					  p.price,
-					  w.wishlist,
-					  ARRAY_AGG(color) AS colors 
-				   FROM
-					  product p 
-					  LEFT JOIN
-						 wishlist w 
-						 ON p.code = w.product_code 
-				   GROUP BY
-					  p.code,
-					  p.name,
-					  p.category_id,
-					  p.brand_id,
-					  p.processor_id,
-					  p.image,
-					  p.price,
-					  w.wishlist
-				)
-				SELECT
-				   COUNT(*) OVER(),
-				   p.id,
-				   p.code,
-				   p.name,
-				   c.name,
-				   b.name,
-				   pr.name,
-				   p.image,
-				   p.price,
-				   COALESCE(p.wishlist, false),
-				   p.colors 
-				FROM
-				   product p 
-				   JOIN
-					  category c 
-					  ON p.category_id = c.id 
-				   JOIN
-					  brand b 
-					  ON p.brand_id = b.id 
-				   JOIN
-					  processor pr 
-					  ON p.processor_ID = pr.id 
-				ORDER BY
-				   p.name LIMIT $2 OFFSET $3;`
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+			  ORDER BY
+			     p.name 
+				 LIMIT $2 OFFSET $3;`
 
 	rows, err := c.db.Query(
 		query,
@@ -456,6 +478,8 @@ func (c *productRepo) GetAllProductsUser(user_id int, pagenation utils.Filter) (
 			&product.Price,
 			&product.WishList,
 			pq.Array(&product.GetColor.Name),
+			&product.DiscountName,
+			&product.DiscountPrice,
 		)
 
 		if err != nil {

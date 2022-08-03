@@ -34,6 +34,7 @@ func (r *userRoute) UserRouter(routes chi.Router,
 		r.Get("/user/view/address", userHandler.ViewAddress())
 		r.Delete("/user/delete/address-id-{addressid}", userHandler.DeleteAddress())
 		r.Get("/homepage/page-{page}", userHandler.GetAllProductUser())
+		r.Post("/user/filter/page-{page}", userHandler.SearchByFilter())
 	})
 
 }

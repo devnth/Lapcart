@@ -18,6 +18,7 @@ type UserService interface {
 	GetAddressByUserID(user_id int) (*[]model.AddressResponse, error)
 	DeleteAddress(user_id, address_id int) error
 	GetAllProductsUser(user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
+	SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
 }
 
 type userService struct {
@@ -107,6 +108,19 @@ func (c *userService) DeleteAddress(user_id, address_id int) error {
 func (c *userService) GetAllProductsUser(user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error) {
 
 	products, metadata, err := c.productRepo.GetAllProductsUser(user_id, pagenation)
+
+	if err != nil {
+		return nil, &metadata, err
+
+	}
+
+	return &products, &metadata, nil
+
+}
+
+func (c *userService) SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error) {
+
+	products, metadata, err := c.productRepo.SearchByFilter(filter, user_id, pagenation)
 
 	if err != nil {
 		return nil, &metadata, err

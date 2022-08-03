@@ -3,8 +3,10 @@ package repo
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"lapcart/model"
 	"lapcart/utils"
+	"log"
 
 	"github.com/lib/pq"
 )
@@ -19,6 +21,7 @@ type ProductRepository interface {
 	FindCategory(category string) (int, bool)
 	FindBrand(brand string) (int, bool)
 	FindProductCode(product_code string) error
+	SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
 }
 
 type productRepo struct {
@@ -508,5 +511,273 @@ func (c *productRepo) FindProductCode(product_code string) error {
 	err := c.db.QueryRow(query, product_code).Scan(&product_code)
 
 	return err
+
+}
+
+func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error) {
+
+	query := `WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE `
+
+	var totalRecords int
+
+	i := 2
+	var arg []interface{}
+
+	arg = append(arg, user_id)
+
+	if len(filter.Category) != 0 {
+
+		query = query + `c.name IN (`
+
+		for j, category := range filter.Category {
+			query = query + "$" + fmt.Sprintf("%d", i)
+			if j != len(filter.Category)-1 {
+				query = query + ","
+			}
+			arg = append(arg, category.Name)
+			i++
+		}
+		query = query + ")"
+	}
+
+	if len(filter.Brand) != 0 {
+
+		if i > 2 {
+			query = query + `AND b.name IN (`
+		} else {
+			query = query + `b.name IN (`
+		}
+
+		for j, brand := range filter.Brand {
+			query = query + "$" + fmt.Sprintf("%d", i)
+			if j != len(filter.Brand)-1 {
+				query = query + ","
+			}
+			arg = append(arg, brand.Name)
+			i++
+		}
+		query = query + ")"
+	}
+
+	if len(filter.Color) != 0 {
+
+		if i > 2 {
+			query = query + `AND p.color IN (`
+		} else {
+			query = query + `p.color IN (`
+		}
+
+		for j, color := range filter.Color {
+			query = query + "$" + fmt.Sprintf("%d", i)
+			if j != len(filter.Color)-1 {
+				query = query + ","
+			}
+			arg = append(arg, color.Name)
+			i++
+		}
+		query = query + ")"
+	}
+
+	if len(filter.Processor) != 0 {
+
+		if i > 2 {
+			query = query + `AND pr.name IN (`
+		} else {
+			query = query + `pr.name IN (`
+		}
+
+		for j, processor := range filter.Processor {
+			query = query + "$" + fmt.Sprintf("%d", i)
+			if j != len(filter.Processor)-1 {
+				query = query + ","
+			}
+			arg = append(arg, processor.Name)
+			i++
+		}
+		query = query + ")"
+	}
+
+	if len(filter.Name) != 0 {
+
+		if i > 2 {
+			query = query + `AND p.name IN (`
+		} else {
+			query = query + `p.name IN (`
+		}
+
+		for j, name := range filter.Name {
+			query = query + "$" + fmt.Sprintf("%d", i)
+			if j != len(filter.Name)-1 {
+				query = query + ","
+			}
+			arg = append(arg, name.Name)
+			i++
+		}
+		query = query + ")"
+	}
+
+	if len(filter.ProductCode) != 0 {
+
+		if i > 2 {
+			query = query + `AND p.code IN (`
+		} else {
+			query = query + `p.code IN (`
+		}
+
+		for j, code := range filter.ProductCode {
+			query = query + "$" + fmt.Sprintf("%d", i)
+			if j != len(filter.ProductCode)-1 {
+				query = query + ","
+			}
+			arg = append(arg, code.ProductCode)
+			i++
+		}
+		query = query + ")"
+	}
+
+	query = query + `
+					 ORDER BY
+					 p.name 
+					;`
+
+	// LIMIT $2 OFFSET $3
+	log.Println(query)
+
+	stmt, err := c.db.Prepare(query)
+	if err != nil {
+		log.Println("Error", err)
+		log.Println("Error", "Query prepare failed")
+		return nil, utils.Metadata{}, err
+	}
+
+	res, err := stmt.Query(arg...)
+	if err != nil {
+		fmt.Println("Error", err)
+		fmt.Println("Error", "Query Exec failed")
+		return nil, utils.Metadata{}, err
+	}
+
+	if err != nil {
+		return nil, utils.Metadata{}, err
+	}
+
+	defer res.Close()
+	var products []model.GetProduct
+
+	for res.Next() {
+		var product model.GetProduct
+
+		err = res.Scan(
+			&totalRecords,
+			pq.Array(&product.ID),
+			&product.Code,
+			&product.Name,
+			&product.GetCategory.Name,
+			&product.GetBrand.Name,
+			&product.GetProcessor.Name,
+			&product.Image,
+			&product.Price,
+			&product.WishList,
+			pq.Array(&product.GetColor.Name),
+			&product.DiscountName,
+			&product.DiscountPrice,
+		)
+
+		if err != nil {
+			return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
+		}
+		products = append(products, product)
+	}
+
+	if err := res.Err(); err != nil {
+		return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
+	}
+
+	return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
 
 }

@@ -98,3 +98,20 @@ type WishList struct {
 	User_Id     int
 	ProductCode string `json:"product_code"`
 }
+
+type Name struct {
+	Name string `json:"name"`
+}
+
+type ProductCode struct {
+	ProductCode string
+}
+
+type Filter struct {
+	Category    []Category    `json:"category"`
+	Brand       []Brand       `json:"brand"`
+	Color       []Color       `json:"color"`
+	Processor   []Processor   `json:"processor"`
+	Name        []Name        `json:"name"`
+	ProductCode []ProductCode `json:"product_code"`
+}

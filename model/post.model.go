@@ -115,3 +115,11 @@ type Filter struct {
 	Name        []Name        `json:"name"`
 	ProductCode []ProductCode `json:"product_code"`
 }
+
+type Cart struct {
+	User_Id    int
+	Product_Id uint `json:"product_id"`
+	Count      int  `json:"count"`
+	Created_At time.Time
+	Updated_At time.Time
+}

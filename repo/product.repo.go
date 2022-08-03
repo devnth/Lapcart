@@ -22,6 +22,8 @@ type ProductRepository interface {
 	FindBrand(brand string) (int, bool)
 	FindProductCode(product_code string) error
 	SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
+	UpdateStockById(cart model.Cart) error
+	FindStockById(id int) (int, error)
 }
 
 type productRepo struct {
@@ -727,9 +729,6 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 	arg = append(arg, pagenation.Limit())
 	arg = append(arg, pagenation.Offset())
 
-	//
-	log.Println(query)
-
 	stmt, err := c.db.Prepare(query)
 	if err != nil {
 		log.Println("Error", err)
@@ -782,4 +781,41 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 
 	return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
 
+}
+
+func (c *productRepo) UpdateStockById(cart model.Cart) error {
+
+	query := `
+					UPDATE
+					product 
+				 SET
+					stock = 
+					(
+					   stock - $1
+					)
+				 WHERE
+					id = $2 ;`
+
+	err := c.db.QueryRow(
+		query,
+		cart.Count,
+		cart.Product_Id,
+	).Err()
+
+	return err
+}
+
+func (c *productRepo) FindStockById(id int) (int, error) {
+	var stock int
+	query := `
+			 SELECT
+				stock 
+			 FROM
+				product 
+			 WHERE
+				id = $1;`
+
+	err := c.db.QueryRow(query, id).Scan(&stock)
+
+	return stock, err
 }

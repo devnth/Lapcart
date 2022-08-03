@@ -46,6 +46,7 @@ func main() {
 		userRepo        repo.UserRepository     = repo.NewUserRepo(db)
 		productRepo     repo.ProductRepository  = repo.NewProductRepo(db)
 		wishListRepo    repo.WishListRepository = repo.NewWishListRepo(db)
+		cartRepo        repo.CartRepository     = repo.NewCartRepository(db)
 		jwtAdminService service.JWTService      = service.NewJWTAdminService()
 		jwtUserService  service.JWTService      = service.NewJWTUserService()
 		authService     service.AuthService     = service.NewAuthService(adminRepo, userRepo)
@@ -53,6 +54,7 @@ func main() {
 		userService     service.UserService     = service.NewUserService(userRepo, productRepo)
 		productService  service.ProductService  = service.NewProductService(productRepo)
 		wishListService service.WishListService = service.NewWishListService(wishListRepo)
+		cartService     service.CartService     = service.NewCartService(cartRepo, productRepo)
 		authHandler     v1.AuthHandler          = v1.NewAuthHandler(jwtAdminService,
 			jwtUserService, authService,
 			adminService,
@@ -63,9 +65,11 @@ func main() {
 		userHandler     v1.UserHandler       = v1.NewUserHandler(userService)
 		productHandler  v1.ProductHandler    = v1.NewProductHandler(productService)
 		wishListHandler v1.WishListHandler   = v1.NewWishListHandler(wishListService)
+		cartHandler     v1.CartHandler       = v1.NewCartHandler(cartService)
 		adminRoute      routes.AdminRoute    = routes.NewAdminRoute()
 		userRoute       routes.UserRoute     = routes.NewUserRoute()
 		wishListRoute   routes.WishListRoute = routes.NewWishListRoute()
+		cartRoute       routes.CartRoute     = routes.NewCartRoute()
 	)
 
 	//routing
@@ -74,11 +78,22 @@ func main() {
 		adminHandler,
 		adminMiddleware,
 		productHandler)
+
 	userRoute.UserRouter(router,
 		authHandler,
 		userMiddleware,
 		userHandler)
-	wishListRoute.WishListRouter(router, userMiddleware, wishListHandler)
+
+	wishListRoute.WishListRouter(router,
+		userMiddleware,
+		wishListHandler)
+
+	cartRoute.CartRouter(
+		router,
+		userMiddleware,
+		cartHandler,
+	)
+
 	log.Println("Api is listening on port:", port)
 	// Starting server
 	http.ListenAndServe(":"+port, router)

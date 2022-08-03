@@ -5881,3 +5881,40 @@ Connected to database: lapcart
 					 ORDER BY
 					 p.name 
 					LIMIT $5 OFFSET $6;
+2022/08/03 11:04:30 
+Connected to database: lapcart
+2022/08/03 11:04:30 Api is listening on port: 8000
+2022/08/03 11:09:47 
+Connected to database: lapcart
+2022/08/03 11:09:47 Api is listening on port: 8000
+2022/08/03 11:10:24 
+Connected to database: lapcart
+2022/08/03 11:10:24 Api is listening on port: 8000
+2022/08/03 11:11:37 
+Connected to database: lapcart
+2022/08/03 11:11:37 Api is listening on port: 8000
+2022/08/03 11:14:19 
+Connected to database: lapcart
+2022/08/03 11:14:19 Api is listening on port: 8000
+2022/08/03 11:19:07 
+Connected to database: lapcart
+2022/08/03 11:19:07 Api is listening on port: 8000
+2022/08/03 11:21:01 
+Connected to database: lapcart
+2022/08/03 11:21:01 Api is listening on port: 8000
+2022/08/03 11:21:19 
+Connected to database: lapcart
+2022/08/03 11:21:19 Api is listening on port: 8000
+2022/08/03 11:24:55 
+Connected to database: lapcart
+2022/08/03 11:24:55 Api is listening on port: 8000
+2022/08/03 11:24:57 error adding product to cart
+2022/08/03 11:31:34 
+Connected to database: lapcart
+2022/08/03 11:31:34 Api is listening on port: 8000
+2022/08/03 11:31:37 error in inserting cart
+2022/08/03 11:31:37 error adding product to cart
+2022/08/03 11:32:44 
+Connected to database: lapcart
+2022/08/03 11:32:44 Api is listening on port: 8000
+2022/08/03 11:32:50 error, product out of stock, product left:  0

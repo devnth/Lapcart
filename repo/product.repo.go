@@ -723,9 +723,11 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 	query = query + `
 					 ORDER BY
 					 p.name 
-					;`
+					LIMIT $` + fmt.Sprintf(`%d OFFSET $%d;`, i, i+1)
+	arg = append(arg, pagenation.Limit())
+	arg = append(arg, pagenation.Offset())
 
-	// LIMIT $2 OFFSET $3
+	//
 	log.Println(query)
 
 	stmt, err := c.db.Prepare(query)

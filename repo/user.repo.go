@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"lapcart/model"
+	"log"
 )
 
 type UserRepository interface {
@@ -18,6 +19,9 @@ type UserRepository interface {
 	FindAddressByUserID(user_id int) (uint, error)
 	AddOrder(orderDetails model.OrderDetails) (uint, error)
 	AddOrderItems(orderItems model.OrderItems) error
+	FindOrderByUserID(user_id int) (uint, float64, error)
+	VerifyCoupon(code string) (uint, float64, float64, error)
+	Payment(data model.Payment) error
 }
 
 type userRepo struct {
@@ -325,4 +329,123 @@ func (c *userRepo) AddOrderItems(orderItems model.OrderItems) error {
 		orderItems.Created_At).Err()
 
 	return err
+}
+
+func (c *userRepo) FindOrderByUserID(user_id int) (uint, float64, error) {
+
+	var order_id uint
+	var total float64
+
+	query := `
+				SELECT
+				   id,
+				   total
+				FROM
+				   order_details 
+				WHERE
+				   user_id = $1 
+				   AND is_paid = false;`
+
+	err := c.db.QueryRow(query, user_id).Scan(&order_id, &total)
+
+	return order_id, total, err
+}
+
+func (c *userRepo) VerifyCoupon(code string) (uint, float64, float64, error) {
+
+	var couponValue, minAmount float64
+	var id uint
+
+	query := `
+				SELECT
+					id,
+					minimum_amount,
+					value 
+				 FROM
+					coupons 
+				 WHERE
+					code = $1 
+					AND valid_till > NOW();`
+
+	err := c.db.QueryRow(
+		query,
+		code).Scan(
+		&id,
+		&minAmount,
+		&couponValue,
+	)
+
+	return id, minAmount, couponValue, err
+}
+
+func (c *userRepo) Payment(data model.Payment) error {
+
+	var arg []interface{}
+
+	insertQuery := `
+				INSERT INTO
+				   payment ( payment_type, created_at, updated_at )
+				VALUES
+				   (
+				      $1, $2, $3
+				   )
+				RETURNING id;`
+
+	updateQuery := `
+					UPDATE
+					   order_details
+					SET
+					   is_paid = true, payment_id = $1 ,updated_at = $2
+					
+	`
+
+	err := c.db.QueryRow(
+		insertQuery,
+		data.PaymentType,
+		data.Created_At,
+		data.Updated_At).Scan(&data.ID)
+
+	if err != nil {
+		return err
+	}
+
+	arg = append(arg, data.ID)
+	arg = append(arg, data.Updated_At)
+
+	i := 3
+
+	if data.Coupon_Id != 0 {
+		updateQuery = updateQuery + `,total = $3, coupon_id = $4`
+		i = 5
+		arg = append(arg, data.Amount)
+		arg = append(arg, data.Coupon_Id)
+	}
+
+	updateQuery = updateQuery + `
+								WHERE
+								id = $` + fmt.Sprintf(`%d;`, i)
+
+	arg = append(arg, data.Order_ID)
+
+	stmt, err := c.db.Prepare(updateQuery)
+
+	if err != nil {
+		log.Println("Error", err)
+		log.Println("Error", "Query prepare failed")
+		return err
+	}
+
+	_, err = stmt.Query(arg...)
+
+	if err != nil {
+		log.Println("Error", err)
+		log.Println("Error", "Query Exec failed")
+		return err
+	}
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

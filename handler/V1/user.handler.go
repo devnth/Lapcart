@@ -8,6 +8,7 @@ import (
 	"lapcart/utils"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi"
 )
@@ -19,6 +20,7 @@ type UserHandler interface {
 	GetAllProductUser() http.HandlerFunc
 	SearchByFilter() http.HandlerFunc
 	ProceedToCheckout() http.HandlerFunc
+	Payment() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -201,5 +203,34 @@ func (c *userHandler) ProceedToCheckout() http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
 
+	}
+}
+
+func (c *userHandler) Payment() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var requestData model.Payment
+
+		json.NewDecoder(r.Body).Decode(&requestData)
+
+		requestData.User_ID, _ = strconv.Atoi(r.Header.Get("user_id"))
+
+		requestData.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+		requestData.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+		err := c.userService.Payment(requestData)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "payment successful")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
 	}
 }

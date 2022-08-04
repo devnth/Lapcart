@@ -6038,3 +6038,91 @@ Connected to database: lapcart
 2022/08/04 12:16:31 
 Connected to database: lapcart
 2022/08/04 12:16:31 Api is listening on port: 8000
+2022/08/04 14:41:38 
+Connected to database: lapcart
+2022/08/04 14:41:38 Api is listening on port: 8000
+2022/08/04 14:48:45 Error pq: column "is_paid" of relation "product" does not exist
+2022/08/04 14:48:45 Error Query prepare failed
+2022/08/04 14:48:45 error in payment:  pq: column "is_paid" of relation "product" does not exist
+2022/08/04 14:49:23 
+Connected to database: lapcart
+2022/08/04 14:49:23 Api is listening on port: 8000
+2022/08/04 14:50:12 
+Connected to database: lapcart
+2022/08/04 14:50:12 Api is listening on port: 8000
+2022/08/04 14:50:15 error in payment:  pq: insert or update on table "order_details" violates foreign key constraint "order_details_payment_id_fkey"
+2022/08/04 14:52:08 
+Connected to database: lapcart
+2022/08/04 14:52:08 Api is listening on port: 8000
+2022/08/04 14:52:10 
+					UPDATE
+					   order_details
+					SET
+					   is_paid = true, updated_at = $1, payment_id = $2
+					
+	,total = $3, coupon_id = $4
+								WHERE
+								id = $5;
+2022/08/04 14:52:10 error in payment:  pq: insert or update on table "order_details" violates foreign key constraint "order_details_payment_id_fkey"
+2022/08/04 14:53:08 
+Connected to database: lapcart
+2022/08/04 14:53:08 Api is listening on port: 8000
+2022/08/04 14:53:10 payment id:  4
+2022/08/04 14:53:10 
+					UPDATE
+					   order_details
+					SET
+					   is_paid = true, updated_at = $1, payment_id = $2
+					
+	,total = $3, coupon_id = $4
+								WHERE
+								id = $5;
+2022/08/04 14:53:10 error in payment:  pq: insert or update on table "order_details" violates foreign key constraint "order_details_payment_id_fkey"
+2022/08/04 14:56:03 
+Connected to database: lapcart
+2022/08/04 14:56:03 Api is listening on port: 8000
+2022/08/04 14:56:05 payment id:  5
+2022/08/04 14:56:05 
+					UPDATE
+					   order_details
+					SET
+					   is_paid = true, updated_at = $1, payment_id = $2
+					
+	,total = $3, coupon_id = $4
+								WHERE
+								id = $5;
+2022/08/04 14:56:05 arg : [2022-08-04 14:56:05 +0530 IST 5 63000 2 1]
+2022/08/04 14:56:05 error in payment:  pq: insert or update on table "order_details" violates foreign key constraint "order_details_payment_id_fkey"
+2022/08/04 14:58:22 
+Connected to database: lapcart
+2022/08/04 14:58:22 Api is listening on port: 8000
+2022/08/04 14:58:24 payment id:  6
+2022/08/04 14:58:24 
+					UPDATE
+					   order_details
+					SET
+					   is_paid = true, payment_id = $1 ,updated_at = $2
+					
+	,total = $3, coupon_id = $4
+								WHERE
+								id = $5;
+2022/08/04 14:58:24 arg : [6 2022-08-04 14:58:24 +0530 IST 63000 2 1]
+2022/08/04 14:58:24 error in payment:  pq: insert or update on table "order_details" violates foreign key constraint "order_details_payment_id_fkey"
+2022/08/04 15:01:34 
+Connected to database: lapcart
+2022/08/04 15:01:34 Api is listening on port: 8000
+2022/08/04 15:01:38 payment id:  7
+2022/08/04 15:01:38 
+					UPDATE
+					   order_details
+					SET
+					   is_paid = true, payment_id = $1 ,updated_at = $2
+					
+	,total = $3, coupon_id = $4
+								WHERE
+								id = $5;
+2022/08/04 15:01:38 arg : [7 2022-08-04 15:01:38 +0530 IST 63000 2 1]
+2022/08/04 15:02:29 error in verifying coupon:  sql: no rows in result set
+2022/08/04 15:07:29 
+Connected to database: lapcart
+2022/08/04 15:07:29 Api is listening on port: 8000

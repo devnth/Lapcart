@@ -21,6 +21,7 @@ type UserService interface {
 	GetAllProductsUser(user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
 	SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
 	ProceedToCheckout(user_id int) error
+	Payment(data model.Payment) error
 }
 
 type userService struct {
@@ -194,6 +195,41 @@ func (c *userService) ProceedToCheckout(user_id int) error {
 			return errors.New("unable to delete from cart")
 		}
 
+	}
+	return nil
+}
+
+func (c *userService) Payment(data model.Payment) error {
+
+	var err error
+	var minAmount, couponValue float64
+
+	data.Order_ID, data.Amount, err = c.userRepo.FindOrderByUserID(data.User_ID)
+
+	if err != nil {
+		log.Println("error in finding order: ", err)
+		return errors.New("unable to find order")
+	}
+	if data.Coupon_Code != "" {
+		data.Coupon_Id, minAmount, couponValue, err = c.userRepo.VerifyCoupon(data.Coupon_Code)
+
+		if err != nil {
+			log.Println("error in verifying coupon: ", err)
+			return errors.New("invalid coupon")
+		}
+
+		if data.Amount < minAmount {
+			return errors.New("coupon not applicable for this purchase")
+		}
+
+		data.Amount = data.Amount - couponValue
+	}
+
+	err = c.userRepo.Payment(data)
+
+	if err != nil {
+		log.Println("error in payment: ", err)
+		return err
 	}
 
 	return nil

@@ -36,6 +36,7 @@ func (r *userRoute) UserRouter(routes chi.Router,
 		r.Get("/homepage/page-{page}", userHandler.GetAllProductUser())
 		r.Post("/user/filter/page-{page}", userHandler.SearchByFilter())
 		r.Post("/user/proceedtocheckout", userHandler.ProceedToCheckout())
+		r.Post("/user/payment", userHandler.Payment())
 	})
 
 }

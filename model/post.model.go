@@ -140,6 +140,7 @@ type OrderDetails struct {
 	User_ID    uint      `json:"user_id"`
 	Address_ID uint      `json:"address_id"`
 	TotalPrice float64   `json:"total_price"`
+	Status     string    `json:"status"`
 	Created_At time.Time `json:"created_at"`
 	Updated_At time.Time `json:"updated_at"`
 }
@@ -151,4 +152,17 @@ type OrderItems struct {
 	DiscountID uint      `json:"discount_id"`
 	Quantity   int       `json:"quantity"`
 	Created_At time.Time `json:"created_at"`
+}
+
+type Payment struct {
+	ID          uint      `json:"payment_id"`
+	Order_ID    uint      `json:"order_id"`
+	User_ID     int       `json:"user_id"`
+	Status      bool      `json:"status"`
+	PaymentType string    `json:"payment_type"`
+	Amount      float64   `json:"amount"`
+	Coupon_Code string    `json:"coupon_code"`
+	Coupon_Id   uint      `json:"coupon_id"`
+	Created_At  time.Time `json:"created_at"`
+	Updated_At  time.Time `json:"updated_at"`
 }

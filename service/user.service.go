@@ -8,6 +8,7 @@ import (
 	"lapcart/model"
 	"lapcart/repo"
 	"lapcart/utils"
+	"log"
 	"time"
 )
 
@@ -19,19 +20,26 @@ type UserService interface {
 	DeleteAddress(user_id, address_id int) error
 	GetAllProductsUser(user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
 	SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
+	ProceedToCheckout(user_id int) error
 }
 
 type userService struct {
 	userRepo    repo.UserRepository
 	productRepo repo.ProductRepository
+	cartRepo    repo.CartRepository
+	adminRepo   repo.AdminRepository
 }
 
 func NewUserService(
 	userRepo repo.UserRepository,
-	productRepo repo.ProductRepository) UserService {
+	productRepo repo.ProductRepository,
+	cartRepo repo.CartRepository,
+	adminRepo repo.AdminRepository) UserService {
 	return &userService{
 		userRepo:    userRepo,
 		productRepo: productRepo,
+		cartRepo:    cartRepo,
+		adminRepo:   adminRepo,
 	}
 }
 
@@ -128,6 +136,67 @@ func (c *userService) SearchByFilter(filter model.Filter, user_id int, pagenatio
 	}
 
 	return &products, &metadata, nil
+
+}
+
+func (c *userService) ProceedToCheckout(user_id int) error {
+
+	var orderDetails model.OrderDetails
+	var err error
+	var carts []model.GetCart
+	var orderItems model.OrderItems
+	var inCart model.Cart
+
+	orderDetails.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+	orderDetails.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+	orderItems.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+	orderDetails.User_ID = uint(user_id)
+
+	orderDetails.Address_ID, err = c.userRepo.FindAddressByUserID(user_id)
+
+	if err == sql.ErrNoRows {
+		return errors.New("please add shippping address")
+	}
+
+	carts, orderDetails.TotalPrice, _ = c.cartRepo.GetCartByUserId(user_id)
+
+	if len(carts) == 0 {
+		return errors.New("cart empty")
+	}
+
+	orderItems.OrderID, err = c.userRepo.AddOrder(orderDetails)
+
+	if err != nil {
+		log.Println("unable to add to order table")
+		return err
+	}
+
+	for _, cart := range carts {
+
+		orderItems.ProductID = cart.ProductID
+		orderItems.DiscountID, _ = c.adminRepo.FindDiscountByName(cart.DiscountName)
+		orderItems.Quantity = cart.Count
+
+		err := c.userRepo.AddOrderItems(orderItems)
+
+		if err != nil {
+			return err
+		}
+
+		inCart.ID = int(cart.CartID)
+		inCart.User_Id = user_id
+
+		_, err = c.cartRepo.DeleteCart(inCart)
+
+		if err != nil {
+			log.Println(err.Error())
+			return errors.New("unable to delete from cart")
+		}
+
+	}
+
+	return nil
 
 }
 

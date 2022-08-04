@@ -15,6 +15,9 @@ type UserRepository interface {
 	AddAddress(address model.Address) (int, error)
 	GetAddressByUserID(user_id int) ([]model.AddressResponse, error)
 	DeleteAddressById(user_id, address_id int) error
+	FindAddressByUserID(user_id int) (uint, error)
+	AddOrder(orderDetails model.OrderDetails) (uint, error)
+	AddOrderItems(orderItems model.OrderItems) error
 }
 
 type userRepo struct {
@@ -260,4 +263,66 @@ func (c *userRepo) DeleteAddressById(user_id, address_id int) error {
 		return err
 	}
 	return nil
+}
+
+func (c *userRepo) FindAddressByUserID(user_id int) (uint, error) {
+
+	var address_id uint
+
+	query := `
+				SELECT
+					id 
+				 FROM
+					address 
+				 WHERE
+					user_id = $1;`
+
+	err := c.db.QueryRow(query, user_id).Scan(&address_id)
+
+	return address_id, err
+
+}
+
+func (c *userRepo) AddOrder(orderDetails model.OrderDetails) (uint, error) {
+
+	query := `
+				INSERT INTO
+				   order_details( user_id, shipping_address_id, total, created_at, updated_at) 
+				VALUES
+				   (
+				      $1, $2, $3, $4, $5 
+				   )
+				RETURNING id
+				   ;`
+
+	err := c.db.QueryRow(query,
+		orderDetails.User_ID,
+		orderDetails.Address_ID,
+		orderDetails.TotalPrice,
+		orderDetails.Created_At,
+		orderDetails.Updated_At).
+		Scan(&orderDetails.ID)
+
+	return orderDetails.ID, err
+}
+
+func (c *userRepo) AddOrderItems(orderItems model.OrderItems) error {
+
+	query := `
+				INSERT INTO
+				   order_items ( order_id, product_id, discount_id, quantity, created_at) 
+				VALUES
+				   (
+				      $1, $2, $3, $4, $5
+				   )
+				;`
+
+	err := c.db.QueryRow(query,
+		orderItems.OrderID,
+		orderItems.ProductID,
+		orderItems.DiscountID,
+		orderItems.Quantity,
+		orderItems.Created_At).Err()
+
+	return err
 }

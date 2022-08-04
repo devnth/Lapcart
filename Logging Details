@@ -5918,3 +5918,123 @@ Connected to database: lapcart
 Connected to database: lapcart
 2022/08/03 11:32:44 Api is listening on port: 8000
 2022/08/03 11:32:50 error, product out of stock, product left:  0
+2022/08/03 16:09:24 
+Connected to database: lapcart
+2022/08/03 16:09:24 Api is listening on port: 8000
+2022/08/03 19:57:44 
+Connected to database: lapcart
+2022/08/03 19:57:44 Api is listening on port: 8000
+2022/08/03 19:59:41 sql: no rows in result set
+2022/08/03 20:02:59 
+Connected to database: lapcart
+2022/08/03 20:02:59 Api is listening on port: 8000
+2022/08/03 20:03:15 sql: no rows in result set
+2022/08/03 22:21:39 
+Connected to database: lapcart
+2022/08/03 22:21:39 Api is listening on port: 8000
+2022/08/03 22:28:00 
+Connected to database: lapcart
+2022/08/03 22:28:00 Api is listening on port: 8000
+2022/08/03 22:28:06 pq: syntax error at or near "TABLE"
+2022/08/03 22:28:38 
+Connected to database: lapcart
+2022/08/03 22:28:38 Api is listening on port: 8000
+2022/08/03 22:28:40 pq: syntax error at or near "TABLE"
+2022/08/03 22:29:01 
+Connected to database: lapcart
+2022/08/03 22:29:01 Api is listening on port: 8000
+2022/08/03 22:29:02 pq: there is no unique or exclusion constraint matching the ON CONFLICT specification
+2022/08/03 22:30:26 
+Connected to database: lapcart
+2022/08/03 22:30:26 Api is listening on port: 8000
+2022/08/04 09:46:09 
+Connected to database: lapcart
+2022/08/04 09:46:09 Api is listening on port: 8000
+2022/08/04 09:51:42 
+Connected to database: lapcart
+2022/08/04 09:51:42 Api is listening on port: 8000
+2022/08/04 10:02:28 
+Connected to database: lapcart
+2022/08/04 10:02:28 Api is listening on port: 8000
+2022/08/04 10:04:20 
+Connected to database: lapcart
+2022/08/04 10:04:20 Api is listening on port: 8000
+2022/08/04 10:06:22 
+Connected to database: lapcart
+2022/08/04 10:06:22 Api is listening on port: 8000
+2022/08/04 10:06:24 0
+2022/08/04 10:06:24 <nil>
+2022/08/04 10:06:25 0
+2022/08/04 10:06:25 <nil>
+2022/08/04 10:06:26 0
+2022/08/04 10:06:26 <nil>
+2022/08/04 10:06:42 0
+2022/08/04 10:06:42 <nil>
+2022/08/04 10:12:11 
+Connected to database: lapcart
+2022/08/04 10:12:11 Api is listening on port: 8000
+2022/08/04 10:12:27 error in getting cart
+2022/08/04 10:12:28 error in getting cart
+2022/08/04 10:12:28 error in getting cart
+2022/08/04 10:12:29 error in getting cart
+2022/08/04 10:12:29 error in getting cart
+2022/08/04 10:12:30 error in getting cart
+2022/08/04 10:12:30 error in getting cart
+2022/08/04 10:13:19 
+Connected to database: lapcart
+2022/08/04 10:13:19 Api is listening on port: 8000
+2022/08/04 10:13:22 error in getting cart
+2022/08/04 10:13:22 error in getting cart
+2022/08/04 10:13:23 error in getting cart
+2022/08/04 10:13:23 error in getting cart
+2022/08/04 10:13:24 error in getting cart
+2022/08/04 10:13:25 error in getting cart
+2022/08/04 10:13:25 error in getting cart
+2022/08/04 10:14:32 
+Connected to database: lapcart
+2022/08/04 10:14:32 Api is listening on port: 8000
+2022/08/04 11:05:21 0
+2022/08/04 11:05:21 error in getting cart:  <nil>
+2022/08/04 11:05:45 
+Connected to database: lapcart
+2022/08/04 11:05:45 Api is listening on port: 8000
+2022/08/04 11:05:46 0
+2022/08/04 11:05:46 error in getting cart:  <nil>
+2022/08/04 11:06:23 
+Connected to database: lapcart
+2022/08/04 11:06:23 Api is listening on port: 8000
+2022/08/04 11:20:50 
+Connected to database: lapcart
+2022/08/04 11:20:50 Api is listening on port: 8000
+2022/08/04 11:24:13 
+Connected to database: lapcart
+2022/08/04 11:24:13 Api is listening on port: 8000
+2022/08/04 11:24:39 
+Connected to database: lapcart
+2022/08/04 11:24:39 Api is listening on port: 8000
+2022/08/04 11:24:52 Flat10
+2022/08/04 11:24:52 0
+2022/08/04 11:26:07 
+Connected to database: lapcart
+2022/08/04 11:26:07 Api is listening on port: 8000
+2022/08/04 11:26:14 Flat10
+2022/08/04 11:26:14 pq: syntax error at or near ")"
+2022/08/04 11:26:14 0
+2022/08/04 11:26:43 
+Connected to database: lapcart
+2022/08/04 11:26:43 Api is listening on port: 8000
+2022/08/04 11:27:35 Flat10
+2022/08/04 11:27:35 pq: syntax error at or near ")"
+2022/08/04 11:27:35 0
+2022/08/04 11:27:35 Flat10
+2022/08/04 11:27:35 pq: syntax error at or near ")"
+2022/08/04 11:27:35 0
+2022/08/04 11:28:42 
+Connected to database: lapcart
+2022/08/04 11:28:42 Api is listening on port: 8000
+2022/08/04 11:28:52 Flat10
+2022/08/04 11:28:52 <nil>
+2022/08/04 11:28:52 2
+2022/08/04 12:16:31 
+Connected to database: lapcart
+2022/08/04 12:16:31 Api is listening on port: 8000

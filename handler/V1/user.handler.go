@@ -18,6 +18,7 @@ type UserHandler interface {
 	DeleteAddress() http.HandlerFunc
 	GetAllProductUser() http.HandlerFunc
 	SearchByFilter() http.HandlerFunc
+	ProceedToCheckout() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -51,6 +52,7 @@ func (c *userHandler) AddAddress() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK", "Address added successfully")
+		w.Header().Add("Content-Type", "application/json")
 		utils.ResponseJSON(w, response)
 
 	}
@@ -73,6 +75,7 @@ func (c *userHandler) ViewAddress() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK", address)
+		w.Header().Add("Content-Type", "application/json")
 		utils.ResponseJSON(w, response)
 
 	}
@@ -95,6 +98,7 @@ func (c *userHandler) DeleteAddress() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK", "address deleted")
+		w.Header().Add("Content-Type", "application/json")
 		utils.ResponseJSON(w, response)
 	}
 }
@@ -130,6 +134,7 @@ func (c *userHandler) GetAllProductUser() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK", result)
+		w.Header().Add("Content-Type", "application/json")
 		utils.ResponseJSON(w, response)
 
 	}
@@ -170,6 +175,30 @@ func (c *userHandler) SearchByFilter() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK", result)
+		w.Header().Add("Content-Type", "application/json")
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *userHandler) ProceedToCheckout() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
+
+		err := c.userService.ProceedToCheckout(user_id)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "ready for payment")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
 
 	}

@@ -89,3 +89,20 @@ type GetDiscount struct {
 	Percentage  float32 `json:"percentage,omitempty"`
 	Status      bool    `json:"status,omitempty"`
 }
+
+type GetCart struct {
+	CartID        uint    `json:"cart_id,omitempty"`
+	ProductID     uint    `json:"product_id,omitempty"`
+	Name          string  `json:"name"`
+	Brand         string  `json:"brand"`
+	Category      string  `json:"category"`
+	Processor     string  `json:"processor"`
+	Color         string  `json:"color"`
+	Count         int     `json:"count"`
+	DiscountName  string  `json:"discount_name"`
+	UnitPrice     float64 `json:"unit_price"`
+	SubTotalPrice float64 `json:"sub_total_price"`
+	DiscountPrice float64 `json:"discount_price,omitempty"`
+	TotalPrice    float64 `json:"total_price,omitempty"`
+	Image         string  `json:"image"`
+}

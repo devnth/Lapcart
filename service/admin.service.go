@@ -5,6 +5,7 @@ import (
 	"errors"
 	"lapcart/model"
 	"lapcart/repo"
+	"log"
 )
 
 type AdminService interface {
@@ -12,6 +13,7 @@ type AdminService interface {
 	AllUsers() (*[]model.UserResponse, error)
 	ManageUsers(email string, isActive bool) error
 	AddDiscount(discount model.Discount) error
+	AddCoupon(coupon model.Coupon) error
 }
 
 type adminService struct {
@@ -107,4 +109,16 @@ func (c *adminService) AddDiscount(discount model.Discount) error {
 
 	return nil
 
+}
+
+func (c *adminService) AddCoupon(coupon model.Coupon) error {
+
+	err := c.adminRepo.AddCoupon(coupon)
+
+	if err != nil {
+		log.Println(err)
+		return errors.New("error in adding coupon")
+	}
+
+	return nil
 }

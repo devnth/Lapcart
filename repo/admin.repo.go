@@ -9,6 +9,8 @@ type AdminRepository interface {
 	FindAdminByEmail(email string) (model.AdminResponse, error)
 	AddDiscount(discount model.Discount) (int, error)
 	AddDiscountToProduct(discount model.Discount) error
+	AddCoupon(coupon model.Coupon) error
+	FindDiscountByName(name string) (uint, error)
 }
 
 type adminRepo struct {
@@ -131,4 +133,46 @@ func (c *adminRepo) AddDiscountToProduct(discount model.Discount) error {
 	err = c.db.QueryRow(query, discount.ID, arg).Err()
 
 	return err
+}
+
+func (c *adminRepo) AddCoupon(coupon model.Coupon) error {
+
+	query := `
+				INSERT INTO
+				   coupons (name, code, description, minimum_amount, value, created_at, valid_till) 
+				VALUES
+				   (
+				      $1, $2, $3, $4, $5, $6, $7
+				   )
+				   ON CONFLICT(name) DO NOTHING;`
+
+	err := c.db.QueryRow(
+		query,
+		coupon.Name,
+		coupon.Code,
+		coupon.Description,
+		coupon.Min_Amount,
+		coupon.Value,
+		coupon.Created_At,
+		coupon.Valid_Till,
+	).Err()
+	return err
+}
+
+func (c *adminRepo) FindDiscountByName(name string) (uint, error) {
+
+	var discount_id uint
+
+	query := `
+				SELECT
+					id 
+				 FROM
+					discount
+				 WHERE
+					name = $1
+				 ;`
+
+	err := c.db.QueryRow(query, name).Scan(&discount_id)
+
+	return discount_id, err
 }

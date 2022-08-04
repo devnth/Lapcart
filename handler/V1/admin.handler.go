@@ -14,6 +14,7 @@ type AdminHandler interface {
 	ViewUsers() http.HandlerFunc
 	ManageUsers() http.HandlerFunc
 	AddDiscount() http.HandlerFunc
+	AddCoupon() http.HandlerFunc
 }
 
 type adminHandler struct {
@@ -102,5 +103,31 @@ func (c *adminHandler) AddDiscount() http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
 
+	}
+}
+
+func (c *adminHandler) AddCoupon() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var coupon model.Coupon
+
+		json.NewDecoder(r.Body).Decode(&coupon)
+
+		coupon.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+		err := c.adminService.AddCoupon(coupon)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "new coupon added")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
 	}
 }

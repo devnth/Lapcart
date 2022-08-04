@@ -26,7 +26,8 @@ func (r *cartRoute) CartRouter(
 	router.Group(func(r chi.Router) {
 		r.Use(middleware.AuthorizeJwt)
 		r.Post("/user/add/cart", cartHandler.AddToCart())
-		// r.Get("/user/view/wishlist", wishListHandler.ViewWishList())
+		r.Get("/user/view/cart", cartHandler.GetCart())
+		r.Delete("/user/delete/cart", cartHandler.DeleteCart())
 	})
 
 }

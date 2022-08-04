@@ -51,7 +51,7 @@ func main() {
 		jwtUserService  service.JWTService      = service.NewJWTUserService()
 		authService     service.AuthService     = service.NewAuthService(adminRepo, userRepo)
 		adminService    service.AdminService    = service.NewAdminService(adminRepo, userRepo, productRepo)
-		userService     service.UserService     = service.NewUserService(userRepo, productRepo)
+		userService     service.UserService     = service.NewUserService(userRepo, productRepo, cartRepo, adminRepo)
 		productService  service.ProductService  = service.NewProductService(productRepo)
 		wishListService service.WishListService = service.NewWishListService(wishListRepo)
 		cartService     service.CartService     = service.NewCartService(cartRepo, productRepo)

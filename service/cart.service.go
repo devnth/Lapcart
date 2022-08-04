@@ -9,6 +9,8 @@ import (
 
 type CartService interface {
 	AddToCart(cart model.Cart) (*string, error)
+	GetCart(user_id int) (*[]model.GetCart, error)
+	DeleteCart(cart model.Cart) error
 }
 
 type cartService struct {
@@ -47,4 +49,36 @@ func (c *cartService) AddToCart(cart model.Cart) (*string, error) {
 	c.productRepo.UpdateStockById(cart)
 
 	return &message, nil
+}
+
+func (c *cartService) GetCart(user_id int) (*[]model.GetCart, error) {
+
+	products, _, err := c.cartRepo.GetCartByUserId(user_id)
+
+	if err != nil {
+		return nil, err
+	}
+	return &products, err
+}
+
+func (c *cartService) DeleteCart(cart model.Cart) error {
+
+	var err error
+
+	cart, err = c.cartRepo.DeleteCart(cart)
+
+	if err != nil {
+		return err
+	}
+
+	cart.Count = (-1 * cart.Count)
+
+	err = c.productRepo.UpdateStockById(cart)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }

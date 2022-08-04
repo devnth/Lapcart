@@ -30,7 +30,6 @@ func (r *adminRoute) AdminRouter(routes chi.Router,
 
 	routes.Post("/admin/login", authHandler.AdminLogin())
 
-	// routes.Get("/admin/logout", Controller.AdminLogout)
 	routes.Group(func(r chi.Router) {
 		r.Use(middleware.AuthorizeJwt)
 
@@ -39,6 +38,7 @@ func (r *adminRoute) AdminRouter(routes chi.Router,
 		r.Post("/admin/add/product", productHandler.AddProduct())
 		r.Get("/admin/view/product/page-{page}", productHandler.ViewProducts())
 		r.Post("/admin/add/discount", adminHandler.AddDiscount())
+		r.Post("/admin/add/coupon", adminHandler.AddCoupon())
 	})
 
 }

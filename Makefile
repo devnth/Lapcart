@@ -13,7 +13,10 @@ goose_reset:
 goose_up:
 	goose -dir migrations postgres "user=postgres password=1234 dbname=lapcart sslmode=disable" up
 
+goose_down:
+	goose -dir migrations postgres "user=postgres password=1234 dbname=lapcart sslmode=disable" down
+
 goose_status:
 	goose -dir migrations postgres "user=postgres password=1234 dbname=lapcart sslmode=disable" status
 
-.PHONY: postgres createdb dropdb goose_reset goose_up goose_status 
+.PHONY: postgres createdb dropdb goose_reset goose_up goose_status goose_down

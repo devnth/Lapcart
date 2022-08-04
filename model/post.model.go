@@ -117,9 +117,38 @@ type Filter struct {
 }
 
 type Cart struct {
+	ID         int `json:"cart_id"`
 	User_Id    int
 	Product_Id uint `json:"product_id"`
 	Count      int  `json:"count"`
 	Created_At time.Time
 	Updated_At time.Time
+}
+
+type Coupon struct {
+	Name        string    `json:"name"`
+	Code        string    `json:"code"`
+	Description string    `json:"description"`
+	Min_Amount  float64   `json:"min_amount"`
+	Value       float64   `json:"coupon_value"`
+	Valid_Till  time.Time `json:"valid_till"`
+	Created_At  time.Time `json:"created_at"`
+}
+
+type OrderDetails struct {
+	ID         uint      `json:"id"`
+	User_ID    uint      `json:"user_id"`
+	Address_ID uint      `json:"address_id"`
+	TotalPrice float64   `json:"total_price"`
+	Created_At time.Time `json:"created_at"`
+	Updated_At time.Time `json:"updated_at"`
+}
+
+type OrderItems struct {
+	ID         uint      `json:"id"`
+	OrderID    uint      `json:"order_id"`
+	ProductID  uint      `json:"product_id"`
+	DiscountID uint      `json:"discount_id"`
+	Quantity   int       `json:"quantity"`
+	Created_At time.Time `json:"created_at"`
 }

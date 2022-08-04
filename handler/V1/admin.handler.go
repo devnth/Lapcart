@@ -15,6 +15,7 @@ type AdminHandler interface {
 	ManageUsers() http.HandlerFunc
 	AddDiscount() http.HandlerFunc
 	AddCoupon() http.HandlerFunc
+	ManageOrder() http.HandlerFunc
 }
 
 type adminHandler struct {
@@ -126,6 +127,32 @@ func (c *adminHandler) AddCoupon() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK!", "new coupon added")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+	}
+}
+
+func (c *adminHandler) ManageOrder() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var data model.ManageOrder
+
+		json.NewDecoder(r.Body).Decode(&data)
+
+		data.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+		err := c.adminService.ManageOrders(data)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "order status updated")
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)

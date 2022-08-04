@@ -11,6 +11,7 @@ type AdminRepository interface {
 	AddDiscountToProduct(discount model.Discount) error
 	AddCoupon(coupon model.Coupon) error
 	FindDiscountByName(name string) (uint, error)
+	ManageOrders(data model.ManageOrder) error
 }
 
 type adminRepo struct {
@@ -175,4 +176,22 @@ func (c *adminRepo) FindDiscountByName(name string) (uint, error) {
 	err := c.db.QueryRow(query, name).Scan(&discount_id)
 
 	return discount_id, err
+}
+
+func (c *adminRepo) ManageOrders(data model.ManageOrder) error {
+
+	query := `
+				UPDATE
+				   order_details 
+				SET
+				   status = $1 , updated_at = $2
+				WHERE
+				   id = $3;`
+
+	err := c.db.QueryRow(query,
+		data.Status,
+		data.Updated_At,
+		data.Order_ID).Err()
+
+	return err
 }

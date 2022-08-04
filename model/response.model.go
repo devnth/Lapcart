@@ -28,7 +28,7 @@ type UserResponse struct {
 
 //table schema for user address
 type AddressResponse struct {
-	Id          int    `json:"address_id"`
+	Id          int    `json:"address_id,omitempty"`
 	AddressType string `json:"address_type"`
 	HouseName   string `json:"house_name"`
 	StreetName  string `json:"stree_name"`
@@ -99,10 +99,22 @@ type GetCart struct {
 	Processor     string  `json:"processor"`
 	Color         string  `json:"color"`
 	Count         int     `json:"count"`
-	DiscountName  string  `json:"discount_name"`
-	UnitPrice     float64 `json:"unit_price"`
-	SubTotalPrice float64 `json:"sub_total_price"`
+	DiscountName  string  `json:"discount_name,omitempty"`
+	UnitPrice     float64 `json:"unit_price,omitempty"`
+	SubTotalPrice float64 `json:"sub_total_price,omitempty"`
 	DiscountPrice float64 `json:"discount_price,omitempty"`
 	TotalPrice    float64 `json:"total_price,omitempty"`
 	Image         string  `json:"image"`
+}
+
+type GetOrders struct {
+	OrderID          uint            `json:"order_id"`
+	User_ID          uint            `json:"user_id"`
+	User_Name        UserResponse    `json:"user_name"`
+	Shipping_Address AddressResponse `json:"shipping_address"`
+	Product          GetCart         `json:"product"`
+	Payment_Mode     string          `json:"payment_mode,omitempty"`
+	Status           string          `json:"order_status"`
+	Ordered_At       time.Time       `json:"ordered_at"`
+	Updated_At       time.Time       `json:"updated_at"`
 }

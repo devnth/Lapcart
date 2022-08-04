@@ -210,6 +210,7 @@ func (c *userService) Payment(data model.Payment) error {
 		log.Println("error in finding order: ", err)
 		return errors.New("unable to find order")
 	}
+
 	if data.Coupon_Code != "" {
 		data.Coupon_Id, minAmount, couponValue, err = c.userRepo.VerifyCoupon(data.Coupon_Code)
 

@@ -39,6 +39,7 @@ func (r *adminRoute) AdminRouter(routes chi.Router,
 		r.Get("/admin/view/product/page-{page}", productHandler.ViewProducts())
 		r.Post("/admin/add/discount", adminHandler.AddDiscount())
 		r.Post("/admin/add/coupon", adminHandler.AddCoupon())
+		r.Post("/admin/manage/order", adminHandler.ManageOrder())
 	})
 
 }

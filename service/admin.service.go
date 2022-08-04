@@ -14,6 +14,7 @@ type AdminService interface {
 	ManageUsers(email string, isActive bool) error
 	AddDiscount(discount model.Discount) error
 	AddCoupon(coupon model.Coupon) error
+	ManageOrders(data model.ManageOrder) error
 }
 
 type adminService struct {
@@ -121,4 +122,15 @@ func (c *adminService) AddCoupon(coupon model.Coupon) error {
 	}
 
 	return nil
+}
+
+func (c *adminService) ManageOrders(data model.ManageOrder) error {
+
+	err := c.adminRepo.ManageOrders(data)
+
+	if err != nil {
+		return err
+	}
+
+	return err
 }

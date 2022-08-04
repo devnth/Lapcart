@@ -166,3 +166,9 @@ type Payment struct {
 	Created_At  time.Time `json:"created_at"`
 	Updated_At  time.Time `json:"updated_at"`
 }
+
+type ManageOrder struct {
+	Order_ID   uint      `json:"order_id"`
+	Status     string    `json:"status"`
+	Updated_At time.Time `json:"updated_at"`
+}

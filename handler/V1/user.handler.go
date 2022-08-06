@@ -17,8 +17,7 @@ type UserHandler interface {
 	AddAddress() http.HandlerFunc
 	ViewAddress() http.HandlerFunc
 	DeleteAddress() http.HandlerFunc
-	GetAllProductUser() http.HandlerFunc
-	SearchByFilter() http.HandlerFunc
+	GetAllProducts() http.HandlerFunc
 	ProceedToCheckout() http.HandlerFunc
 	Payment() http.HandlerFunc
 }
@@ -105,59 +104,32 @@ func (c *userHandler) DeleteAddress() http.HandlerFunc {
 	}
 }
 
-func (c *userHandler) GetAllProductUser() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-
-		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
-		page, _ := strconv.Atoi(chi.URLParam(r, "page"))
-
-		pagenation := utils.Filter{
-			Page:     page,
-			PageSize: 3,
-		}
-
-		products, metadata, err := c.userService.GetAllProductsUser(user_id, pagenation)
-
-		result := struct {
-			Products *[]model.GetProduct
-			Meta     *utils.Metadata
-		}{
-			Products: products,
-			Meta:     metadata,
-		}
-
-		if err != nil {
-
-			response := response.BuildErrorResponse("could not process the request", err.Error(), nil)
-			w.Header().Add("Content-Type", "application/json")
-			w.WriteHeader(http.StatusBadRequest)
-			utils.ResponseJSON(w, response)
-			return
-		}
-
-		response := response.BuildResponse(true, "OK", result)
-		w.Header().Add("Content-Type", "application/json")
-		utils.ResponseJSON(w, response)
-
-	}
-}
-
-func (c *userHandler) SearchByFilter() http.HandlerFunc {
+func (c *userHandler) GetAllProducts() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		var filter model.Filter
 
 		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
-		page, _ := strconv.Atoi(chi.URLParam(r, "page"))
+		// page, _ := strconv.Atoi(chi.URLParam(r, "page"))
 
-		json.NewDecoder(r.Body).Decode(&filter)
+		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+		pageSize, _ := strconv.Atoi(r.URL.Query().Get("pagesize"))
+
+		r.ParseForm()
+
+		filter.Category = r.Form["category"]
+		filter.Brand = r.Form["brand"]
+		filter.Color = r.Form["color"]
+		filter.Name = r.Form["name"]
+		filter.Processor = r.Form["processor"]
+		filter.ProductCode = r.Form["product_code"]
 
 		pagenation := utils.Filter{
 			Page:     page,
-			PageSize: 3,
+			PageSize: pageSize,
 		}
 
-		products, metadata, err := c.userService.SearchByFilter(filter, user_id, pagenation)
+		products, metadata, err := c.userService.GetAllProducts(filter, user_id, pagenation)
 
 		result := struct {
 			Products *[]model.GetProduct

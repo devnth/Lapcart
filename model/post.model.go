@@ -108,12 +108,12 @@ type ProductCode struct {
 }
 
 type Filter struct {
-	Category    []Category    `json:"category"`
-	Brand       []Brand       `json:"brand"`
-	Color       []Color       `json:"color"`
-	Processor   []Processor   `json:"processor"`
-	Name        []Name        `json:"name"`
-	ProductCode []ProductCode `json:"product_code"`
+	Category    []string `json:"category"`
+	Brand       []string `json:"brand"`
+	Color       []string `json:"color"`
+	Processor   []string `json:"processor"`
+	Name        []string `json:"name"`
+	ProductCode []string `json:"product_code"`
 }
 
 type Cart struct {

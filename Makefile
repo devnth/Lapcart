@@ -1,5 +1,5 @@
 postgres:
-	docker run --name postgres14 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=1234 -p 127.0.0.1:5432:5432 -d postgres:14-alpine
+	docker run --name postgres14 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=1234 -p 127.0.0.1:5434:80 -d postgres:14-alpine
 
 createdb:
 	docker exec -it postgres14 createdb --username=postgres --owner=postgres lapcart -U postgres

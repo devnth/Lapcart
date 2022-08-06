@@ -17,11 +17,10 @@ type ProductRepository interface {
 	UpdateProductColor(newStock int, inStockColor string) error
 	UpdateProduct(color model.Color, product model.ProductResponse) error
 	GetAllProductCode(pagenation utils.Filter) ([]string, utils.Metadata, error)
-	GetAllProductsUser(user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
 	FindCategory(category string) (int, bool)
 	FindBrand(brand string) (int, bool)
 	FindProductCode(product_code string) error
-	SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
+	GetAllProducts(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
 	UpdateStockById(cart model.Cart) error
 	FindStockById(id int) (int, error)
 }
@@ -364,143 +363,6 @@ func (c *productRepo) GetAllProductCode(pagenation utils.Filter) ([]string, util
 
 }
 
-func (c *productRepo) GetAllProductsUser(user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error) {
-
-	var totalRecords int
-
-	query := `WITH wishlist AS 
-			  (
-			     SELECT
-			  	  true as wishlist,
-			  	  w.product_code 
-			     FROM
-			  	  wishlist w 
-			     WHERE
-			  	  w.user_id = $1
-			  )
-			  ,
-			  discount AS 
-			  (
-			     SELECT
-			  	  d.id,
-			  	  d.name,
-			  	  d.percentage,
-			  	  d.valid_till 
-			     FROM
-			  	  discount d 
-			     WHERE
-			  	  status = true 
-			  	  AND valid_till > NOW() 
-			  )
-			  ,
-			  product AS 
-			  (
-			     SELECT
-			  	  ARRAY_AGG(p.id) AS id,
-			  	  p.code,
-			  	  p.name,
-			  	  p.category_id,
-			  	  p.brand_id,
-			  	  p.processor_id,
-			  	  p.image,
-			  	  p.price,
-			  	  w.wishlist,
-			  	  p.discount_id,
-			  	  ARRAY_AGG(color) AS colors 
-			     FROM
-			  	  product p 
-			  	  LEFT JOIN
-			  		 wishlist w 
-			  		 ON p.code = w.product_code 
-			     GROUP BY
-			  	  p.code,
-			  	  p.name,
-			  	  p.category_id,
-			  	  p.brand_id,
-			  	  p.processor_id,
-			  	  p.discount_id,
-			  	  p.image,
-			  	  p.price,
-			  	  w.wishlist
-			  )
-			  SELECT
-			     COUNT(*) OVER(),
-			     p.id,
-				 p.code,
-			     p.name,
-			     c.name,
-			     b.name,
-			     pr.name,
-			     p.image,
-			     p.price,
-			     COALESCE(p.wishlist, false),
-			     p.colors,
-			     COALESCE(d.name, ''),
-			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
-			  FROM
-			     product p 
-			     JOIN
-			  	  category c 
-			  	  ON p.category_id = c.id 
-			     JOIN
-			  	  brand b 
-			  	  ON p.brand_id = b.id 
-			     JOIN
-			  	  processor pr 
-			  	  ON p.processor_ID = pr.id 
-			     LEFT JOIN
-			  	  discount d 
-			  	  ON p.discount_id = d.id 
-			  ORDER BY
-			     p.name 
-				 LIMIT $2 OFFSET $3;`
-
-	rows, err := c.db.Query(
-		query,
-		user_id,
-		pagenation.Limit(),
-		pagenation.Offset())
-
-	if err != nil {
-		return nil, utils.Metadata{}, err
-	}
-
-	defer rows.Close()
-	var products []model.GetProduct
-
-	for rows.Next() {
-		var product model.GetProduct
-
-		err = rows.Scan(
-			&totalRecords,
-			pq.Array(&product.ID),
-			&product.Code,
-			&product.Name,
-			&product.GetCategory.Name,
-			&product.GetBrand.Name,
-			&product.GetProcessor.Name,
-			&product.Image,
-			&product.Price,
-			&product.WishList,
-			pq.Array(&product.GetColor.Name),
-			&product.DiscountName,
-			&product.DiscountPrice,
-		)
-
-		if err != nil {
-			return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
-		}
-		products = append(products, product)
-	}
-
-	if err := rows.Err(); err != nil {
-		return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
-	}
-
-	return products, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
-
-}
-
 func (c *productRepo) FindProductCode(product_code string) error {
 
 	query := `SELECT
@@ -516,7 +378,7 @@ func (c *productRepo) FindProductCode(product_code string) error {
 
 }
 
-func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error) {
+func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error) {
 
 	query := `WITH wishlist AS 
 			  (
@@ -603,7 +465,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 			     LEFT JOIN
 			  	  discount d 
 			  	  ON p.discount_id = d.id 
-				 WHERE `
+				 `
 
 	var totalRecords int
 
@@ -614,14 +476,14 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Category) != 0 {
 
-		query = query + `c.name IN (`
+		query = query + `WHERE c.name IN (`
 
 		for j, category := range filter.Category {
 			query = query + "$" + fmt.Sprintf("%d", i)
 			if j != len(filter.Category)-1 {
 				query = query + ","
 			}
-			arg = append(arg, category.Name)
+			arg = append(arg, category)
 			i++
 		}
 		query = query + ")"
@@ -632,7 +494,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 		if i > 2 {
 			query = query + `AND b.name IN (`
 		} else {
-			query = query + `b.name IN (`
+			query = query + `WHERE b.name IN (`
 		}
 
 		for j, brand := range filter.Brand {
@@ -640,7 +502,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 			if j != len(filter.Brand)-1 {
 				query = query + ","
 			}
-			arg = append(arg, brand.Name)
+			arg = append(arg, brand)
 			i++
 		}
 		query = query + ")"
@@ -651,7 +513,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 		if i > 2 {
 			query = query + `AND p.color IN (`
 		} else {
-			query = query + `p.color IN (`
+			query = query + `WHERE p.color IN (`
 		}
 
 		for j, color := range filter.Color {
@@ -659,7 +521,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 			if j != len(filter.Color)-1 {
 				query = query + ","
 			}
-			arg = append(arg, color.Name)
+			arg = append(arg, color)
 			i++
 		}
 		query = query + ")"
@@ -670,7 +532,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 		if i > 2 {
 			query = query + `AND pr.name IN (`
 		} else {
-			query = query + `pr.name IN (`
+			query = query + `WHERE pr.name IN (`
 		}
 
 		for j, processor := range filter.Processor {
@@ -678,7 +540,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 			if j != len(filter.Processor)-1 {
 				query = query + ","
 			}
-			arg = append(arg, processor.Name)
+			arg = append(arg, processor)
 			i++
 		}
 		query = query + ")"
@@ -689,7 +551,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 		if i > 2 {
 			query = query + `AND p.name IN (`
 		} else {
-			query = query + `p.name IN (`
+			query = query + `WHERE p.name IN (`
 		}
 
 		for j, name := range filter.Name {
@@ -697,7 +559,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 			if j != len(filter.Name)-1 {
 				query = query + ","
 			}
-			arg = append(arg, name.Name)
+			arg = append(arg, name)
 			i++
 		}
 		query = query + ")"
@@ -708,7 +570,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 		if i > 2 {
 			query = query + `AND p.code IN (`
 		} else {
-			query = query + `p.code IN (`
+			query = query + `WHERE p.code IN (`
 		}
 
 		for j, code := range filter.ProductCode {
@@ -716,7 +578,7 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 			if j != len(filter.ProductCode)-1 {
 				query = query + ","
 			}
-			arg = append(arg, code.ProductCode)
+			arg = append(arg, code)
 			i++
 		}
 		query = query + ")"
@@ -728,6 +590,8 @@ func (c *productRepo) SearchByFilter(filter model.Filter, user_id int, pagenatio
 					LIMIT $` + fmt.Sprintf(`%d OFFSET $%d;`, i, i+1)
 	arg = append(arg, pagenation.Limit())
 	arg = append(arg, pagenation.Offset())
+
+	log.Println(query)
 
 	stmt, err := c.db.Prepare(query)
 	if err != nil {

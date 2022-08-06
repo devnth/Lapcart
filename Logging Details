@@ -6135,3 +6135,2459 @@ Connected to database: lapcart
 2022/08/04 15:56:51 
 Connected to database: lapcart
 2022/08/04 15:56:51 Api is listening on port: 8000
+2022/08/04 16:24:47 
+Connected to database: lapcart
+2022/08/04 16:24:47 Api is listening on port: 8000
+2022/08/06 12:27:38 
+Connected to database: lapcart
+2022/08/06 12:27:38 Api is listening on port: 8000
+2022/08/06 18:42:42 
+Connected to database: lapcart
+2022/08/06 18:42:42 Api is listening on port: 8000
+2022/08/06 18:52:06 
+Connected to database: lapcart
+2022/08/06 18:52:06 Api is listening on port: 8000
+2022/08/06 18:53:00 
+Connected to database: lapcart
+2022/08/06 18:53:00 Api is listening on port: 8000
+2022/08/06 20:07:51 
+Connected to database: lapcart
+2022/08/06 20:07:51 Api is listening on port: 8000
+2022/08/06 20:25:32 
+Connected to database: lapcart
+2022/08/06 20:25:32 Api is listening on port: 8000
+2022/08/06 20:28:03 
+Connected to database: lapcart
+2022/08/06 20:28:03 Api is listening on port: 8000
+2022/08/06 20:28:05 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)AND p.color IN ($3)AND pr.name IN ($4)AND p.name IN ($5)
+					 ORDER BY
+					 p.name 
+					LIMIT $6 OFFSET $7;
+2022/08/06 20:32:51 
+Connected to database: lapcart
+2022/08/06 20:32:51 Api is listening on port: 8000
+2022/08/06 20:32:53 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)AND p.color IN ($3)AND pr.name IN ($4)AND p.name IN ($5)
+					 ORDER BY
+					 p.name 
+					LIMIT $6 OFFSET $7;
+2022/08/06 20:34:04 
+Connected to database: lapcart
+2022/08/06 20:34:04 Api is listening on port: 8000
+2022/08/06 20:34:06 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)AND p.color IN ($3)AND pr.name IN ($4)AND p.name IN ($5)
+					 ORDER BY
+					 p.name 
+					LIMIT $6 OFFSET $7;
+2022/08/06 20:34:24 
+Connected to database: lapcart
+2022/08/06 20:34:24 Api is listening on port: 8000
+2022/08/06 20:34:25 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)AND p.color IN ($3)AND pr.name IN ($4)AND p.name IN ($5)
+					 ORDER BY
+					 p.name 
+					LIMIT $6 OFFSET $7;
+2022/08/06 20:35:30 
+Connected to database: lapcart
+2022/08/06 20:35:30 Api is listening on port: 8000
+2022/08/06 20:35:32 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:35:51 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2,$3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 20:36:14 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2,$3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 20:36:42 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2,$3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 20:40:31 
+Connected to database: lapcart
+2022/08/06 20:40:31 Api is listening on port: 8000
+2022/08/06 20:40:45 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)AND p.color IN ($3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 20:40:54 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)AND p.color IN ($3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 20:40:58 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)AND p.color IN ($3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 20:41:04 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:41:11 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:41:11 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:41:12 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:42:12 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:42:30 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:44:50 
+Connected to database: lapcart
+2022/08/06 20:44:50 Api is listening on port: 8000
+2022/08/06 20:44:52 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 20:45:21 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2,$3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 20:46:16 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/06 20:46:16 Error pq: syntax error at or near "ORDER"
+2022/08/06 20:46:16 Error Query prepare failed
+2022/08/06 21:04:22 
+Connected to database: lapcart
+2022/08/06 21:04:22 Api is listening on port: 8000
+2022/08/06 21:04:23 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/06 21:11:30 
+Connected to database: lapcart
+2022/08/06 21:11:30 Api is listening on port: 8000
+2022/08/06 21:11:38 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE c.name IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 21:11:49 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE p.color IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;
+2022/08/06 21:12:11 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 WHERE b.name IN ($2)AND p.color IN ($3)
+					 ORDER BY
+					 p.name 
+					LIMIT $4 OFFSET $5;
+2022/08/06 21:12:22 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/06 21:20:58 
+Connected to database: lapcart
+2022/08/06 21:20:58 Api is listening on port: 8000
+2022/08/06 21:21:02 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/07 01:03:11 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;

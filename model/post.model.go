@@ -2,6 +2,12 @@ package model
 
 import "time"
 
+type UserRequest struct {
+	First_Name string `json:"first_name" validate:"required,min=2,max=50"`
+	Last_Name  string `json:"last_name" validate:"required,min=2,max=50"`
+	Email      string `json:"email" validate:"required,email"`
+}
+
 // user schema for user table
 type User struct {
 	ID           uint      `json:"user_id,omitempty"`

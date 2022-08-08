@@ -22,6 +22,7 @@ type UserRepository interface {
 	FindOrderByUserID(user_id int) (uint, float64, error)
 	VerifyCoupon(code string) (uint, float64, float64, error)
 	Payment(data model.Payment) error
+	UpdateUser(data model.User) error
 }
 
 type userRepo struct {

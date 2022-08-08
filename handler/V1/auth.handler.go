@@ -7,6 +7,8 @@ import (
 	"lapcart/service"
 	"lapcart/utils"
 	"net/http"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type AuthHandler interface {
@@ -21,6 +23,7 @@ type authHandler struct {
 	authService     service.AuthService
 	adminService    service.AdminService
 	userService     service.UserService
+	validate        *validator.Validate
 }
 
 func NewAuthHandler(
@@ -29,6 +32,7 @@ func NewAuthHandler(
 	authService service.AuthService,
 	adminService service.AdminService,
 	userService service.UserService,
+	validate *validator.Validate,
 
 ) AuthHandler {
 	return &authHandler{
@@ -37,6 +41,7 @@ func NewAuthHandler(
 		authService:     authService,
 		adminService:    adminService,
 		userService:     userService,
+		validate:        validate,
 	}
 }
 

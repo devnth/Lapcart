@@ -14,6 +14,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-playground/validator/v10"
 	"github.com/subosito/gotenv"
 )
 
@@ -42,6 +43,7 @@ func main() {
 
 	var (
 		db              *sql.DB                 = config.ConnectDB()
+		validate        *validator.Validate     = validator.New()
 		adminRepo       repo.AdminRepository    = repo.NewAdminRepo(db)
 		userRepo        repo.UserRepository     = repo.NewUserRepo(db)
 		productRepo     repo.ProductRepository  = repo.NewProductRepo(db)
@@ -58,7 +60,8 @@ func main() {
 		authHandler     v1.AuthHandler          = v1.NewAuthHandler(jwtAdminService,
 			jwtUserService, authService,
 			adminService,
-			userService)
+			userService,
+			validate)
 		adminMiddleware m.Middleware         = m.NewMiddlewareAdmin(jwtAdminService)
 		userMiddleware  m.Middleware         = m.NewMiddlewareUser(jwtUserService)
 		adminHandler    v1.AdminHandler      = v1.NewAdminHandler(adminService, userService)

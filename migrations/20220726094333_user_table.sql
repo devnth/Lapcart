@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
       email VARCHAR(200) NOT NULL,
       phone_number BIGINT,
       is_active BOOLEAN DEFAULT TRUE,
+      is_verified BOOLEAN DEFAULT FALSE,
       created_at TIMESTAMP DEFAULT NOW(),
       updated_at TIMESTAMP DEFAULT NOW()
    );

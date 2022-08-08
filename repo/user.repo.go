@@ -449,3 +449,88 @@ func (c *userRepo) Payment(data model.Payment) error {
 
 	return nil
 }
+
+func (c *userRepo) UpdateUser(data model.User) error {
+
+	query := `
+				UPDATE
+					users 
+				 SET`
+	i := 1
+	var arg []interface{}
+
+	if data.First_Name != "" {
+		query = query + `first_name = $` + fmt.Sprintf(`%d`, i)
+		i++
+		arg = append(arg, data.First_Name)
+	}
+
+	if data.Last_Name != "" {
+		if i > 1 {
+			query = query + `, `
+		}
+		query = query + `last_name = $` + fmt.Sprintf(`%d`, i)
+		i++
+		arg = append(arg, data.Last_Name)
+	}
+
+	if data.Email != "" {
+		if i > 1 {
+			query = query + `, `
+		}
+		query = query + `email = $` + fmt.Sprintf(`%d`, i)
+		arg = append(arg, data.Email)
+		i++
+	}
+
+	if data.Password != "" {
+		if i > 1 {
+			query = query + `, `
+		}
+		query = query + `password = $` + fmt.Sprintf(`%d`, i)
+		arg = append(arg, data.Password)
+		i++
+	}
+
+	if data.Phone_Number != 0 {
+		if i > 1 {
+			query = query + `, `
+		}
+		query = query + `phone_number = $` + fmt.Sprintf(`%d`, i)
+		arg = append(arg, data.Phone_Number)
+		i++
+	}
+
+	if data.IsVerified {
+		if i > 1 {
+			query = query + `, `
+		}
+		query = query + `is_verified = $` + fmt.Sprintf(`%d`, i)
+		arg = append(arg, data.IsVerified)
+		i++
+	}
+
+	if i > 1 {
+		query = query + `, `
+	}
+	query = query + `updated_at = $` + fmt.Sprintf(`%d 
+											WHERE id = $%d;`, i, i+1)
+	arg = append(arg, data.Updated_At)
+	arg = append(arg, data.ID)
+
+	statement, err := c.db.Prepare(query)
+
+	if err != nil {
+		log.Println("Error ", "error in preparing query: ", err)
+		return err
+	}
+
+	_, err = statement.Query(arg...)
+
+	if err != nil {
+		log.Println("Error ", "error in query execution: ", err)
+		return err
+	}
+
+	return nil
+}

@@ -4,12 +4,15 @@ import "time"
 
 // user schema for user table
 type User struct {
-	First_Name   string `json:"first_name"`
-	Last_Name    string `json:"last_name"`
-	Password     string `json:"password"`
-	Email        string `json:"email"`
-	Phone_Number int    `json:"phone_number"`
-	IsActive     bool   `json:"is_active,omitempty"`
+	ID           uint      `json:"user_id,omitempty"`
+	First_Name   string    `json:"first_name"`
+	Last_Name    string    `json:"last_name"`
+	Password     string    `json:"password"`
+	Email        string    `json:"email"`
+	Phone_Number int       `json:"phone_number"`
+	IsActive     bool      `json:"is_active,omitempty"`
+	IsVerified   bool      `json:"is_verified,omitempty"`
+	Updated_At   time.Time `json:"updated_at"`
 }
 
 //table schema for user address

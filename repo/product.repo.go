@@ -595,19 +595,13 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	stmt, err := c.db.Prepare(query)
 	if err != nil {
-		log.Println("Error", err)
-		log.Println("Error", "Query prepare failed")
+		log.Println("Error", "Query prepare failed: ", err)
 		return nil, utils.Metadata{}, err
 	}
 
 	res, err := stmt.Query(arg...)
 	if err != nil {
-		fmt.Println("Error", err)
-		fmt.Println("Error", "Query Exec failed")
-		return nil, utils.Metadata{}, err
-	}
-
-	if err != nil {
+		log.Println("Error", "Query Exec failed: ", err)
 		return nil, utils.Metadata{}, err
 	}
 

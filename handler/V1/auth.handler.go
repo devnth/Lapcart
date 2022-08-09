@@ -6,7 +6,9 @@ import (
 	"lapcart/model"
 	"lapcart/service"
 	"lapcart/utils"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -105,10 +107,29 @@ func (c *authHandler) UserLogin() http.HandlerFunc {
 func (c *authHandler) UserRegister() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		var registerRequest model.User
+		var input model.UserRequest
 
 		//fetching data
-		json.NewDecoder(r.Body).Decode(&registerRequest)
+		json.NewDecoder(r.Body).Decode(&input)
+
+		log.Println(input)
+
+		if err := c.validate.Struct(input); err != nil {
+			response := response.BuildErrorResponse("validation error", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		registerRequest := model.User{
+			First_Name:   input.First_Name,
+			Last_Name:    input.Last_Name,
+			Password:     input.Password,
+			Phone_Number: input.Phone_Number,
+			Email:        input.Email,
+			Created_At:   time.Now(),
+		}
 
 		err := c.userService.CreateUser(registerRequest)
 

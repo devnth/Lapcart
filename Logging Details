@@ -9662,3 +9662,445 @@ Connected to database: lapcart
 					 ORDER BY
 					 p.name 
 					LIMIT $2 OFFSET $3;
+2022/08/08 20:02:29 
+Connected to database: lapcart
+2022/08/08 20:02:29 Api is listening on port: 8080
+2022/08/08 20:02:49 http: panic serving [::1]:57591: Undefined validation function ' min' on field 'Password'
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x10483b900, 0x14000416fe0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x14000432070, {0x10482d660?, 0x1047732ea?}, {0x10482d63d, 0x8}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x14000432070, {0x1048851a0?, 0x1400044e0f0?, 0x104509edc?}, {0x1048228b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x14000446360, {0x1048aac08, 0x140000a2000}, {0x1048851a0?, 0x1400044e0f0?, 0x1400045c050?}, {0x1048851a0?, 0x1400044e0f0?, 0x1044a6eec?}, {0x1048abde8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x14000432070, {0x1048aac08, 0x140000a2000}, {0x1048851a0, 0x1400044e0f0})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x12bc459f8, 0x14000448d00}, 0x14000452200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:114 +0x114
+net/http.HandlerFunc.ServeHTTP(0x10484ea40?, {0x12bc459f8?, 0x14000448d00?}, 0x140004120a5?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b2660, {0x12bc459f8, 0x14000448d00}, 0x14000452200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000452100?, {0x12bc459f8?, 0x14000448d00?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1048aa8d0, 0x1400044a0e0}, 0x14000452100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1048aabd0?, {0x1048aa8d0?, 0x1400044a0e0?}, 0x104aa11a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b2660, {0x1048aa8d0, 0x1400044a0e0}, 0x14000452000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1048a99e0?}, {0x1048aa8d0, 0x1400044a0e0}, 0x14000452000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400042f720, {0x1048aac78, 0x140004067e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:03:08 http: panic serving [::1]:57594: Undefined validation function ' min' on field 'Password'
+goroutine 8 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x10483b900, 0x140004171d0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x14000432070, {0x10482d660?, 0x1047732ea?}, {0x10482d63d, 0x8}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x14000432070, {0x1048851a0?, 0x1400044e280?, 0x104509edc?}, {0x1048228b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x140004465a0, {0x1048aac08, 0x140000a2000}, {0x1048851a0?, 0x1400044e280?, 0x1400045c190?}, {0x1048851a0?, 0x1400044e280?, 0x30?}, {0x1048abde8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x14000432070, {0x1048aac08, 0x140000a2000}, {0x1048851a0, 0x1400044e280})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x12bc459f8, 0x14000449040}, 0x14000452500)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:114 +0x114
+net/http.HandlerFunc.ServeHTTP(0x10484ea40?, {0x12bc459f8?, 0x14000449040?}, 0x14000412105?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b2660, {0x12bc459f8, 0x14000449040}, 0x14000452500)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000452400?, {0x12bc459f8?, 0x14000449040?}, 0x1044a96f0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1048aa8d0, 0x1400044a1c0}, 0x14000452400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x104893380?, {0x1048aa8d0?, 0x1400044a1c0?}, 0x104aa11a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b2660, {0x1048aa8d0, 0x1400044a1c0}, 0x1400051c000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1048a99e0?}, {0x1048aa8d0, 0x1400044a1c0}, 0x1400051c000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x14000514000, {0x1048aac78, 0x140004067e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:03:09 http: panic serving [::1]:57596: Undefined validation function ' min' on field 'Password'
+goroutine 10 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x10483b900, 0x140000121e0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x14000432070, {0x10482d660?, 0x1047732ea?}, {0x10482d63d, 0x8}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x14000432070, {0x1048851a0?, 0x1400007e0a0?, 0x104542020?}, {0x1048228b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x14000000240, {0x1048aac08, 0x140000a2000}, {0x1048851a0?, 0x1400007e0a0?, 0x1400045c050?}, {0x1048851a0?, 0x1400007e0a0?, 0x1044a6eec?}, {0x1048abde8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x14000432070, {0x1048aac08, 0x140000a2000}, {0x1048851a0, 0x1400007e0a0})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x12bc459f8, 0x1400002a340}, 0x1400051c400)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:114 +0x114
+net/http.HandlerFunc.ServeHTTP(0x10484ea40?, {0x12bc459f8?, 0x1400002a340?}, 0x14000022085?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b2660, {0x12bc459f8, 0x1400002a340}, 0x1400051c400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x1400051c300?, {0x12bc459f8?, 0x1400002a340?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1048aa8d0, 0x1400044a0e0}, 0x1400051c300)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1048aabd0?, {0x1048aa8d0?, 0x1400044a0e0?}, 0x104aa11a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b2660, {0x1048aa8d0, 0x1400044a0e0}, 0x1400051c200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1048a99e0?}, {0x1048aa8d0, 0x1400044a0e0}, 0x1400051c200)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x14000514140, {0x1048aac78, 0x140004067e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:04:47 
+Connected to database: lapcart
+2022/08/08 20:04:47 Api is listening on port: 8080
+2022/08/08 20:04:49 {Sanu45 Aaahi sanu.com password 88888888997868}
+2022/08/08 20:05:00 {Sanu Aaahi sanu.com password 88888888997868}
+2022/08/08 20:07:10 {Sanu Aaahi sanu@com password 88888888997868}
+2022/08/08 20:07:19 {Sanu Aaahi sanu@gmail.com password 88888888997868}
+2022/08/08 20:07:36 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:07:37 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:07:38 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:07:38 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:07:53 {    0}
+2022/08/08 20:08:02 {Sanu Aaahi sanu@gmail.com password 918111923509}
+2022/08/08 20:09:56 
+Connected to database: lapcart
+2022/08/08 20:09:56 Api is listening on port: 8080
+2022/08/08 20:10:03 {Sanu Aaahi sanu@gmail.com password 918111923509}
+2022/08/08 20:10:08 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:10:09 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:11:08 
+Connected to database: lapcart
+2022/08/08 20:11:08 Api is listening on port: 8080
+2022/08/08 20:11:11 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:11:11 http: panic serving [::1]:58157: Undefined validation function '10' on field 'Phone_Number'
+goroutine 24 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1012c7900, 0x14000426e30})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x140000be070, {0x1012c5156?, 0x1011ff34a?}, {0x1012c512b, 0xc}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x140000be070, {0x1013111a0?, 0x14000425040?, 0x100f95edc?}, {0x1012ae8b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x140004567e0, {0x101336c08, 0x1400011c000}, {0x1013111a0?, 0x14000425040?, 0x1400016b408?}, {0x1013111a0?, 0x14000425040?, 0x100f32eec?}, {0x101337de8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x140000be070, {0x101336c08, 0x1400011c000}, {0x1013111a0, 0x14000425040})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x12870d968, 0x1400040b7c0}, 0x140001dfd00)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:117 +0x168
+net/http.HandlerFunc.ServeHTTP(0x1012daa40?, {0x12870d968?, 0x1400040b7c0?}, 0x14000438985?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c660, {0x12870d968, 0x1400040b7c0}, 0x140001dfd00)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140001dfc00?, {0x12870d968?, 0x1400040b7c0?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1013368d0, 0x140003fd0a0}, 0x140001dfc00)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x101336bd0?, {0x1013368d0?, 0x140003fd0a0?}, 0x10152d1a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c660, {0x1013368d0, 0x140003fd0a0}, 0x140001dfb00)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1013359e0?}, {0x1013368d0, 0x140003fd0a0}, 0x140001dfb00)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400043f720, {0x101336c78, 0x140000927e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:11:48 
+Connected to database: lapcart
+2022/08/08 20:11:48 Api is listening on port: 8080
+2022/08/08 20:11:51 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:11:59 {Sanu Aaahi sanu@gmail.com password 811192350911}
+2022/08/08 20:12:09 {    0}
+2022/08/08 20:12:17 {Sanu Aaahi sanu@gmail.com password 811192}
+2022/08/08 20:13:15 
+Connected to database: lapcart
+2022/08/08 20:13:15 Api is listening on port: 8080
+2022/08/08 20:13:19 {Sanu Aaahi sanu@gmail.com password 811192}
+2022/08/08 20:13:29 {Sanu Aaahi sanu@gmail.com password 811192350999}
+2022/08/08 20:13:32 {Sanu Aaahi sanu@gmail.com password 81119235099}
+2022/08/08 20:13:33 {Sanu Aaahi sanu@gmail.com password 81119235099}
+2022/08/08 20:13:36 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:13:37 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:13:38 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:13:46 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:13:47 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:13:47 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:13:48 {Sanu Aaahi sanu@gmail.com password 8111923509}
+2022/08/08 20:13:51 {Sanu Aaahi sanu@gmail.com password 811192350}
+2022/08/08 20:13:52 {Sanu Aaahi sanu@gmail.com password 811192350}
+2022/08/08 20:13:52 {Sanu Aaahi sanu@gmail.com password 811192350}
+2022/08/08 20:16:23 
+Connected to database: lapcart
+2022/08/08 20:16:23 Api is listening on port: 8080
+2022/08/08 20:16:27 {Sanu Aaahi sanu@gmail.com password 81119235098}
+2022/08/08 20:16:27 http: panic serving [::1]:58433: Undefined validation function 'nonzero' on field 'Phone_Number'
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x102f738c0, 0x14000414ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x14000430070, {0x140004280c0?, 0x102eab34a?}, {0x102f7f61d, 0xc}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x14000430070, {0x102fbd1a0?, 0x1400044c140?, 0x102c41edc?}, {0x102f5a8b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x14000444360, {0x102fe2c08, 0x140000a2000}, {0x102fbd1a0?, 0x1400044c140?, 0x140000f1408?}, {0x102fbd1a0?, 0x1400044c140?, 0x102bdeeec?}, {0x102fe3de8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x14000430070, {0x102fe2c08, 0x140000a2000}, {0x102fbd1a0, 0x1400044c140})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x12a3d0200, 0x14000446d00}, 0x14000458200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:117 +0x168
+net/http.HandlerFunc.ServeHTTP(0x102f86a40?, {0x12a3d0200?, 0x14000446d00?}, 0x140004100a5?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b2660, {0x12a3d0200, 0x14000446d00}, 0x14000458200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000458100?, {0x12a3d0200?, 0x14000446d00?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102fe28d0, 0x140004480e0}, 0x14000458100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102fe2bd0?, {0x102fe28d0?, 0x140004480e0?}, 0x1031d91a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b2660, {0x102fe28d0, 0x140004480e0}, 0x14000458000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x102fe19e0?}, {0x102fe28d0, 0x140004480e0}, 0x14000458000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400042d720, {0x102fe2c78, 0x140004047e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:17:06 
+Connected to database: lapcart
+2022/08/08 20:17:06 Api is listening on port: 8080
+2022/08/08 20:17:08 {Sanu Aaahi sanu@gmail.com password 81119235098}
+2022/08/08 20:17:08 http: panic serving [::1]:58480: Undefined validation function 'regexp' on field 'Phone_Number'
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1029b78c0, 0x14000416ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x14000432070, {0x1400042a0c0?, 0x1028ef34a?}, {0x1029c3673, 0xc}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x14000432070, {0x102a011a0?, 0x1400044e140?, 0x102685edc?}, {0x10299e8b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x14000446360, {0x102a26c08, 0x140000a2000}, {0x102a011a0?, 0x1400044e140?, 0x140000f1408?}, {0x102a011a0?, 0x1400044e140?, 0x102622eec?}, {0x102a27de8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x14000432070, {0x102a26c08, 0x140000a2000}, {0x102a011a0, 0x1400044e140})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x109df42b0, 0x14000448cc0}, 0x14000452200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:117 +0x168
+net/http.HandlerFunc.ServeHTTP(0x1029caa40?, {0x109df42b0?, 0x14000448cc0?}, 0x140004120a5?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b2660, {0x109df42b0, 0x14000448cc0}, 0x14000452200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000452100?, {0x109df42b0?, 0x14000448cc0?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a268d0, 0x1400044a0e0}, 0x14000452100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a26bd0?, {0x102a268d0?, 0x1400044a0e0?}, 0x102c1d1a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b2660, {0x102a268d0, 0x1400044a0e0}, 0x14000452000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x102a259e0?}, {0x102a268d0, 0x1400044a0e0}, 0x14000452000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400042f720, {0x102a26c78, 0x140004067e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:17:08 {Sanu Aaahi sanu@gmail.com password 81119235098}
+2022/08/08 20:17:08 http: panic serving [::1]:58482: Undefined validation function 'regexp' on field 'Phone_Number'
+goroutine 38 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1029b78c0, 0x14000417200})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x14000432070, {0x1400042a120?, 0x1028ef34a?}, {0x1029c3673, 0xc}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x14000432070, {0x102a011a0?, 0x1400044e320?, 0x1026be020?}, {0x10299e8b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x140004465a0, {0x102a26c08, 0x140000a2000}, {0x102a011a0?, 0x1400044e320?, 0x140000d5408?}, {0x102a011a0?, 0x1400044e320?, 0x102622eec?}, {0x102a27de8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x14000432070, {0x102a26c08, 0x140000a2000}, {0x102a011a0, 0x1400044e320})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x109df42b0, 0x140004490c0}, 0x14000452600)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:117 +0x168
+net/http.HandlerFunc.ServeHTTP(0x1029caa40?, {0x109df42b0?, 0x140004490c0?}, 0x14000412105?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x140000b2660, {0x109df42b0, 0x140004490c0}, 0x14000452600)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x14000452500?, {0x109df42b0?, 0x140004490c0?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x102a268d0, 0x1400044a1c0}, 0x14000452500)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x102a26bd0?, {0x102a268d0?, 0x1400044a1c0?}, 0x102c1d1a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x140000b2660, {0x102a268d0, 0x1400044a1c0}, 0x14000452400)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x102a259e0?}, {0x102a268d0, 0x1400044a1c0}, 0x14000452400)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400042f860, {0x102a26c78, 0x140004067e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:17:34 
+Connected to database: lapcart
+2022/08/08 20:17:34 Api is listening on port: 8080
+2022/08/08 20:17:36 {Sanu Aaahi sanu@gmail.com password 81119235098}
+2022/08/08 20:17:36 http: panic serving [::1]:58507: Undefined validation function '(0' on field 'Phone_Number'
+goroutine 35 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1026ff8c0, 0x140000a6ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x140000c2070, {0x140000a20e0?, 0x10263734a?}, {0x10270801f, 0xc}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x140000c2070, {0x1027491c0?, 0x1400008e190?, 0x1023cdedc?}, {0x1026e68b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x140000d6360, {0x10276ec28, 0x14000122000}, {0x1027491c0?, 0x1400008e190?, 0x1400016f408?}, {0x1027491c0?, 0x1400008e190?, 0x10236aeec?}, {0x10276fe08, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x140000c2070, {0x10276ec28, 0x14000122000}, {0x1027491c0, 0x1400008e190})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x109a94280, 0x140000d8d00}, 0x140000e0200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:117 +0x168
+net/http.HandlerFunc.ServeHTTP(0x102712a60?, {0x109a94280?, 0x140000d8d00?}, 0x140000a20a5?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x14000132660, {0x109a94280, 0x140000d8d00}, 0x140000e0200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140000e0100?, {0x109a94280?, 0x140000d8d00?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x10276e8f0, 0x140000da0e0}, 0x140000e0100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x10276ebf0?, {0x10276e8f0?, 0x140000da0e0?}, 0x1029651a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x14000132660, {0x10276e8f0, 0x140000da0e0}, 0x140000e0000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x10276da00?}, {0x10276e8f0, 0x140000da0e0}, 0x140000e0000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140000bf720, {0x10276ec98, 0x140000967e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:19:15 
+Connected to database: lapcart
+2022/08/08 20:19:15 Api is listening on port: 8080
+2022/08/08 20:19:17 {Sanu Aaahi sanu@gmail.com password 81119235098}
+2022/08/08 20:19:17 http: panic serving [::1]:58517: Undefined validation function '(0' on field 'Phone_Number'
+goroutine 24 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1011678c0, 0x140000a4ff0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x140000c0070, {0x140000a20a8?, 0x10109f34a?}, {0x101167fb0, 0xc}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x140000c0070, {0x1011b11a0?, 0x140000dc140?, 0x100e35edc?}, {0x10114e8b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x140000d4360, {0x1011d6c08, 0x1400011c000}, {0x1011b11a0?, 0x140000dc140?, 0x14000169408?}, {0x1011b11a0?, 0x140000dc140?, 0x100dd2eec?}, {0x1011d7de8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x140000c0070, {0x1011d6c08, 0x1400011c000}, {0x1011b11a0, 0x140000dc140})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x1285259f8, 0x140000d6d00}, 0x140000e0200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:117 +0x168
+net/http.HandlerFunc.ServeHTTP(0x10117aa40?, {0x1285259f8?, 0x140000d6d00?}, 0x140000a00a5?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c660, {0x1285259f8, 0x140000d6d00}, 0x140000e0200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140000e0100?, {0x1285259f8?, 0x140000d6d00?}, 0xd0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1011d68d0, 0x140000d80e0}, 0x140000e0100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1011d6bd0?, {0x1011d68d0?, 0x140000d80e0?}, 0x1013cd1a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c660, {0x1011d68d0, 0x140000d80e0}, 0x140001dfb00)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1011d59e0?}, {0x1011d68d0, 0x140000d80e0}, 0x140001dfb00)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x1400043f7c0, {0x1011d6c78, 0x140000947e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/08 20:19:17 {Sanu Aaahi sanu@gmail.com password 81119235098}
+2022/08/08 20:19:17 http: panic serving [::1]:58522: Undefined validation function '(0' on field 'Phone_Number'
+goroutine 52 [running]:
+net/http.(*conn).serve.func1()
+	/usr/local/go/src/net/http/server.go:1825 +0xb0
+panic({0x1011678c0, 0x140004ae1d0})
+	/usr/local/go/src/runtime/panic.go:844 +0x258
+github.com/go-playground/validator/v10.(*Validate).parseFieldTagsRecursive(0x140000c0070, {0x140004be060?, 0x10109f34a?}, {0x101167fb0, 0xc}, {0x0, 0x0}, 0x0)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:294 +0x990
+github.com/go-playground/validator/v10.(*Validate).extractStructCache(0x140000c0070, {0x1011b11a0?, 0x140004da0a0?, 0x100e35edc?}, {0x10114e8b2, 0xb})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/cache.go:155 +0x4ac
+github.com/go-playground/validator/v10.(*validate).validateStruct(0x140004b8120, {0x1011d6c08, 0x1400011c000}, {0x1011b11a0?, 0x140004da0a0?, 0x140004d7408?}, {0x1011b11a0?, 0x140004da0a0?, 0x30?}, {0x1011d7de8, ...}, ...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator.go:37 +0x134
+github.com/go-playground/validator/v10.(*Validate).StructCtx(0x140000c0070, {0x1011d6c08, 0x1400011c000}, {0x1011b11a0, 0x140004da0a0})
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:385 +0x380
+github.com/go-playground/validator/v10.(*Validate).Struct(...)
+	/Users/devanath/go/pkg/mod/github.com/go-playground/validator/v10@v10.11.0/validator_instance.go:358
+lapcart/handler/v1.(*authHandler).UserRegister.func1({0x1285259f8, 0x140004ac1c0}, 0x140004b2200)
+	/Users/devanath/Documents/Go WorkSpace/Lapcart/handler/v1/auth.handler.go:117 +0x168
+net/http.HandlerFunc.ServeHTTP(0x10117aa40?, {0x1285259f8?, 0x140004ac1c0?}, 0x140004b4005?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).routeHTTP(0x1400012c660, {0x1285259f8, 0x140004ac1c0}, 0x140004b2200)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:436 +0x21c
+net/http.HandlerFunc.ServeHTTP(0x140004b2100?, {0x1285259f8?, 0x140004ac1c0?}, 0x100dd56f0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi/middleware.RequestLogger.func1.1({0x1011d68d0, 0x140004c8000}, 0x140004b2100)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/middleware/logger.go:57 +0x2f0
+net/http.HandlerFunc.ServeHTTP(0x1011bf380?, {0x1011d68d0?, 0x140004c8000?}, 0x1013cd1a0?)
+	/usr/local/go/src/net/http/server.go:2084 +0x3c
+github.com/go-chi/chi.(*Mux).ServeHTTP(0x1400012c660, {0x1011d68d0, 0x140004c8000}, 0x140004b2000)
+	/Users/devanath/go/pkg/mod/github.com/go-chi/chi@v1.5.4/mux.go:87 +0x414
+net/http.serverHandler.ServeHTTP({0x1011d59e0?}, {0x1011d68d0, 0x140004c8000}, 0x140004b2000)
+	/usr/local/go/src/net/http/server.go:2916 +0x3fc
+net/http.(*conn).serve(0x140004a6000, {0x1011d6c78, 0x140000947e0})
+	/usr/local/go/src/net/http/server.go:1966 +0x56c
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:3071 +0x450
+2022/08/09 12:37:46 
+Connected to database: lapcart
+2022/08/09 12:37:46 Api is listening on port: 8080
+2022/08/09 17:57:18 
+Connected to database: lapcart
+2022/08/09 17:57:18 Api is listening on port: 8080
+2022/08/09 17:58:48 
+Connected to database: lapcart
+2022/08/09 17:58:48 Api is listening on port: 8080
+2022/08/09 17:59:50 {Midhlaj Laj midlij9995@gmail.com password 8111923509}
+2022/08/09 18:02:28 
+Connected to database: lapcart
+2022/08/09 18:02:28 Api is listening on port: 8080
+2022/08/09 18:02:30 {Midhlaj Laj midlaj9995@gmail.com password 8111923509}

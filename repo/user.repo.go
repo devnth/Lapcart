@@ -23,6 +23,8 @@ type UserRepository interface {
 	VerifyCoupon(code string) (uint, float64, float64, error)
 	Payment(data model.Payment) error
 	UpdateUser(data model.User) error
+	FindUserEmailByID(id int) (model.UserResponse, error)
+	CreateVerifyData(user_id, code int) error
 }
 
 type userRepo struct {
@@ -534,4 +536,35 @@ func (c *userRepo) UpdateUser(data model.User) error {
 	}
 
 	return nil
+}
+
+func (c *userRepo) FindUserEmailByID(id int) (model.UserResponse, error) {
+
+	var user model.UserResponse
+
+	query := `SELECT 
+				CONCAT (first_name,' ',last_name) AS fullname,
+				email
+			  FROM users
+			  WHERE id = $1;`
+
+	err := c.db.QueryRow(query, id).Scan(&user.Full_Name, &user.Email)
+
+	return user, err
+}
+
+func (c *userRepo) CreateVerifyData(user_id, code int) error {
+
+	query := `
+				INSERT INTO
+					verify_email ( user_id, code) 
+				 VALUES
+					(
+					   $1, $2
+					)
+				 ;`
+
+	err := c.db.QueryRow(query, user_id, code).Err()
+
+	return err
 }

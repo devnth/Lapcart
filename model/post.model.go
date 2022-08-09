@@ -3,9 +3,11 @@ package model
 import "time"
 
 type UserRequest struct {
-	First_Name string `json:"first_name" validate:"required,min=2,max=50"`
-	Last_Name  string `json:"last_name" validate:"required,min=2,max=50"`
-	Email      string `json:"email" validate:"required,email"`
+	First_Name   string `json:"first_name" validate:"required,min=2,max=50,alpha"`
+	Last_Name    string `json:"last_name" validate:"required,min=2,max=50,alpha"`
+	Email        string `json:"email" validate:"required,email"`
+	Password     string `json:"password" validate:"required,min=6"`
+	Phone_Number int    `json:"phone_number" validate:"required"`
 }
 
 // user schema for user table
@@ -18,6 +20,7 @@ type User struct {
 	Phone_Number int       `json:"phone_number"`
 	IsActive     bool      `json:"is_active,omitempty"`
 	IsVerified   bool      `json:"is_verified,omitempty"`
+	Created_At   time.Time `json:"created_at"`
 	Updated_At   time.Time `json:"updated_at"`
 }
 

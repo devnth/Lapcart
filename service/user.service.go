@@ -5,10 +5,12 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"lapcart/config"
 	"lapcart/model"
 	"lapcart/repo"
 	"lapcart/utils"
 	"log"
+	"math/rand"
 	"time"
 )
 
@@ -21,6 +23,7 @@ type UserService interface {
 	GetAllProducts(filter model.Filter, user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
 	ProceedToCheckout(user_id int) error
 	Payment(data model.Payment) error
+	SendVerificationEmail(user_id int) (*string, error)
 }
 
 type userService struct {
@@ -28,18 +31,21 @@ type userService struct {
 	productRepo repo.ProductRepository
 	cartRepo    repo.CartRepository
 	adminRepo   repo.AdminRepository
+	mailConfig  config.MailConfig
 }
 
 func NewUserService(
 	userRepo repo.UserRepository,
 	productRepo repo.ProductRepository,
 	cartRepo repo.CartRepository,
-	adminRepo repo.AdminRepository) UserService {
+	adminRepo repo.AdminRepository,
+	mailConfig config.MailConfig) UserService {
 	return &userService{
 		userRepo:    userRepo,
 		productRepo: productRepo,
 		cartRepo:    cartRepo,
 		adminRepo:   adminRepo,
+		mailConfig:  mailConfig,
 	}
 }
 
@@ -220,6 +226,39 @@ func (c *userService) Payment(data model.Payment) error {
 	}
 
 	return nil
+
+}
+
+func (c *userService) SendVerificationEmail(user_id int) (*string, error) {
+
+	user, err := c.userRepo.FindUserEmailByID(user_id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	//to generate random code
+	rand.Seed(time.Now().UnixNano())
+	code := rand.Intn(100000)
+
+	message := fmt.Sprintf(
+		"Hello, %s ..\nThis is the verification code as you requested:\n\n%d\nUse this code to verify your email.\nThanks and regards,\n\n Lapcart team.",
+		user.Full_Name,
+		code,
+	)
+
+	// send code to email
+	if err = c.mailConfig.SendMail(user.Email, message); err != nil {
+		return nil, err
+	}
+
+	err = c.userRepo.CreateVerifyData(user_id, code)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user.Email, nil
 
 }
 

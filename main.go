@@ -43,6 +43,7 @@ func main() {
 
 	var (
 		db              *sql.DB                 = config.ConnectDB()
+		mailConfig      config.MailConfig       = config.NewMailConfig()
 		validate        *validator.Validate     = validator.New()
 		adminRepo       repo.AdminRepository    = repo.NewAdminRepo(db)
 		userRepo        repo.UserRepository     = repo.NewUserRepo(db)
@@ -53,7 +54,7 @@ func main() {
 		jwtUserService  service.JWTService      = service.NewJWTUserService()
 		authService     service.AuthService     = service.NewAuthService(adminRepo, userRepo)
 		adminService    service.AdminService    = service.NewAdminService(adminRepo, userRepo, productRepo)
-		userService     service.UserService     = service.NewUserService(userRepo, productRepo, cartRepo, adminRepo)
+		userService     service.UserService     = service.NewUserService(userRepo, productRepo, cartRepo, adminRepo, mailConfig)
 		productService  service.ProductService  = service.NewProductService(productRepo)
 		wishListService service.WishListService = service.NewWishListService(wishListRepo)
 		cartService     service.CartService     = service.NewCartService(cartRepo, productRepo)

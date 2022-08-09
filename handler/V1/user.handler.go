@@ -20,6 +20,7 @@ type UserHandler interface {
 	GetAllProducts() http.HandlerFunc
 	ProceedToCheckout() http.HandlerFunc
 	Payment() http.HandlerFunc
+	SendVerificationEmail() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -205,4 +206,29 @@ func (c *userHandler) Payment() http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
 	}
+}
+
+func (c *userHandler) SendVerificationEmail() http.HandlerFunc {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
+
+		email, err := c.userService.SendVerificationEmail(user_id)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "please check "+*email+" for verification code")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+
 }

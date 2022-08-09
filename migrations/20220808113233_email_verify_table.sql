@@ -2,7 +2,7 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS verify_email (
     id BIGSERIAL PRIMARY KEY,
-    email VARCHAR(200) NOT NULL, 
+    user_id BIGINT NOT NULL, 
     code BIGINT NOT NULL
 );
 -- +goose StatementEnd

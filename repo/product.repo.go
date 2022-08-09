@@ -644,7 +644,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 func (c *productRepo) UpdateStockById(cart model.Cart) error {
 
 	query := `
-					UPDATE
+				UPDATE
 					product 
 				 SET
 					stock = 

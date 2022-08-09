@@ -10137,3 +10137,129 @@ Connected to database: lapcart
 					users 
 				 SET is_verified = $1, updated_at = $2 
 											WHERE id = $3;
+2022/08/09 22:22:10 
+Connected to database: lapcart
+2022/08/09 22:22:10 Api is listening on port: 8080
+2022/08/09 22:23:38 {Salsal S salvm1997.com password 8111923509}
+2022/08/09 22:24:23 
+Connected to database: lapcart
+2022/08/09 22:24:23 Api is listening on port: 8080
+2022/08/09 22:24:30 {Salsal S salvm1997@gmail.com password 8111923509}
+2022/08/09 22:25:00 {Salsal S salsalvm1997@gmail.com password 8111923509}
+2022/08/09 22:26:40 {Salsal S salsalvm1997@gamil.com password 8111923509}
+2022/08/09 22:26:44 {Salsal S salsalvm1997@gamil.com password 8111923509}
+2022/08/09 22:28:34 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/09 22:34:22 
+Connected to database: lapcart
+2022/08/09 22:34:22 Api is listening on port: 8080
+2022/08/09 22:35:22 error in updating cart
+2022/08/09 22:35:22 error adding product to cart
+2022/08/09 22:35:46 error in updating cart
+2022/08/09 22:35:46 error adding product to cart
+2022/08/09 22:36:15 error in updating cart
+2022/08/09 22:36:15 error adding product to cart
+2022/08/09 22:41:33 
+Connected to database: lapcart
+2022/08/09 22:41:33 Api is listening on port: 8080
+2022/08/09 22:41:33 error in updating cart
+2022/08/09 22:41:33 error adding product to cart
+2022/08/09 22:44:10 
+Connected to database: lapcart
+2022/08/09 22:44:10 Api is listening on port: 8080
+2022/08/09 22:44:11 1
+2022/08/09 22:44:11 error in updating cart
+2022/08/09 22:44:11 error adding product to cart
+2022/08/09 22:44:23 2
+2022/08/09 22:44:23 error in updating cart
+2022/08/09 22:44:23 error adding product to cart
+2022/08/09 22:45:18 
+Connected to database: lapcart
+2022/08/09 22:45:18 Api is listening on port: 8080

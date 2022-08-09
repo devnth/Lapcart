@@ -4,7 +4,7 @@ import "time"
 
 type UserRequest struct {
 	First_Name   string `json:"first_name" validate:"required,min=2,max=50,alpha"`
-	Last_Name    string `json:"last_name" validate:"required,min=2,max=50,alpha"`
+	Last_Name    string `json:"last_name" validate:"required,alpha"`
 	Email        string `json:"email" validate:"required,email"`
 	Password     string `json:"password" validate:"required,min=6"`
 	Phone_Number int    `json:"phone_number" validate:"required"`

@@ -232,6 +232,21 @@ func (c *userService) Payment(data model.Payment) error {
 		return err
 	}
 
+	user, _ := c.userRepo.GetUserByID(data.User_ID)
+
+	message := fmt.Sprintf(
+		"Hello, %s ..\nYour order (ORDER No: %d) has been placed.\n\nTotal Amount: %.2f\n\nVisit Again!\nThanks and regards,\n\n Lapcart team.",
+		user.Full_Name,
+		data.Order_ID,
+		data.Amount,
+	)
+
+	err = c.mailConfig.SendMail(user.Email, message)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 
 }
@@ -305,7 +320,6 @@ func (c *userService) VerifyEmail(data model.User) error {
 	}
 
 	return nil
-
 }
 
 func HashPassword(password string) string {

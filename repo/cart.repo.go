@@ -95,7 +95,7 @@ func (c *cartRepo) AddToCart(cart model.Cart) (string, error) {
 			updateQuery,
 			cart.Count,
 			id,
-		).Scan(&cart.Count)
+		).Err()
 
 		if err != nil {
 			log.Println("error in updating cart")

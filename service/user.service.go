@@ -24,6 +24,7 @@ type UserService interface {
 	ProceedToCheckout(user_id int) error
 	Payment(data model.Payment) error
 	SendVerificationEmail(user_id int) (*string, error)
+	VerifyEmail(user model.User) error
 }
 
 type userService struct {
@@ -140,6 +141,12 @@ func (c *userService) ProceedToCheckout(user_id int) error {
 	var orderItems model.OrderItems
 	var inCart model.Cart
 
+	user, _ := c.userRepo.GetUserByID(user_id)
+
+	if !user.IsVerified {
+		return errors.New("please verify your email first to proceed to checkout")
+	}
+
 	orderDetails.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 	orderDetails.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 	orderItems.Created_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
@@ -231,7 +238,7 @@ func (c *userService) Payment(data model.Payment) error {
 
 func (c *userService) SendVerificationEmail(user_id int) (*string, error) {
 
-	user, err := c.userRepo.FindUserEmailByID(user_id)
+	user, err := c.userRepo.GetUserByID(user_id)
 
 	if err != nil {
 		return nil, err
@@ -259,6 +266,45 @@ func (c *userService) SendVerificationEmail(user_id int) (*string, error) {
 	}
 
 	return &user.Email, nil
+}
+
+func (c *userService) VerifyEmail(data model.User) error {
+
+	user, _ := c.userRepo.GetUserByID(data.ID)
+
+	if user.IsVerified {
+		return errors.New("user already verified")
+	}
+
+	code, err := c.userRepo.GetCodeByUserID(data.ID)
+
+	if err != nil && err != sql.ErrNoRows {
+		return err
+	}
+
+	if err == sql.ErrNoRows {
+		return errors.New("please send verification code request first")
+	}
+
+	if code != data.Verification_Code {
+		return errors.New("invalid code, please try again later")
+	}
+
+	data.IsVerified = true
+
+	err = c.userRepo.UpdateUser(data)
+
+	if err != nil {
+		return errors.New("error in update user data")
+	}
+
+	err = c.userRepo.DeleteVerifyData(data.ID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 
 }
 

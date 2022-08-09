@@ -12,16 +12,17 @@ type UserRequest struct {
 
 // user schema for user table
 type User struct {
-	ID           uint      `json:"user_id,omitempty"`
-	First_Name   string    `json:"first_name"`
-	Last_Name    string    `json:"last_name"`
-	Password     string    `json:"password"`
-	Email        string    `json:"email"`
-	Phone_Number int       `json:"phone_number"`
-	IsActive     bool      `json:"is_active,omitempty"`
-	IsVerified   bool      `json:"is_verified,omitempty"`
-	Created_At   time.Time `json:"created_at"`
-	Updated_At   time.Time `json:"updated_at"`
+	ID                int       `json:"user_id,omitempty"`
+	First_Name        string    `json:"first_name"`
+	Last_Name         string    `json:"last_name"`
+	Password          string    `json:"password"`
+	Email             string    `json:"email"`
+	Phone_Number      int       `json:"phone_number"`
+	IsActive          bool      `json:"is_active,omitempty"`
+	IsVerified        bool      `json:"is_verified,omitempty"`
+	Created_At        time.Time `json:"created_at"`
+	Updated_At        time.Time `json:"updated_at"`
+	Verification_Code int       `json:"verification_code,omitempty"`
 }
 
 //table schema for user address

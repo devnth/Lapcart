@@ -10104,3 +10104,36 @@ Connected to database: lapcart
 Connected to database: lapcart
 2022/08/09 18:02:28 Api is listening on port: 8080
 2022/08/09 18:02:30 {Midhlaj Laj midlaj9995@gmail.com password 8111923509}
+2022/08/09 21:11:19 
+Connected to database: lapcart
+2022/08/09 21:11:19 Api is listening on port: 8080
+2022/08/09 21:13:22 Error  error in preparing query:  pq: syntax error at or near "="
+2022/08/09 21:14:26 
+Connected to database: lapcart
+2022/08/09 21:14:26 Api is listening on port: 8080
+2022/08/09 21:14:27 
+				UPDATE
+					users 
+				 SETis_verified = $1, updated_at = $2 
+											WHERE id = $3;
+2022/08/09 21:14:27 Error  error in preparing query:  pq: syntax error at or near "="
+2022/08/09 21:16:26 
+Connected to database: lapcart
+2022/08/09 21:16:26 Api is listening on port: 8080
+2022/08/09 21:16:27 
+				UPDATE
+					users 
+				 SET is_verified = $1, updated_at = $2 
+											WHERE id = $3;
+2022/08/09 21:17:52 
+Connected to database: lapcart
+2022/08/09 21:17:52 Api is listening on port: 8080
+2022/08/09 21:20:28 
+Connected to database: lapcart
+2022/08/09 21:20:28 Api is listening on port: 8080
+2022/08/09 21:21:02 {Dev Nath devanath_a@yahoo.com password 8111923509}
+2022/08/09 21:23:18 
+				UPDATE
+					users 
+				 SET is_verified = $1, updated_at = $2 
+											WHERE id = $3;

@@ -22,6 +22,7 @@ type UserResponse struct {
 	Phone_Number int       `json:"phone_number"`
 	Password     string    `json:"password,omitempty"`
 	IsActive     bool      `json:"is_active,omitempty"`
+	IsVerified   bool      `json:"is_verified,omitempty"`
 	Created_At   time.Time `json:"created_at,omitempty"`
 	// UserAddress  []UserAddressResponse `json:"address,omitempty"`
 	Token string `json:"token,omitempty"`

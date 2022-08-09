@@ -21,6 +21,7 @@ type UserHandler interface {
 	ProceedToCheckout() http.HandlerFunc
 	Payment() http.HandlerFunc
 	SendVerificationEmail() http.HandlerFunc
+	VerifyEmail() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -231,4 +232,31 @@ func (c *userHandler) SendVerificationEmail() http.HandlerFunc {
 
 	}
 
+}
+
+func (c *userHandler) VerifyEmail() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var user model.User
+
+		json.NewDecoder(r.Body).Decode(&user)
+
+		user.ID, _ = strconv.Atoi(r.Header.Get("user_id"))
+		user.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+		err := c.userService.VerifyEmail(user)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error verifying email", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "your email has been verified")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+	}
 }

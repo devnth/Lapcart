@@ -23,8 +23,10 @@ type UserRepository interface {
 	VerifyCoupon(code string) (uint, float64, float64, error)
 	Payment(data model.Payment) error
 	UpdateUser(data model.User) error
-	FindUserEmailByID(id int) (model.UserResponse, error)
+	GetUserByID(id int) (model.UserResponse, error)
 	CreateVerifyData(user_id, code int) error
+	GetCodeByUserID(user_id int) (int, error)
+	DeleteVerifyData(user_id int) error
 }
 
 type userRepo struct {
@@ -458,7 +460,7 @@ func (c *userRepo) UpdateUser(data model.User) error {
 	query := `
 				UPDATE
 					users 
-				 SET`
+				 SET `
 	i := 1
 	var arg []interface{}
 
@@ -523,6 +525,8 @@ func (c *userRepo) UpdateUser(data model.User) error {
 
 	statement, err := c.db.Prepare(query)
 
+	log.Println(query)
+
 	if err != nil {
 		log.Println("Error ", "error in preparing query: ", err)
 		return err
@@ -538,17 +542,21 @@ func (c *userRepo) UpdateUser(data model.User) error {
 	return nil
 }
 
-func (c *userRepo) FindUserEmailByID(id int) (model.UserResponse, error) {
+func (c *userRepo) GetUserByID(id int) (model.UserResponse, error) {
 
 	var user model.UserResponse
 
 	query := `SELECT 
 				CONCAT (first_name,' ',last_name) AS fullname,
-				email
+				email,
+				is_verified
 			  FROM users
 			  WHERE id = $1;`
 
-	err := c.db.QueryRow(query, id).Scan(&user.Full_Name, &user.Email)
+	err := c.db.QueryRow(query, id).Scan(
+		&user.Full_Name,
+		&user.Email,
+		&user.IsVerified)
 
 	return user, err
 }
@@ -565,6 +573,32 @@ func (c *userRepo) CreateVerifyData(user_id, code int) error {
 				 ;`
 
 	err := c.db.QueryRow(query, user_id, code).Err()
+
+	return err
+}
+
+func (c *userRepo) GetCodeByUserID(user_id int) (int, error) {
+
+	var code int
+
+	query := `
+			SELECT 
+				code 
+			FROM verify_email
+			WHERE user_id = $1;	`
+
+	err := c.db.QueryRow(query, user_id).Scan(&code)
+
+	return code, err
+}
+
+func (c *userRepo) DeleteVerifyData(user_id int) error {
+
+	query := `
+					DELETE FROM verify_email
+					WHERE user_id = $1;`
+
+	err := c.db.QueryRow(query, user_id).Err()
 
 	return err
 }

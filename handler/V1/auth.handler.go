@@ -8,6 +8,7 @@ import (
 	"lapcart/utils"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -17,6 +18,8 @@ type AuthHandler interface {
 	AdminLogin() http.HandlerFunc
 	UserLogin() http.HandlerFunc
 	UserRegister() http.HandlerFunc
+	UserRefreshToken() http.HandlerFunc
+	AdminRefreshToken() http.HandlerFunc
 }
 
 type authHandler struct {
@@ -147,5 +150,55 @@ func (c *authHandler) UserRegister() http.HandlerFunc {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
+	}
+}
+
+func (c *authHandler) UserRefreshToken() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		autheader := r.Header.Get("Authorization")
+		bearerToken := strings.Split(autheader, " ")
+		token := bearerToken[1]
+
+		refreshToken, err := c.jwtUserService.GenerateRefreshToken(token)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error generating refresh token", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", refreshToken)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *authHandler) AdminRefreshToken() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		autheader := r.Header.Get("Authorization")
+		bearerToken := strings.Split(autheader, " ")
+		token := bearerToken[1]
+
+		refreshToken, err := c.jwtAdminService.GenerateRefreshToken(token)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error generating refresh token", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", refreshToken)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
 	}
 }

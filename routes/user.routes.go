@@ -38,6 +38,7 @@ func (r *userRoute) UserRouter(routes chi.Router,
 		r.Get("/user/products", userHandler.GetAllProducts())
 		r.Post("/user/proceedtocheckout", userHandler.ProceedToCheckout())
 		r.Post("/user/payment", userHandler.Payment())
+		r.Get("/user/refresh/token", authHandler.UserRefreshToken())
 	})
 
 }

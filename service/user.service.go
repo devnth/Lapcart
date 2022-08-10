@@ -25,6 +25,7 @@ type UserService interface {
 	Payment(data model.Payment) error
 	SendVerificationEmail(user_id int) (*string, error)
 	VerifyEmail(user model.User) error
+	// RefreshToken(token string) (*string, error)
 }
 
 type userService struct {
@@ -321,6 +322,18 @@ func (c *userService) VerifyEmail(data model.User) error {
 
 	return nil
 }
+
+// func (c *userService) RefreshToken(token string) (*string, error) {
+
+// 	refreshToken, err := c.RefreshToken(token)
+
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	return refreshToken, nil
+
+// }
 
 func HashPassword(password string) string {
 	data := []byte(password)

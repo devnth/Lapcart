@@ -168,16 +168,22 @@ type OrderItems struct {
 }
 
 type Payment struct {
-	ID          uint      `json:"payment_id"`
-	Order_ID    uint      `json:"order_id"`
-	User_ID     int       `json:"user_id"`
-	Status      bool      `json:"status"`
-	PaymentType string    `json:"payment_type"`
-	Amount      float64   `json:"amount"`
-	Coupon_Code string    `json:"coupon_code"`
-	Coupon_Id   uint      `json:"coupon_id"`
-	Created_At  time.Time `json:"created_at"`
-	Updated_At  time.Time `json:"updated_at"`
+	ID                  uint `json:"payment_id"`
+	Order_ID            uint `json:"order_id"`
+	User_ID             int  `json:"user_id"`
+	Full_Name           string
+	Email               string
+	Phone_Number        int
+	Status              bool      `json:"status"`
+	PaymentType         string    `json:"payment_type"`
+	Amount              float64   `json:"amount"`
+	Coupon_Code         string    `json:"coupon_code"`
+	Coupon_Id           uint      `json:"coupon_id"`
+	Created_At          time.Time `json:"created_at"`
+	Updated_At          time.Time `json:"updated_at"`
+	Razorpay_payment_id string    `json:"razor_payment_id"`
+	Razorpay_order_id   string    `json:"razor_order_id"`
+	Razorpay_signature  string    `json:"razor_signature"`
 }
 
 type ManageOrder struct {

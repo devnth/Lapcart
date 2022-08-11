@@ -10361,3 +10361,110 @@ Connected to database: lapcart
 					 ORDER BY
 					 p.name 
 					LIMIT $2 OFFSET $3;
+2022/08/10 14:43:19 
+Connected to database: lapcart
+2022/08/10 14:43:19 Api is listening on port: 8080
+2022/08/10 14:44:07 
+Connected to database: lapcart
+2022/08/10 14:44:07 Api is listening on port: 8080
+2022/08/10 21:30:55 
+Connected to database: lapcart
+2022/08/10 21:30:55 Api is listening on port: 8080
+2022/08/10 21:32:16 error in finding order:  pq: column "casttotal" does not exist
+2022/08/10 21:35:27 
+Connected to database: lapcart
+2022/08/10 21:35:27 Api is listening on port: 8080
+2022/08/10 21:43:59 error in finding order:  sql: no rows in result set
+2022/08/10 22:02:09 
+Connected to database: lapcart
+2022/08/10 22:02:09 Api is listening on port: 8080
+2022/08/10 22:05:57 
+Connected to database: lapcart
+2022/08/10 22:05:57 Api is listening on port: 8080
+2022/08/11 09:32:12 
+Connected to database: lapcart
+2022/08/11 09:32:12 Api is listening on port: 8080
+2022/08/11 09:36:09 
+Connected to database: lapcart
+2022/08/11 09:36:09 Api is listening on port: 8080
+2022/08/11 09:38:35 error in finding order:  sql: no rows in result set
+2022/08/11 11:08:11 
+Connected to database: lapcart
+2022/08/11 11:08:11 Api is listening on port: 8080
+2022/08/11 11:10:13 error in finding order:  sql: no rows in result set
+2022/08/11 11:12:11 
+Connected to database: lapcart
+2022/08/11 11:12:11 Api is listening on port: 8080
+2022/08/11 11:15:21 
+Connected to database: lapcart
+2022/08/11 11:15:21 Api is listening on port: 8080
+2022/08/11 11:24:42 
+Connected to database: lapcart
+2022/08/11 11:24:42 Api is listening on port: 8080
+2022/08/11 11:28:54 
+Connected to database: lapcart
+2022/08/11 11:28:54 Api is listening on port: 8080
+2022/08/11 11:31:40 
+Connected to database: lapcart
+2022/08/11 11:31:40 Api is listening on port: 8080
+2022/08/11 11:34:31 
+Connected to database: lapcart
+2022/08/11 11:34:31 Api is listening on port: 8080
+2022/08/11 11:35:54 
+Connected to database: lapcart
+2022/08/11 11:35:54 Api is listening on port: 8080
+2022/08/11 11:36:08 
+Connected to database: lapcart
+2022/08/11 11:36:08 Api is listening on port: 8080
+2022/08/11 11:45:08 
+Connected to database: lapcart
+2022/08/11 11:45:08 Api is listening on port: 8080
+2022/08/11 11:49:04 
+Connected to database: lapcart
+2022/08/11 11:49:04 Api is listening on port: 8080
+2022/08/11 12:21:48 
+Connected to database: lapcart
+2022/08/11 12:21:48 Api is listening on port: 8080
+2022/08/11 12:24:12 
+Connected to database: lapcart
+2022/08/11 12:24:12 Api is listening on port: 8080
+2022/08/11 12:30:22 error in finding order:  sql: no rows in result set
+2022/08/11 12:36:50 
+Connected to database: lapcart
+2022/08/11 12:36:50 Api is listening on port: 8080
+2022/08/11 12:48:11 
+Connected to database: lapcart
+2022/08/11 12:48:11 Api is listening on port: 8080
+2022/08/11 13:32:48 
+Connected to database: lapcart
+2022/08/11 13:32:48 Api is listening on port: 8080
+2022/08/11 13:34:16 
+Connected to database: lapcart
+2022/08/11 13:34:16 Api is listening on port: 8080
+2022/08/11 13:36:57 
+Connected to database: lapcart
+2022/08/11 13:36:57 Api is listening on port: 8080
+2022/08/11 13:41:28 
+Connected to database: lapcart
+2022/08/11 13:41:28 Api is listening on port: 8080
+2022/08/11 13:58:08 
+Connected to database: lapcart
+2022/08/11 13:58:08 Api is listening on port: 8080
+2022/08/11 14:03:21 
+Connected to database: lapcart
+2022/08/11 14:03:21 Api is listening on port: 8080
+2022/08/11 14:04:14 
+Connected to database: lapcart
+2022/08/11 14:04:14 Api is listening on port: 8080
+2022/08/11 14:04:51 
+Connected to database: lapcart
+2022/08/11 14:04:51 Api is listening on port: 8080
+2022/08/11 14:05:40 
+Connected to database: lapcart
+2022/08/11 14:05:40 Api is listening on port: 8080
+2022/08/11 14:07:49 
+Connected to database: lapcart
+2022/08/11 14:07:49 Api is listening on port: 8080
+2022/08/11 14:20:00 
+Connected to database: lapcart
+2022/08/11 14:20:00 Api is listening on port: 8080

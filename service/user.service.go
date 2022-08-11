@@ -22,10 +22,10 @@ type UserService interface {
 	DeleteAddress(user_id, address_id int) error
 	GetAllProducts(filter model.Filter, user_id int, pagenation utils.Filter) (*[]model.GetProduct, *utils.Metadata, error)
 	ProceedToCheckout(user_id int) error
-	Payment(data model.Payment) error
+	ProcessingPayment(data model.Payment) (*model.Payment, error)
+	AddPayment(data model.Payment) error
 	SendVerificationEmail(user_id int) (*string, error)
 	VerifyEmail(user model.User) error
-	// RefreshToken(token string) (*string, error)
 }
 
 type userService struct {
@@ -199,7 +199,7 @@ func (c *userService) ProceedToCheckout(user_id int) error {
 	return nil
 }
 
-func (c *userService) Payment(data model.Payment) error {
+func (c *userService) ProcessingPayment(data model.Payment) (*model.Payment, error) {
 
 	var err error
 	var minAmount, couponValue float64
@@ -208,7 +208,7 @@ func (c *userService) Payment(data model.Payment) error {
 
 	if err != nil {
 		log.Println("error in finding order: ", err)
-		return errors.New("unable to find order")
+		return nil, errors.New("unable to find order")
 	}
 
 	if data.Coupon_Code != "" {
@@ -216,17 +216,34 @@ func (c *userService) Payment(data model.Payment) error {
 
 		if err != nil {
 			log.Println("error in verifying coupon: ", err)
-			return errors.New("invalid coupon")
+			return nil, errors.New("invalid coupon")
 		}
 
 		if data.Amount < minAmount {
-			return errors.New("coupon not applicable for this purchase")
+			return nil, errors.New("coupon not applicable for this purchase")
 		}
 
 		data.Amount = data.Amount - couponValue
+		err = c.userRepo.UpdateOfferPrice(data)
+
+		if err != nil {
+			return nil, err
+		}
 	}
 
-	err = c.userRepo.Payment(data)
+	user, _ := c.userRepo.GetUserByID(data.User_ID)
+
+	data.Email = user.Email
+	data.Full_Name = user.Full_Name
+	data.Phone_Number = user.Phone_Number
+
+	return &data, nil
+
+}
+
+func (c *userService) AddPayment(data model.Payment) error {
+
+	err := c.userRepo.Payment(data)
 
 	if err != nil {
 		log.Println("error in payment: ", err)
@@ -236,7 +253,7 @@ func (c *userService) Payment(data model.Payment) error {
 	user, _ := c.userRepo.GetUserByID(data.User_ID)
 
 	message := fmt.Sprintf(
-		"Hello, %s ..\nYour order (ORDER No: %d) has been placed.\n\nTotal Amount: %.2f\n\nVisit Again!\nThanks and regards,\n\n Lapcart team.",
+		"Hello, %s ..\nYour order (ORDER No: %d) has been placed.\n\nTotal Amount: %.2f has been paid.\n\nVisit Again!\nThanks and regards,\n\n Lapcart team.",
 		user.Full_Name,
 		data.Order_ID,
 		data.Amount,
@@ -249,7 +266,6 @@ func (c *userService) Payment(data model.Payment) error {
 	}
 
 	return nil
-
 }
 
 func (c *userService) SendVerificationEmail(user_id int) (*string, error) {
@@ -322,18 +338,6 @@ func (c *userService) VerifyEmail(data model.User) error {
 
 	return nil
 }
-
-// func (c *userService) RefreshToken(token string) (*string, error) {
-
-// 	refreshToken, err := c.RefreshToken(token)
-
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return refreshToken, nil
-
-// }
 
 func HashPassword(password string) string {
 	data := []byte(password)

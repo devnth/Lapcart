@@ -27,6 +27,7 @@ type UserRepository interface {
 	CreateVerifyData(user_id, code int) error
 	GetCodeByUserID(user_id int) (int, error)
 	DeleteVerifyData(user_id int) error
+	UpdateOfferPrice(data model.Payment) error
 }
 
 type userRepo struct {
@@ -383,16 +384,29 @@ func (c *userRepo) VerifyCoupon(code string) (uint, float64, float64, error) {
 	return id, minAmount, couponValue, err
 }
 
+func (c *userRepo) UpdateOfferPrice(data model.Payment) error {
+
+	query := `
+				UPDATE
+					order_details
+				 SET
+					coupon_id = $1 ,total = $2 ,updated_at = $3`
+
+	err := c.db.QueryRow(query, data.Coupon_Id, data.Amount, data.Updated_At).Err()
+
+	return err
+}
+
 func (c *userRepo) Payment(data model.Payment) error {
 
 	var arg []interface{}
 
 	insertQuery := `
 				INSERT INTO
-				   payment ( payment_type, created_at, updated_at )
+				   payment ( payment_type, created_at, updated_at, payment_id, razor_order_id, payment_signature )
 				VALUES
 				   (
-				      $1, $2, $3
+				      $1, $2, $3, $4, $5, $6
 				   )
 				RETURNING id;`
 
@@ -408,7 +422,10 @@ func (c *userRepo) Payment(data model.Payment) error {
 		insertQuery,
 		data.PaymentType,
 		data.Created_At,
-		data.Updated_At).Scan(&data.ID)
+		data.Updated_At,
+		data.Razorpay_payment_id,
+		data.Razorpay_order_id,
+		data.Razorpay_signature).Scan(&data.ID)
 
 	if err != nil {
 		return err
@@ -549,6 +566,7 @@ func (c *userRepo) GetUserByID(id int) (model.UserResponse, error) {
 	query := `SELECT 
 				CONCAT (first_name,' ',last_name) AS fullname,
 				email,
+				phone_number,
 				is_verified
 			  FROM users
 			  WHERE id = $1;`
@@ -556,6 +574,7 @@ func (c *userRepo) GetUserByID(id int) (model.UserResponse, error) {
 	err := c.db.QueryRow(query, id).Scan(
 		&user.Full_Name,
 		&user.Email,
+		&user.Phone_Number,
 		&user.IsVerified)
 
 	return user, err

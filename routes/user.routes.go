@@ -28,6 +28,9 @@ func (r *userRoute) UserRouter(routes chi.Router,
 
 	routes.Post("/user/register", authHandler.UserRegister())
 	routes.Post("/user/login", authHandler.UserLogin())
+	routes.Get("/user/payment/{user_id}", userHandler.Payment())
+	routes.Get("/payment-success", userHandler.PaymentSuccess())
+	routes.Get("/success", userHandler.Success())
 	routes.Group(func(r chi.Router) {
 		r.Use(middleware.AuthorizeJwt)
 		r.Get("/user/email/verification", userHandler.SendVerificationEmail())
@@ -37,7 +40,6 @@ func (r *userRoute) UserRouter(routes chi.Router,
 		r.Delete("/user/delete/address-id-{addressid}", userHandler.DeleteAddress())
 		r.Get("/user/products", userHandler.GetAllProducts())
 		r.Post("/user/proceedtocheckout", userHandler.ProceedToCheckout())
-		r.Post("/user/payment", userHandler.Payment())
 		r.Get("/user/refresh/token", authHandler.UserRefreshToken())
 	})
 

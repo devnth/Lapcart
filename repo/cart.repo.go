@@ -141,7 +141,7 @@ func (c *cartRepo) GetCartByUserId(user_id int) ([]model.GetCart, float64, error
 					  name,
 					  percentage 
 				   FROM
-					  discount 
+					  discount d
 				)
 				,
 				product AS 
@@ -157,8 +157,8 @@ func (c *cartRepo) GetCartByUserId(user_id int) ([]model.GetCart, float64, error
 					  c.count AS count,
 					  p.price,
 					  p.image,
-					  d.name AS discount_name,
-					  d.percentage AS percentage 
+					  COALESCE(d.name, '') AS discount_name,
+					  COALESCE(d.percentage, 0)  AS percentage
 				   FROM
 					  product P 
 					  JOIN
@@ -181,7 +181,7 @@ func (c *cartRepo) GetCartByUserId(user_id int) ([]model.GetCart, float64, error
 				   p.count,
 				   p.price AS unit_price,
 				   p.price * p.count AS sub_total_price,
-				   CAST((p.price*p.count * (1 - p.percentage / 100))AS NUMERIC(20, 2)) AS discounted_price 
+				   COALESCE(cast((p.price * (1 - p.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
 				FROM
 				   product p 
 				   JOIN

@@ -10468,3 +10468,142 @@ Connected to database: lapcart
 2022/08/11 14:20:00 
 Connected to database: lapcart
 2022/08/11 14:20:00 Api is listening on port: 8080
+2022/08/12 07:26:19 
+Connected to database: lapcart
+2022/08/12 07:26:19 Api is listening on port: 8080
+2022/08/12 07:28:15 {Anil Kumar S anilsahadevan@gamil.com password 8111923509}
+2022/08/12 07:28:28 {Anil Kumar anilsahadevan@gamil.com password 8111923509}
+2022/08/12 07:29:24 {Anil Kumar sahadevananil@gamil.com password 8111923509}
+2022/08/12 07:32:41 {Anil Kumar sahadevananil@gamil.com password 8111923509}
+2022/08/12 07:35:41 {Anil Kumar sahadevananil@gmail.com password 8111923509}
+2022/08/12 07:37:00 
+				UPDATE
+					users 
+				 SET is_verified = $1, updated_at = $2 
+											WHERE id = $3;
+2022/08/13 13:03:05 
+Connected to database: lapcart
+2022/08/13 13:03:05 Api is listening on port: 8080
+2022/08/13 13:08:07 
+Connected to database: lapcart
+2022/08/13 13:08:07 Api is listening on port: 8080
+2022/08/13 13:08:10 Error query exec failed pq: could not determine data type of parameter $2
+2022/08/13 13:09:11 
+Connected to database: lapcart
+2022/08/13 13:09:11 Api is listening on port: 8080
+2022/08/13 13:09:12 Error query exec failed pq: could not determine data type of parameter $2
+2022/08/13 13:12:06 
+Connected to database: lapcart
+2022/08/13 13:12:06 Api is listening on port: 8080
+2022/08/13 13:12:08 <nil>
+2022/08/13 13:12:08 Error query exec failed pq: could not determine data type of parameter $2
+2022/08/13 13:12:08 error in updating products
+2022/08/13 13:28:03 
+Connected to database: lapcart
+2022/08/13 13:28:03 Api is listening on port: 8080
+2022/08/13 13:28:04 <nil>
+2022/08/13 13:28:04 Error query exec failed pq: could not determine data type of parameter $2
+2022/08/13 13:28:04 error in updating products
+2022/08/13 13:28:05 <nil>
+2022/08/13 13:28:05 Error query exec failed pq: could not determine data type of parameter $2
+2022/08/13 13:28:05 error in updating products
+2022/08/13 13:29:59 
+Connected to database: lapcart
+2022/08/13 13:29:59 Api is listening on port: 8080
+2022/08/13 13:30:01 
+				UPDATE
+				   product 
+				SET
+				   price = $1
+2022/08/13 13:30:01 <nil>
+2022/08/13 13:30:01 Error query exec failed pq: could not determine data type of parameter $2
+2022/08/13 13:30:01 error in updating products
+2022/08/13 13:31:25 
+Connected to database: lapcart
+2022/08/13 13:31:25 Api is listening on port: 8080
+2022/08/13 13:31:26 
+				UPDATE
+				   product 
+				SET
+				   price = $1
+									WHERE code = $3;
+2022/08/13 13:31:26 <nil>
+2022/08/13 13:31:26 Error query exec failed pq: could not determine data type of parameter $2
+2022/08/13 13:31:26 error in updating products
+2022/08/13 13:31:55 
+Connected to database: lapcart
+2022/08/13 13:31:55 Api is listening on port: 8080
+2022/08/13 13:31:56 &{0x14000199ee0 
+				UPDATE
+				   product 
+				SET
+				   price = $1
+									WHERE code = $2; <nil> {{0 0} 0 0 0 0} 0x14000540280 0x1400053d000 <nil> {0 0} false [] 0}
+2022/08/13 13:34:01 &{0x14000199ee0 
+				UPDATE
+				   product 
+				SET
+				   price = $1
+									WHERE code = $2; <nil> {{0 0} 0 0 0 0} 0x1400008e080 0x14000488300 <nil> {0 0} false [] 0}
+2022/08/13 13:35:12 
+Connected to database: lapcart
+2022/08/13 13:35:12 Api is listening on port: 8080
+2022/08/13 13:35:14 &{0x140001a1e10 
+				UPDATE
+				   product 
+				SET
+				   price = $1
+									WHERE code = $2; <nil> {{0 0} 0 0 0 0} 0x1400053e280 0x140004856c0 <nil> {0 0} false [] 0}
+2022/08/13 13:37:44 
+Connected to database: lapcart
+2022/08/13 13:37:44 Api is listening on port: 8080
+2022/08/13 13:38:38 
+Connected to database: lapcart
+2022/08/13 13:38:38 Api is listening on port: 8080
+2022/08/13 13:45:10 
+Connected to database: lapcart
+2022/08/13 13:45:10 Api is listening on port: 8080
+2022/08/13 13:46:23 
+Connected to database: lapcart
+2022/08/13 13:46:23 Api is listening on port: 8080
+2022/08/13 13:46:24 does category exists :  false
+2022/08/13 13:48:27 
+Connected to database: lapcart
+2022/08/13 13:48:27 Api is listening on port: 8080
+2022/08/13 13:48:31 does category exists :  true
+2022/08/13 13:50:07 
+Connected to database: lapcart
+2022/08/13 13:50:07 Api is listening on port: 8080
+2022/08/13 13:53:27 does category exists :  true
+2022/08/13 13:55:35 
+Connected to database: lapcart
+2022/08/13 13:55:35 Api is listening on port: 8080
+2022/08/13 13:56:13 
+Connected to database: lapcart
+2022/08/13 13:56:13 Api is listening on port: 8080
+2022/08/13 13:56:14 sql: no rows in result set
+2022/08/13 13:57:11 state,ent 
+				UPDATE
+				   product 
+				SET
+				   price = $1
+									WHERE code = $2;
+2022/08/13 13:57:11 &{0x14000099c70 
+				UPDATE
+				   product 
+				SET
+				   price = $1
+									WHERE code = $2; <nil> {{0 0} 0 0 0 0} 0x140002f7400 0x140003f3a00 <nil> {0 0} false [] 0}
+2022/08/13 13:57:49 
+Connected to database: lapcart
+2022/08/13 13:57:49 Api is listening on port: 8080
+2022/08/13 13:58:03 Error query exec failed pq: syntax error at or near "WHERE"
+2022/08/13 13:58:03 error in updating products
+2022/08/13 13:59:07 Error query exec failed pq: syntax error at or near "WHERE"
+2022/08/13 13:59:07 error in updating products
+2022/08/13 14:01:32 
+Connected to database: lapcart
+2022/08/13 14:01:32 Api is listening on port: 8080
+2022/08/13 14:01:55 
+Connected to database: lapcart
+2022/08/13 14:01:55 Api is listening on port: 8080

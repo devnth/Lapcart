@@ -49,6 +49,7 @@ type Admin struct {
 
 type Product struct {
 	ID          []uint    `json:"id,omitempty"`
+	ProductID   int       `json:"product_id,omitempty"`
 	Code        string    `json:"code"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
@@ -57,10 +58,10 @@ type Product struct {
 	Category    Category  `json:"category"`
 	Colors      []Color   `json:"colors"`
 	Price       float64   `json:"price"`
-	// Discount    Discount  `json:"discount,omitempty"`
-	Rating    float32 `json:"rating"`
-	Image     string  `json:"image"`
-	IsDeleted bool    `json:"is_deleted,omitempty"`
+	Rating      float32   `json:"rating"`
+	Image       string    `json:"image"`
+	IsDeleted   bool      `json:"is_deleted,omitempty"`
+	Updated_At  time.Time `json:"updated_at,omitempty"`
 }
 
 // table schema for product_category
@@ -190,4 +191,21 @@ type ManageOrder struct {
 	Order_ID   uint      `json:"order_id"`
 	Status     string    `json:"status"`
 	Updated_At time.Time `json:"updated_at"`
+}
+
+type UpdateProduct struct {
+	ProductID      int       `json:"product_id"`
+	Code           string    `json:"new_item_code"`
+	OldCode        string    `json:"item_code"`
+	Name           string    `json:"product_name"`
+	Brand          string    `json:"brand_name"`
+	Category       string    `json:"category"`
+	Processor      string    `json:"processor"`
+	ChangeColor    string    `json:"change_color"`
+	ChangeQuantity int       `json:"change_quantity"`
+	NewColor       string    `json:"new_color"`
+	NewQuantity    int       `json:"new_quantity"`
+	Price          float64   `json:"price"`
+	Image          string    `json:"image"`
+	Updated_At     time.Time `json:"updated_at"`
 }

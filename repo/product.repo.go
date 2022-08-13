@@ -23,6 +23,11 @@ type ProductRepository interface {
 	GetAllProducts(filter model.Filter, user_id int, pagenation utils.Filter) ([]model.GetProduct, utils.Metadata, error)
 	UpdateStockById(cart model.Cart) error
 	FindStockById(id int) (int, error)
+	GetProductCodeById(id int) (string, error)
+	UpdateProductByCode(data model.UpdateProduct) error
+	ChangeColor(data model.UpdateProduct) error
+	ChangeStock(data model.UpdateProduct) error
+	InsertNewColor(data model.UpdateProduct) error
 }
 
 type productRepo struct {
@@ -676,4 +681,270 @@ func (c *productRepo) FindStockById(id int) (int, error) {
 	err := c.db.QueryRow(query, id).Scan(&stock)
 
 	return stock, err
+}
+
+func (c *productRepo) GetProductCodeById(id int) (string, error) {
+
+	query := `
+				SELECT
+					code 
+				 FROM
+					product
+				 WHERE
+					id = $1;`
+
+	productCode := ""
+
+	err := c.db.QueryRow(query, id).Scan(&productCode)
+
+	if err != nil {
+		return "", err
+	}
+
+	return productCode, nil
+}
+
+func (c *productRepo) UpdateProductByCode(data model.UpdateProduct) error {
+
+	query := `
+				UPDATE
+				   product 
+				SET
+				   `
+	var arg []interface{}
+
+	ctx := context.Background()
+
+	i := 1
+
+	if data.Code != "" {
+
+		query = query + fmt.Sprintf(`code = $%d`, i)
+		arg = append(arg, data.Code)
+		i++
+
+	}
+
+	if data.Name != "" {
+
+		query = query + fmt.Sprintf(`name = $%d`, i)
+		arg = append(arg, data.Name)
+		i++
+
+	}
+
+	tx, err := c.db.BeginTx(ctx, nil)
+
+	if err != nil {
+		return err
+	}
+
+	if data.Category != "" {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		category_id, exists := c.FindCategory(data.Category)
+
+		if !exists {
+			insertQuery :=
+
+				`INSERT INTO 
+				 category 
+						(name)
+				VALUES 
+				     	($1)
+				RETURNING id;
+						`
+
+			err = tx.QueryRow(insertQuery, data.Category).Scan(&category_id)
+
+			if err != nil {
+				tx.Rollback()
+				return err
+			}
+		}
+
+		query = query + fmt.Sprintf(`category_id = $%d`, i)
+		arg = append(arg, category_id)
+		i++
+	}
+
+	if data.Brand != "" {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		brand_id, exists := c.FindBrand(data.Brand)
+
+		if !exists {
+			insertQuery :=
+
+				`	INSERT INTO 
+				 Brand 
+						(name)
+				VALUES 
+				     	($1)
+				RETURNING id;
+						`
+
+			err = tx.QueryRow(insertQuery, data.Brand).Scan(&brand_id)
+
+			if err != nil {
+				tx.Rollback()
+				return err
+			}
+		}
+
+		query = query + fmt.Sprintf(`brand_id = $%d`, i)
+		arg = append(arg, brand_id)
+		i++
+	}
+
+	if data.Processor != "" {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		processor_id, exists := c.FindProcessor(data.Processor)
+
+		if !exists {
+			insertQuery :=
+
+				`	INSERT INTO 
+				 Processor 
+						(name)
+				VALUES 
+				     	($1)
+				RETURNING id;
+						`
+
+			err = tx.QueryRow(insertQuery, data.Brand).Scan(&processor_id)
+
+			if err != nil {
+				tx.Rollback()
+				return err
+			}
+		}
+
+		query = query + fmt.Sprintf(`processor_id = $%d`, i)
+		arg = append(arg, processor_id)
+		i++
+	}
+
+	if data.Price != 0 {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		query = query + fmt.Sprintf(`price = $%d`, i)
+		arg = append(arg, data.Price)
+		i++
+	}
+
+	if data.Image != "" {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		query = query + fmt.Sprintf(`image = $%d`, i)
+		arg = append(arg, data.Image)
+		i++
+	}
+
+	query = query + fmt.Sprintf(`
+									WHERE code = $%d;`, i)
+	arg = append(arg, data.OldCode)
+
+	if i == 1 {
+		return nil
+	}
+
+	statement, err := tx.Prepare(query)
+
+	if err != nil {
+		log.Println("Error", "query exec failed", err)
+		tx.Rollback()
+		return err
+	}
+
+	err = statement.QueryRow(arg...).Err()
+
+	if err != nil {
+		log.Println("Error", "query exec failed: ", err)
+		tx.Rollback()
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *productRepo) ChangeColor(data model.UpdateProduct) error {
+
+	query := `
+
+				UPDATE
+				   product 
+				SET
+				   color = $1 
+				WHERE
+				   id = $2;`
+
+	err := c.db.QueryRow(query, data.ChangeColor, data.ProductID).Err()
+
+	return err
+}
+
+func (c *productRepo) ChangeStock(data model.UpdateProduct) error {
+
+	query := `
+
+				UPDATE
+				   product 
+				SET
+				   stock = $1 
+				WHERE
+				   id = $2;`
+
+	err := c.db.QueryRow(query, data.ChangeQuantity, data.ProductID).Err()
+
+	return err
+}
+
+func (c *productRepo) InsertNewColor(data model.UpdateProduct) error {
+
+	product, _ := c.FindProductByCode(data.OldCode)
+
+	query := `
+	INSERT INTO
+		product
+		(code, name, brand_id, processor_id, category_id, color, stock, price, updated_at)
+	VALUES
+		($1, $2, $3, $4, $5, $6, $7, $8, $9);
+	`
+
+	err := c.db.QueryRow(
+		query,
+		product.Code,
+		product.Name,
+		product.Brand.ID,
+		product.Processor.ID,
+		product.Category.ID,
+		data.NewColor,
+		data.NewQuantity,
+		product.Price,
+		data.Updated_At,
+	).Err()
+
+	return err
 }

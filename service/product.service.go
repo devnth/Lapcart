@@ -2,15 +2,18 @@ package service
 
 import (
 	"database/sql"
+	"errors"
 	"lapcart/model"
 	"lapcart/repo"
 	"lapcart/utils"
+	"log"
 )
 
 type ProductService interface {
 	AddProduct(product model.Product) (*string, error)
 	GetProductByCode(productCode string) (*model.ProductResponse, error)
 	ViewProducts(pagenation utils.Filter) (*[]model.ProductResponse, *utils.Metadata, error)
+	UpdateProduct(product model.UpdateProduct) error
 }
 
 type productService struct {
@@ -104,4 +107,58 @@ func (c *productService) ViewProducts(pagenation utils.Filter) (*[]model.Product
 
 	return &products, &metadata, nil
 
+}
+
+func (c *productService) UpdateProduct(data model.UpdateProduct) error {
+
+	var err error
+
+	data.OldCode, err = c.productRepo.GetProductCodeById(data.ProductID)
+
+	if err != nil {
+		log.Println(err)
+		return errors.New("the product you are looking for is not in the database")
+	}
+
+	err = c.productRepo.UpdateProductByCode(data)
+
+	if err != nil {
+		log.Println("error in updating products")
+		return err
+	}
+
+	if data.ChangeColor != "" {
+		err = c.productRepo.ChangeColor(data)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	if data.ChangeQuantity != 0 {
+		err = c.productRepo.ChangeStock(data)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	if data.NewColor != "" {
+
+		if data.NewQuantity != 0 {
+
+			err = c.productRepo.InsertNewColor(data)
+
+			if err != nil {
+				return err
+			}
+
+			return nil
+		}
+
+		return errors.New("quantity for new color not given")
+
+	}
+
+	return nil
 }

@@ -8,6 +8,7 @@ import (
 	"lapcart/utils"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi"
 )
@@ -15,6 +16,7 @@ import (
 type ProductHandler interface {
 	AddProduct() http.HandlerFunc
 	ViewProducts() http.HandlerFunc
+	UpdateProduct() http.HandlerFunc
 }
 
 type productHandler struct {
@@ -87,5 +89,33 @@ func (c *productHandler) ViewProducts() http.HandlerFunc {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
+	}
+}
+
+func (c *productHandler) UpdateProduct() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var requestData model.UpdateProduct
+
+		json.NewDecoder(r.Body).Decode(&requestData)
+
+		requestData.Updated_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+		err := c.productService.UpdateProduct(requestData)
+
+		if err != nil {
+			response := response.BuildErrorResponse("Failed to update product", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		product, _ := c.productService.GetProductByCode(requestData.Code)
+		response := response.BuildResponse(true, "OK!", product)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
 	}
 }

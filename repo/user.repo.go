@@ -28,6 +28,7 @@ type UserRepository interface {
 	GetCodeByUserID(user_id int) (int, error)
 	DeleteVerifyData(user_id int) error
 	UpdateOfferPrice(data model.Payment) error
+	GetAllOrders(user_id int) ([]model.Orders, error)
 }
 
 type userRepo struct {
@@ -620,4 +621,106 @@ func (c *userRepo) DeleteVerifyData(user_id int) error {
 	err := c.db.QueryRow(query, user_id).Err()
 
 	return err
+}
+
+func (c *userRepo) GetAllOrders(user_id int) ([]model.Orders, error) {
+
+	query := `
+						WITH od AS 
+						(
+						   SELECT
+						      *,
+						      created_at AS ordered_at 
+						   FROM
+						      order_details 
+						   WHERE
+						      user_id = 8
+						)
+						,
+						items AS 
+						(
+						   SELECT
+						      * 
+						   FROM
+						      order_items oi 
+						      JOIN
+						         od od 
+						         ON oi.order_id = od.id 
+						   WHERE
+						      oi.order_id = od.id
+						)
+						,
+						products AS 
+						(
+						   SELECT
+						      * 
+						   FROM
+						      PRODUCT p 
+						      JOIN
+						         items it 
+						         ON p.id = it.product_id 
+						)
+						SELECT
+						   p.order_id,
+						   p.product_id,
+						   p.image,
+						   p.name,
+						   p.color,
+						   b.name,
+						   c.name,
+						   proc.name,
+						   p.status,
+						   p.ordered_at
+						FROM
+						   products p 
+						   JOIN
+						      category c 
+						      ON p.category_id = c.id 
+						   JOIN
+						      brand b 
+						      ON p.brand_id = b.id 
+						   JOIN
+						      processor proc 
+						      ON p.processor_id = proc.id;`
+
+	rows, err := c.db.Query(query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var orders []model.Orders
+
+	for rows.Next() {
+
+		var order model.Orders
+
+		err = rows.Scan(
+			&order.OrderID,
+			&order.ProductID,
+			&order.Image,
+			&order.Name,
+			&order.Color,
+			&order.Brand,
+			&order.Category,
+			&order.Processor,
+			&order.Status,
+			&order.Ordered_At,
+		)
+
+		if err != nil {
+			return orders, err
+		}
+
+		orders = append(orders, order)
+	}
+
+	if err := rows.Err(); err != nil {
+		return orders, err
+	}
+
+	return orders, nil
+
 }

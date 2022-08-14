@@ -26,6 +26,7 @@ type UserService interface {
 	AddPayment(data model.Payment) error
 	SendVerificationEmail(user_id int) (*string, error)
 	VerifyEmail(user model.User) error
+	GetAllOrders(UserID int) (*[]model.Orders, error)
 }
 
 type userService struct {
@@ -337,6 +338,14 @@ func (c *userService) VerifyEmail(data model.User) error {
 	}
 
 	return nil
+}
+
+func (c *userService) GetAllOrders(UserID int) (*[]model.Orders, error) {
+
+	orders, err := c.userRepo.GetAllOrders(UserID)
+
+	return &orders, err
+
 }
 
 func HashPassword(password string) string {

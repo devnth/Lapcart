@@ -42,6 +42,7 @@ func (r *adminRoute) AdminRouter(routes chi.Router,
 		r.Post("/admin/add/coupon", adminHandler.AddCoupon())
 		r.Post("/admin/manage/order", adminHandler.ManageOrder())
 		r.Get("/admin/refresh/token", authHandler.AdminRefreshToken())
+		r.Get("/admin/manage/order", adminHandler.GetAllOrders())
 	})
 
 }

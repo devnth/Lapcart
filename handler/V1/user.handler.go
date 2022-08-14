@@ -26,6 +26,7 @@ type UserHandler interface {
 	VerifyEmail() http.HandlerFunc
 	PaymentSuccess() http.HandlerFunc
 	Success() http.HandlerFunc
+	GetAllOrders() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -348,6 +349,29 @@ func (c *userHandler) VerifyEmail() http.HandlerFunc {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
+	}
+}
+
+func (c *userHandler) GetAllOrders() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		user_ID, _ := strconv.Atoi(r.Header.Get("user_id"))
+
+		Orders, err := c.userService.GetAllOrders(user_ID)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error getting products", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", Orders)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
 	}
 }
 

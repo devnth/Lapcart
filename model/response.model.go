@@ -111,13 +111,27 @@ type GetCart struct {
 }
 
 type GetOrders struct {
-	OrderID          uint            `json:"order_id"`
-	User_ID          uint            `json:"user_id"`
-	User_Name        UserResponse    `json:"user_name"`
-	Shipping_Address AddressResponse `json:"shipping_address"`
-	Product          GetCart         `json:"product"`
-	Payment_Mode     string          `json:"payment_mode,omitempty"`
-	Status           string          `json:"order_status"`
-	Ordered_At       time.Time       `json:"ordered_at"`
-	Updated_At       time.Time       `json:"updated_at"`
+	OrderID     uint      `json:"order_id"`
+	User_ID     uint      `json:"user_id"`
+	User_Name   string    `json:"user_name"`
+	Email       string    `json:"email"`
+	TotalAmount float64   `json:"total_amount"`
+	Is_Paid     bool      `json:"is_paid"`
+	Status      string    `json:"order_status"`
+	Ordered_At  time.Time `json:"ordered_at"`
+	Updated_At  time.Time `json:"updated_at"`
+}
+
+type Orders struct {
+	OrderID    int       `json:"order_id,omitempty"`
+	ProductID  int       `json:"product_id"`
+	Name       string    `json:"product_name"`
+	Brand      string    `json:"brand"`
+	Processor  string    `json:"processor"`
+	Category   string    `json:"category"`
+	Color      string    `json:"color"`
+	Image      string    `json:"image"`
+	Price      float64   `json:"price,omitempty"`
+	Status     string    `json:"status"`
+	Ordered_At time.Time `json:"ordere_at"`
 }

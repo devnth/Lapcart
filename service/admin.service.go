@@ -5,6 +5,7 @@ import (
 	"errors"
 	"lapcart/model"
 	"lapcart/repo"
+	"lapcart/utils"
 	"log"
 )
 
@@ -14,6 +15,7 @@ type AdminService interface {
 	ManageUsers(email string, isActive bool) error
 	AddDiscount(discount model.Discount) error
 	AddCoupon(coupon model.Coupon) error
+	GetAllOrders(pagenation utils.Filter) (*[]model.GetOrders, *utils.Metadata, error)
 	ManageOrders(data model.ManageOrder) error
 }
 
@@ -133,4 +135,15 @@ func (c *adminService) ManageOrders(data model.ManageOrder) error {
 	}
 
 	return err
+}
+
+func (c *adminService) GetAllOrders(pagenation utils.Filter) (*[]model.GetOrders, *utils.Metadata, error) {
+
+	orders, metadata, err := c.adminRepo.GetAllOrders(pagenation)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return &orders, &metadata, nil
 }

@@ -3,6 +3,7 @@ package repo
 import (
 	"database/sql"
 	"lapcart/model"
+	"lapcart/utils"
 )
 
 type AdminRepository interface {
@@ -11,6 +12,7 @@ type AdminRepository interface {
 	AddDiscountToProduct(discount model.Discount) error
 	AddCoupon(coupon model.Coupon) error
 	FindDiscountByName(name string) (uint, error)
+	GetAllOrders(pagenation utils.Filter) ([]model.GetOrders, utils.Metadata, error)
 	ManageOrders(data model.ManageOrder) error
 }
 
@@ -194,4 +196,75 @@ func (c *adminRepo) ManageOrders(data model.ManageOrder) error {
 		data.Order_ID).Err()
 
 	return err
+}
+
+func (c *adminRepo) GetAllOrders(pagenation utils.Filter) ([]model.GetOrders, utils.Metadata, error) {
+
+	query :=
+
+		`WITH orders AS 
+		(
+		   SELECT
+			  * 
+		   FROM
+			  order_details
+		)
+		SELECT
+		   COUNT(*) OVER(),
+		   u.id,
+		   CONCAT(u.first_name, ' ', u.last_name) AS fullname,
+		   u.email,
+		   o.id,
+		   o.total,
+		   o.is_paid,
+		   o.status,
+		   o.created_at,
+		   o.updated_at 
+		FROM
+		   users u 
+		   JOIN
+			  orders o 
+			  ON u.id = o.user_id
+		LIMIT $1 OFFSET $2;`
+
+	rows, err := c.db.Query(query, pagenation.Limit(), pagenation.Offset())
+
+	if err != nil {
+		return nil, utils.Metadata{}, err
+	}
+
+	defer rows.Close()
+
+	var orders []model.GetOrders
+	var totalRecords int
+
+	for rows.Next() {
+		var order model.GetOrders
+
+		err = rows.Scan(
+			&totalRecords,
+			&order.User_ID,
+			&order.User_Name,
+			&order.Email,
+			&order.OrderID,
+			&order.TotalAmount,
+			&order.Is_Paid,
+			&order.Status,
+			&order.Ordered_At,
+			&order.Updated_At)
+
+		if err != nil {
+			return orders, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
+		}
+
+		orders = append(orders, order)
+
+	}
+
+	if err := rows.Err(); err != nil {
+		return orders, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), err
+	}
+
+	return orders, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
+
 }

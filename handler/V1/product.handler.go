@@ -111,8 +111,7 @@ func (c *productHandler) UpdateProduct() http.HandlerFunc {
 			return
 		}
 
-		product, _ := c.productService.GetProductByCode(requestData.Code)
-		response := response.BuildResponse(true, "OK!", product)
+		response := response.BuildResponse(true, "OK!", "product has been updated successfully")
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)

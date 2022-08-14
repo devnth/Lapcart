@@ -40,6 +40,7 @@ func (r *userRoute) UserRouter(routes chi.Router,
 		r.Delete("/user/delete/address-id-{addressid}", userHandler.DeleteAddress())
 		r.Get("/user/products", userHandler.GetAllProducts())
 		r.Post("/user/proceedtocheckout", userHandler.ProceedToCheckout())
+		r.Get("/user/orders", userHandler.GetAllOrders())
 		r.Get("/user/refresh/token", authHandler.UserRefreshToken())
 	})
 

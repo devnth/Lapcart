@@ -7,6 +7,7 @@ import (
 	"lapcart/service"
 	"lapcart/utils"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -16,6 +17,7 @@ type AdminHandler interface {
 	AddDiscount() http.HandlerFunc
 	AddCoupon() http.HandlerFunc
 	ManageOrder() http.HandlerFunc
+	GetAllOrders() http.HandlerFunc
 }
 
 type adminHandler struct {
@@ -153,6 +155,42 @@ func (c *adminHandler) ManageOrder() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK!", "order status updated")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+	}
+}
+
+func (c *adminHandler) GetAllOrders() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+		pageSize, _ := strconv.Atoi(r.URL.Query().Get("pagesize"))
+
+		pagenation := utils.Filter{
+			Page:     page,
+			PageSize: pageSize,
+		}
+
+		orders, metadata, err := c.adminService.GetAllOrders(pagenation)
+
+		result := struct {
+			Orders *[]model.GetOrders
+			Meta   *utils.Metadata
+		}{
+			Orders: orders,
+			Meta:   metadata,
+		}
+
+		if err != nil {
+			response := response.BuildErrorResponse("Failed to fetch orders", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", result)
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)

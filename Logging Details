@@ -6701,3 +6701,19 @@ Connected to database: lapcart
 				  WHERE p.is_deleted = false
 				 AND (price BETWEEN $2 AND $3)
 							LIMIT $4 OFFSET $5;
+2022/08/14 12:17:17 
+Connected to database: lapcart
+2022/08/14 12:17:17 Api is listening on port: 8080
+2022/08/14 12:17:26 
+	      Update 
+			product 
+		  SET is_deleted = true , deleted_at = $1
+		  WHERE code = $2;
+2022/08/14 12:18:12 
+Connected to database: lapcart
+2022/08/14 12:18:12 Api is listening on port: 8080
+2022/08/14 12:18:14 
+	      Update 
+			product 
+		  SET is_deleted = true , deleted_at = $1
+		  WHERE code = $2;

@@ -977,27 +977,27 @@ func (c *productRepo) DeleteProduct(data model.DeleteProduct) error {
 	query := `
 	      Update 
 			product 
-		  SET is_deleted = true 
+		  SET is_deleted = true , deleted_at = $1
 		  WHERE `
 
 	var arg interface{}
 
 	if data.ProductId != 0 {
 
-		query = query + `id = $1;`
+		query = query + `id = $2;`
 
 		arg = data.ProductId
 
 	}
 
 	if data.Product_Code != "" {
-		query = query + `code = $1;`
+		query = query + `code = $2;`
 		arg = data.Product_Code
 	}
 
 	log.Println(query)
 
-	_, err := c.db.Exec(query, arg)
+	_, err := c.db.Exec(query, data.Deleted_At, arg)
 
 	return err
 }

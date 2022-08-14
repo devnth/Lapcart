@@ -38,7 +38,7 @@ func (r *adminRoute) AdminRouter(routes chi.Router,
 		r.Post("/admin/product", productHandler.AddProduct())
 		r.Patch("/admin/product", productHandler.UpdateProduct())
 		r.Delete("/admin/product", productHandler.DeleteProducts())
-		r.Get("/admin/view/product/page-{page}", productHandler.ViewProducts())
+		r.Get("/admin/product", productHandler.ViewProducts())
 		r.Post("/admin/add/discount", adminHandler.AddDiscount())
 		r.Post("/admin/add/coupon", adminHandler.AddCoupon())
 		r.Post("/admin/manage/order", adminHandler.ManageOrder())

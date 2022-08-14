@@ -501,3 +501,15 @@ Connected to database: lapcart
 					 ORDER BY
 					 p.name 
 					LIMIT $3 OFFSET $4;
+2022/08/14 09:12:02 
+Connected to database: lapcart
+2022/08/14 09:12:02 Api is listening on port: 8080
+2022/08/14 09:15:15 
+Connected to database: lapcart
+2022/08/14 09:15:15 Api is listening on port: 8080
+2022/08/14 09:19:20 
+Connected to database: lapcart
+2022/08/14 09:19:20 Api is listening on port: 8080
+2022/08/14 09:19:24 1     10
+2022/08/14 09:19:50 2     10
+2022/08/14 09:20:18 1     10

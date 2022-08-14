@@ -6,11 +6,10 @@ import (
 	"lapcart/model"
 	"lapcart/service"
 	"lapcart/utils"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/go-chi/chi"
 )
 
 type ProductHandler interface {
@@ -61,11 +60,15 @@ func (c *productHandler) AddProduct() http.HandlerFunc {
 func (c *productHandler) ViewProducts() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		page, _ := strconv.Atoi(chi.URLParam(r, "page"))
+		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+
+		pageSize, _ := strconv.Atoi(r.URL.Query().Get("pagesize"))
+
+		log.Println(page, "   ", pageSize)
 
 		pagenation := utils.Filter{
 			Page:     page,
-			PageSize: 3,
+			PageSize: pageSize,
 		}
 
 		products, metadata, err := c.productService.ViewProducts(pagenation)

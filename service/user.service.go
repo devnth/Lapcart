@@ -27,6 +27,7 @@ type UserService interface {
 	SendVerificationEmail(user_id int) (*string, error)
 	VerifyEmail(user model.User) error
 	GetAllOrders(UserID int) (*[]model.Orders, error)
+	CancelOrder(order_id, user_id int) error
 }
 
 type userService struct {
@@ -198,6 +199,36 @@ func (c *userService) ProceedToCheckout(user_id int) error {
 
 	}
 	return nil
+}
+
+func (c *userService) CancelOrder(order_id, user_id int) error {
+
+	err := c.userRepo.CancelOrderById(order_id, user_id)
+
+	if err != nil {
+		return err
+	}
+
+	product_ids, quantities, err := c.userRepo.FindProductAndCountIdFromOrder(order_id)
+
+	if err != nil {
+		log.Println("error in find product id and count :", err)
+		return err
+	}
+
+	for i, product_id := range product_ids {
+
+		err := c.productRepo.ReUpdateStockById(product_id, quantities[i])
+
+		if err != nil {
+			log.Println("errors in reupdating stock: ", err)
+			return err
+		}
+
+	}
+
+	return nil
+
 }
 
 func (c *userService) ProcessingPayment(data model.Payment) (*model.Payment, error) {

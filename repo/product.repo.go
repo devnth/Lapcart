@@ -29,6 +29,7 @@ type ProductRepository interface {
 	ChangeStock(data model.UpdateProduct) error
 	InsertNewColor(data model.UpdateProduct) error
 	DeleteProduct(data model.DeleteProduct) error
+	ReUpdateStockById(product_id, stock int) error
 }
 
 type productRepo struct {
@@ -1000,4 +1001,18 @@ func (c *productRepo) DeleteProduct(data model.DeleteProduct) error {
 	_, err := c.db.Exec(query, data.Deleted_At, arg)
 
 	return err
+}
+
+func (c *productRepo) ReUpdateStockById(product_id, stock int) error {
+
+	query :=
+		`UPDATE
+		 product
+	 SET stock = (stock +$1)
+	 WHERE id = $2;`
+
+	_, err := c.db.Exec(query, stock, product_id)
+
+	return err
+
 }

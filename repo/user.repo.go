@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"lapcart/model"
 	"log"
@@ -29,6 +30,8 @@ type UserRepository interface {
 	DeleteVerifyData(user_id int) error
 	UpdateOfferPrice(data model.Payment) error
 	GetAllOrders(user_id int) ([]model.Orders, error)
+	CancelOrderById(order_id, user_id int) error
+	FindProductAndCountIdFromOrder(order_id int) ([]int, []int, error)
 }
 
 type userRepo struct {
@@ -351,7 +354,7 @@ func (c *userRepo) FindOrderByUserID(user_id int) (uint, float64, error) {
 				   order_details 
 				WHERE
 				   user_id = $1 
-				   AND is_paid = false;`
+				   AND is_paid = false AND status <> 'cancelled';`
 
 	err := c.db.QueryRow(query, user_id).Scan(&order_id, &total)
 
@@ -721,4 +724,69 @@ func (c *userRepo) GetAllOrders(user_id int) ([]model.Orders, error) {
 
 	return orders, nil
 
+}
+
+func (c *userRepo) CancelOrderById(order_id, user_id int) error {
+
+	querycheck :=
+
+		`SELECT 
+		TRUE 
+		FROM order_details
+		WHERE id = $1 AND user_id = $2 AND status = 'waiting';`
+
+	var ok bool
+
+	c.db.QueryRow(querycheck, order_id, user_id).Scan(&ok)
+
+	if !ok {
+		return errors.New("you have no erros to cancel")
+	}
+
+	query := `UPDATE
+				 order_details 
+			     SET status = 'cancelled'
+			  WHERE
+			     id = $1 AND user_id = $2 AND status <> 'cancelled';`
+
+	_, err := c.db.Exec(query, order_id, user_id)
+
+	return err
+}
+
+func (c *userRepo) FindProductAndCountIdFromOrder(order_id int) ([]int, []int, error) {
+
+	query := `SELECT 
+				product_id, quantity
+			 FROM order_items
+			 WHERE order_id = $1;`
+
+	rows, err := c.db.Query(query, order_id)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	defer rows.Close()
+
+	var product_ids, quantities []int
+
+	for rows.Next() {
+
+		var product_id, quantity int
+
+		if err := rows.Scan(&product_id, &quantity); err != nil {
+			return product_ids, quantities, err
+		}
+
+		product_ids = append(product_ids, product_id)
+		quantities = append(quantities, quantity)
+
+	}
+
+	if err := rows.Err(); err != nil {
+		return product_ids, quantities, err
+	}
+
+	return product_ids, quantities, nil
 }

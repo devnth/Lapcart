@@ -41,6 +41,7 @@ func (r *userRoute) UserRouter(routes chi.Router,
 		r.Get("/user/products", userHandler.GetAllProducts())
 		r.Post("/user/proceedtocheckout", userHandler.ProceedToCheckout())
 		r.Get("/user/orders", userHandler.GetAllOrders())
+		r.Patch("/user/orders", userHandler.CancelOrder())
 		r.Get("/user/refresh/token", authHandler.UserRefreshToken())
 	})
 

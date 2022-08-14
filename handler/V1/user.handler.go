@@ -28,6 +28,7 @@ type UserHandler interface {
 	PaymentSuccess() http.HandlerFunc
 	Success() http.HandlerFunc
 	GetAllOrders() http.HandlerFunc
+	CancelOrder() http.HandlerFunc
 }
 
 type userHandler struct {
@@ -376,6 +377,30 @@ func (c *userHandler) GetAllOrders() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK!", Orders)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *userHandler) CancelOrder() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		order_id, _ := strconv.Atoi(r.URL.Query().Get("order_id"))
+		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
+
+		err := c.userService.CancelOrder(order_id, user_id)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error cancelling orders", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "order cancelled successfully")
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)

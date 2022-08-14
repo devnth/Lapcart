@@ -7,3 +7,121 @@ Connected to database: lapcart
 2022/08/13 23:29:28 
 Connected to database: lapcart
 2022/08/13 23:29:28 Api is listening on port: 8080
+2022/08/14 08:51:18 
+Connected to database: lapcart
+2022/08/14 08:51:18 Api is listening on port: 8080
+2022/08/14 08:53:48 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/14 08:55:01 
+Connected to database: lapcart
+2022/08/14 08:55:01 Api is listening on port: 8080
+2022/08/14 08:55:45 
+Connected to database: lapcart
+2022/08/14 08:55:45 Api is listening on port: 8080
+2022/08/14 08:55:49 
+	      Update 
+			product 
+		  SET is_deleted = true 
+		  WHERE 
+2022/08/14 08:56:53 
+	      Update 
+			product 
+		  SET is_deleted = true 
+		  WHERE 
+2022/08/14 08:57:46 
+	      Update 
+			product 
+		  SET is_deleted = true 
+		  WHERE id = $1;
+2022/08/14 08:58:20 
+	      Update 
+			product 
+		  SET is_deleted = true 
+		  WHERE code = $1;

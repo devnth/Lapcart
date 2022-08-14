@@ -28,6 +28,7 @@ type ProductRepository interface {
 	ChangeColor(data model.UpdateProduct) error
 	ChangeStock(data model.UpdateProduct) error
 	InsertNewColor(data model.UpdateProduct) error
+	DeleteProduct(data model.DeleteProduct) error
 }
 
 type productRepo struct {
@@ -945,6 +946,36 @@ func (c *productRepo) InsertNewColor(data model.UpdateProduct) error {
 		product.Price,
 		data.Updated_At,
 	).Err()
+
+	return err
+}
+
+func (c *productRepo) DeleteProduct(data model.DeleteProduct) error {
+
+	query := `
+	      Update 
+			product 
+		  SET is_deleted = true 
+		  WHERE `
+
+	var arg interface{}
+
+	if data.ProductId != 0 {
+
+		query = query + `id = $1;`
+
+		arg = data.ProductId
+
+	}
+
+	if data.Product_Code != "" {
+		query = query + `code = $1;`
+		arg = data.Product_Code
+	}
+
+	log.Println(query)
+
+	_, err := c.db.Exec(query, arg)
 
 	return err
 }

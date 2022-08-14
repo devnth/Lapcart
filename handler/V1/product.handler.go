@@ -17,6 +17,7 @@ type ProductHandler interface {
 	AddProduct() http.HandlerFunc
 	ViewProducts() http.HandlerFunc
 	UpdateProduct() http.HandlerFunc
+	DeleteProducts() http.HandlerFunc
 }
 
 type productHandler struct {
@@ -112,6 +113,34 @@ func (c *productHandler) UpdateProduct() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK!", "product has been updated successfully")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *productHandler) DeleteProducts() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var data model.DeleteProduct
+
+		data.ProductId, _ = strconv.Atoi(r.URL.Query().Get("productId"))
+		data.Product_Code = r.URL.Query().Get("productCode")
+
+		data.Deleted_At, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+		err := c.productService.DeleteProduct(data)
+
+		if err != nil {
+			response := response.BuildErrorResponse("Failed to delete product", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "product has been deleted successfully")
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)

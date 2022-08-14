@@ -209,3 +209,9 @@ type UpdateProduct struct {
 	Image          string    `json:"image"`
 	Updated_At     time.Time `json:"updated_at"`
 }
+
+type DeleteProduct struct {
+	ProductId    int       `json:"product_id"`
+	Product_Code string    `json:"product_code"`
+	Deleted_At   time.Time `json:"deleted_at"`
+}

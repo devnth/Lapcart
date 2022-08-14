@@ -37,12 +37,14 @@ func (r *adminRoute) AdminRouter(routes chi.Router,
 		r.Put("/admin/block/users", adminHandler.ManageUsers())
 		r.Post("/admin/product", productHandler.AddProduct())
 		r.Patch("/admin/product", productHandler.UpdateProduct())
+		r.Delete("/admin/product", productHandler.DeleteProducts())
 		r.Get("/admin/view/product/page-{page}", productHandler.ViewProducts())
 		r.Post("/admin/add/discount", adminHandler.AddDiscount())
 		r.Post("/admin/add/coupon", adminHandler.AddCoupon())
 		r.Post("/admin/manage/order", adminHandler.ManageOrder())
 		r.Get("/admin/refresh/token", authHandler.AdminRefreshToken())
 		r.Get("/admin/manage/order", adminHandler.GetAllOrders())
+
 	})
 
 }

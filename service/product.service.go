@@ -14,6 +14,7 @@ type ProductService interface {
 	GetProductByCode(productCode string) (*model.ProductResponse, error)
 	ViewProducts(pagenation utils.Filter) (*[]model.ProductResponse, *utils.Metadata, error)
 	UpdateProduct(product model.UpdateProduct) error
+	DeleteProduct(data model.DeleteProduct) error
 }
 
 type productService struct {
@@ -161,4 +162,16 @@ func (c *productService) UpdateProduct(data model.UpdateProduct) error {
 	}
 
 	return nil
+}
+
+func (c *productService) DeleteProduct(data model.DeleteProduct) error {
+
+	err := c.productRepo.DeleteProduct(data)
+
+	if err != nil {
+		return err
+	}
+
+	return err
+
 }

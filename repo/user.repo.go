@@ -543,8 +543,6 @@ func (c *userRepo) UpdateUser(data model.User) error {
 
 	statement, err := c.db.Prepare(query)
 
-	log.Println(query)
-
 	if err != nil {
 		log.Println("Error ", "error in preparing query: ", err)
 		return err

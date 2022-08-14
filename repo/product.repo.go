@@ -425,7 +425,8 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			  	  w.wishlist,
 				  p.color,
 			  	  p.discount_id,
-			  	  ARRAY_AGG(color) AS colors 
+			  	  ARRAY_AGG(color) AS colors,
+				  p.is_deleted
 			     FROM
 			  	  product p 
 			  	  LEFT JOIN
@@ -441,7 +442,8 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			  	  p.image,
 			  	  p.price,
 				  p.color,
-			  	  w.wishlist
+			  	  w.wishlist,
+				  p.is_deleted
 			  )
 			  SELECT
 			     COUNT(*) OVER(),
@@ -471,6 +473,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			     LEFT JOIN
 			  	  discount d 
 			  	  ON p.discount_id = d.id 
+				  WHERE p.is_deleted = false
 				 `
 
 	var totalRecords int
@@ -482,7 +485,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Category) != 0 {
 
-		query = query + `WHERE c.name IN (`
+		query = query + `AND c.name IN (`
 
 		for j, category := range filter.Category {
 			query = query + "$" + fmt.Sprintf("%d", i)
@@ -497,11 +500,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Brand) != 0 {
 
-		if i > 2 {
-			query = query + `AND b.name IN (`
-		} else {
-			query = query + `WHERE b.name IN (`
-		}
+		query = query + `AND b.name IN (`
 
 		for j, brand := range filter.Brand {
 			query = query + "$" + fmt.Sprintf("%d", i)
@@ -516,11 +515,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Color) != 0 {
 
-		if i > 2 {
-			query = query + `AND p.color IN (`
-		} else {
-			query = query + `WHERE p.color IN (`
-		}
+		query = query + `AND p.color IN (`
 
 		for j, color := range filter.Color {
 			query = query + "$" + fmt.Sprintf("%d", i)
@@ -535,11 +530,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Processor) != 0 {
 
-		if i > 2 {
-			query = query + `AND pr.name IN (`
-		} else {
-			query = query + `WHERE pr.name IN (`
-		}
+		query = query + `AND pr.name IN (`
 
 		for j, processor := range filter.Processor {
 			query = query + "$" + fmt.Sprintf("%d", i)
@@ -554,11 +545,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Name) != 0 {
 
-		if i > 2 {
-			query = query + `AND p.name IN (`
-		} else {
-			query = query + `WHERE p.name IN (`
-		}
+		query = query + `AND p.name IN (`
 
 		for j, name := range filter.Name {
 			query = query + "$" + fmt.Sprintf("%d", i)
@@ -573,11 +560,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.ProductCode) != 0 {
 
-		if i > 2 {
-			query = query + `AND p.code IN (`
-		} else {
-			query = query + `WHERE p.code IN (`
-		}
+		query = query + `AND p.code IN (`
 
 		for j, code := range filter.ProductCode {
 			query = query + "$" + fmt.Sprintf("%d", i)

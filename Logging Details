@@ -125,3 +125,379 @@ Connected to database: lapcart
 			product 
 		  SET is_deleted = true 
 		  WHERE code = $1;
+2022/08/14 09:03:06 
+Connected to database: lapcart
+2022/08/14 09:03:06 Api is listening on port: 8080
+2022/08/14 09:03:15 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors 
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				  WHERE is_delete = false
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/14 09:03:15 Error Query prepare failed:  pq: column "is_delete" does not exist
+2022/08/14 09:04:16 
+Connected to database: lapcart
+2022/08/14 09:04:16 Api is listening on port: 8080
+2022/08/14 09:04:19 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors,
+				  p.is_deleted
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				  WHERE p.is_deleted = false
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/14 09:04:19 Error Query prepare failed:  pq: column "p.is_deleted" must appear in the GROUP BY clause or be used in an aggregate function
+2022/08/14 09:04:41 
+Connected to database: lapcart
+2022/08/14 09:04:41 Api is listening on port: 8080
+2022/08/14 09:04:44 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors,
+				  p.is_deleted
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist,
+				  p.is_deleted
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				  WHERE p.is_deleted = false
+				 
+					 ORDER BY
+					 p.name 
+					LIMIT $2 OFFSET $3;
+2022/08/14 09:06:00 WITH wishlist AS 
+			  (
+			     SELECT
+			  	  true as wishlist,
+			  	  w.product_code 
+			     FROM
+			  	  wishlist w 
+			     WHERE
+			  	  w.user_id = $1
+			  )
+			  ,
+			  discount AS 
+			  (
+			     SELECT
+			  	  d.id,
+			  	  d.name,
+			  	  d.percentage,
+			  	  d.valid_till 
+			     FROM
+			  	  discount d 
+			     WHERE
+			  	  status = true 
+			  	  AND valid_till > NOW() 
+			  )
+			  ,
+			  product AS 
+			  (
+			     SELECT
+			  	  ARRAY_AGG(p.id) AS id,
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.image,
+			  	  p.price,
+			  	  w.wishlist,
+				  p.color,
+			  	  p.discount_id,
+			  	  ARRAY_AGG(color) AS colors,
+				  p.is_deleted
+			     FROM
+			  	  product p 
+			  	  LEFT JOIN
+			  		 wishlist w 
+			  		 ON p.code = w.product_code 
+			     GROUP BY
+			  	  p.code,
+			  	  p.name,
+			  	  p.category_id,
+			  	  p.brand_id,
+			  	  p.processor_id,
+			  	  p.discount_id,
+			  	  p.image,
+			  	  p.price,
+				  p.color,
+			  	  w.wishlist,
+				  p.is_deleted
+			  )
+			  SELECT
+			     COUNT(*) OVER(),
+			     p.id,
+				 p.code,
+			     p.name,
+			     c.name,
+			     b.name,
+			     pr.name,
+			     p.image,
+			     p.price,
+			     COALESCE(p.wishlist, false),
+			     p.colors,
+			     COALESCE(d.name, ''),
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			  FROM
+			     product p 
+			     JOIN
+			  	  category c 
+			  	  ON p.category_id = c.id 
+			     JOIN
+			  	  brand b 
+			  	  ON p.brand_id = b.id 
+			     JOIN
+			  	  processor pr 
+			  	  ON p.processor_ID = pr.id 
+			     LEFT JOIN
+			  	  discount d 
+			  	  ON p.discount_id = d.id 
+				  WHERE p.is_deleted = false
+				 AND p.code IN ($2)
+					 ORDER BY
+					 p.name 
+					LIMIT $3 OFFSET $4;

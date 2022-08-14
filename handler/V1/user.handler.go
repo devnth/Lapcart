@@ -8,6 +8,7 @@ import (
 	"lapcart/utils"
 	"net/http"
 	"strconv"
+	"strings"
 	"text/template"
 	"time"
 
@@ -130,6 +131,13 @@ func (c *userHandler) GetAllProducts() http.HandlerFunc {
 		filter.Name = r.Form["name"]
 		filter.Processor = r.Form["processor"]
 		filter.ProductCode = r.Form["product_code"]
+		filter.Sort.Name = r.URL.Query().Get("sortbyname")
+		filter.Sort.Price = r.URL.Query().Get("sortbyprice")
+		filter.Sort.Latest = r.URL.Query().Get("sortbylatest")
+		priceRange := r.URL.Query().Get("range")
+		price := strings.Split(priceRange, "-")
+		filter.PriceRange.Min, _ = strconv.Atoi(price[0])
+		filter.PriceRange.Max, _ = strconv.Atoi(price[1])
 
 		pagenation := utils.Filter{
 			Page:     page,

@@ -128,6 +128,19 @@ type Filter struct {
 	Processor   []string `json:"processor"`
 	Name        []string `json:"name"`
 	ProductCode []string `json:"product_code"`
+	Sort
+	PriceRange
+}
+
+type Sort struct {
+	Name   string
+	Price  string
+	Latest string
+}
+
+type PriceRange struct {
+	Min int
+	Max int
 }
 
 type Cart struct {

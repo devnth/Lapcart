@@ -426,7 +426,8 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 				  p.color,
 			  	  p.discount_id,
 			  	  ARRAY_AGG(color) AS colors,
-				  p.is_deleted
+				  p.is_deleted,
+				  p.created_at
 			     FROM
 			  	  product p 
 			  	  LEFT JOIN
@@ -443,7 +444,8 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			  	  p.price,
 				  p.color,
 			  	  w.wishlist,
-				  p.is_deleted
+				  p.is_deleted,
+				  p.created_at
 			  )
 			  SELECT
 			     COUNT(*) OVER(),
@@ -485,13 +487,14 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Category) != 0 {
 
-		query = query + `AND c.name IN (`
+		query = query + `AND (`
 
 		for j, category := range filter.Category {
-			query = query + "$" + fmt.Sprintf("%d", i)
+			query = query + fmt.Sprintf("c.name ILIKE %d", i)
 			if j != len(filter.Category)-1 {
-				query = query + ","
+				query = query + " OR "
 			}
+			category = fmt.Sprint(category, "%")
 			arg = append(arg, category)
 			i++
 		}
@@ -500,13 +503,14 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Brand) != 0 {
 
-		query = query + `AND b.name IN (`
+		query = query + `AND (`
 
 		for j, brand := range filter.Brand {
-			query = query + "$" + fmt.Sprintf("%d", i)
+			query = query + fmt.Sprintf("b.name ILIKE %d", i)
 			if j != len(filter.Brand)-1 {
-				query = query + ","
+				query = query + " OR "
 			}
+			brand = fmt.Sprint(brand, "%")
 			arg = append(arg, brand)
 			i++
 		}
@@ -515,13 +519,14 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Color) != 0 {
 
-		query = query + `AND p.color IN (`
+		query = query + `AND (`
 
 		for j, color := range filter.Color {
-			query = query + "$" + fmt.Sprintf("%d", i)
+			query = query + fmt.Sprintf("p.color ILIKE $%d", i)
 			if j != len(filter.Color)-1 {
-				query = query + ","
+				query = query + " OR "
 			}
+			color = fmt.Sprint(color, "%")
 			arg = append(arg, color)
 			i++
 		}
@@ -530,13 +535,15 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Processor) != 0 {
 
-		query = query + `AND pr.name IN (`
+		query = query + `AND (`
 
 		for j, processor := range filter.Processor {
-			query = query + "$" + fmt.Sprintf("%d", i)
+			query = query + "pr.name ILIKE $" + fmt.Sprintf("%d", i)
 			if j != len(filter.Processor)-1 {
-				query = query + ","
+				query = query + " OR "
 			}
+
+			processor = fmt.Sprint("%", processor, "%")
 			arg = append(arg, processor)
 			i++
 		}
@@ -545,13 +552,14 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Name) != 0 {
 
-		query = query + `AND p.name IN (`
+		query = query + `AND ( `
 
 		for j, name := range filter.Name {
-			query = query + "$" + fmt.Sprintf("%d", i)
+			query = query + "p.name ILIKE $" + fmt.Sprintf("%d", i)
 			if j != len(filter.Name)-1 {
-				query = query + ","
+				query = query + " OR "
 			}
+			name = fmt.Sprint(name, "%")
 			arg = append(arg, name)
 			i++
 		}
@@ -560,23 +568,54 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.ProductCode) != 0 {
 
-		query = query + `AND p.code IN (`
+		query = query + `AND (`
 
 		for j, code := range filter.ProductCode {
-			query = query + "$" + fmt.Sprintf("%d", i)
+			query = query + fmt.Sprintf("p.code ILIKE %d", i)
 			if j != len(filter.ProductCode)-1 {
-				query = query + ","
+				query = query + " OR "
 			}
+			code = fmt.Sprint("%", code, "%")
 			arg = append(arg, code)
 			i++
 		}
 		query = query + ")"
 	}
 
-	query = query + `
-					 ORDER BY
-					 p.name 
-					LIMIT $` + fmt.Sprintf(`%d OFFSET $%d;`, i, i+1)
+	if filter.PriceRange.Max != 0 {
+
+		query = query + fmt.Sprintf("AND (price BETWEEN $%d AND $%d)", i, i+1)
+		arg = append(arg, filter.PriceRange.Min)
+		arg = append(arg, filter.PriceRange.Max)
+		i = i + 2
+
+	}
+
+	if filter.Sort.Price != "" {
+
+		query = query + fmt.Sprintf(`
+					ORDER BY 
+					discount_price %v `, filter.Sort.Price)
+
+	}
+
+	if filter.Sort.Name != "" {
+
+		query = query + fmt.Sprintf(`
+								ORDER BY 
+								p.name %v`, filter.Sort.Name)
+	}
+
+	if filter.Sort.Latest != "" {
+
+		query = query + fmt.Sprintf(`
+								ORDER BY 
+								p.created_at %v`, filter.Sort.Latest)
+
+	}
+
+	query = query + fmt.Sprintf(`
+							LIMIT $%d OFFSET $%d;`, i, i+1)
 	arg = append(arg, pagenation.Limit())
 	arg = append(arg, pagenation.Offset())
 

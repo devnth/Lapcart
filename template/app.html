@@ -53,9 +53,9 @@ document.getElementById('rzp-button1').onclick = function(e){
 function verifyPayment(res){
     console.log('function 2')
     $.ajax({
-      url: `/payment-success?user_id={{.UserID}}&&payment_id=${res.razorpay_payment_id}&&order_id=${res.razorpay_order_id}
-      &&signature=${res.razorpay_signature}&&id={{.OrderId}}&&coupon={{.Coupon}}
-      &&amount={{.TotalPrice}}`,
+      url: `/payment-success?user_id={{.UserID}}&payment_id=${res.razorpay_payment_id}&order_id=${res.razorpay_order_id}
+      &signature=${res.razorpay_signature}&id={{.OrderId}}&coupon={{.Coupon}}
+      &amount={{.TotalPrice}}`,
       method: 'Get',
       success: (response) => {
         if (response.status) {

@@ -488,10 +488,10 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Category) != 0 {
 
-		query = query + `AND (`
+		query = query + ` AND (`
 
 		for j, category := range filter.Category {
-			query = query + fmt.Sprintf("c.name ILIKE %d", i)
+			query = query + fmt.Sprintf("c.name ILIKE $%d", i)
 			if j != len(filter.Category)-1 {
 				query = query + " OR "
 			}
@@ -504,10 +504,10 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Brand) != 0 {
 
-		query = query + `AND (`
+		query = query + ` AND (`
 
 		for j, brand := range filter.Brand {
-			query = query + fmt.Sprintf("b.name ILIKE %d", i)
+			query = query + fmt.Sprintf("b.name ILIKE $%d", i)
 			if j != len(filter.Brand)-1 {
 				query = query + " OR "
 			}
@@ -520,7 +520,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Color) != 0 {
 
-		query = query + `AND (`
+		query = query + ` AND (`
 
 		for j, color := range filter.Color {
 			query = query + fmt.Sprintf("p.color ILIKE $%d", i)
@@ -539,7 +539,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 		query = query + `AND (`
 
 		for j, processor := range filter.Processor {
-			query = query + "pr.name ILIKE $" + fmt.Sprintf("%d", i)
+			query = query + fmt.Sprintf("pr.name ILIKE $%d", i)
 			if j != len(filter.Processor)-1 {
 				query = query + " OR "
 			}
@@ -553,7 +553,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.Name) != 0 {
 
-		query = query + `AND ( `
+		query = query + ` AND ( `
 
 		for j, name := range filter.Name {
 			query = query + "p.name ILIKE $" + fmt.Sprintf("%d", i)
@@ -569,7 +569,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if len(filter.ProductCode) != 0 {
 
-		query = query + `AND (`
+		query = query + ` AND (`
 
 		for j, code := range filter.ProductCode {
 			query = query + fmt.Sprintf("p.code ILIKE %d", i)
@@ -585,7 +585,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 
 	if filter.PriceRange.Max != 0 {
 
-		query = query + fmt.Sprintf("AND (price BETWEEN $%d AND $%d)", i, i+1)
+		query = query + fmt.Sprintf(" AND (price BETWEEN $%d AND $%d)", i, i+1)
 		arg = append(arg, filter.PriceRange.Min)
 		arg = append(arg, filter.PriceRange.Max)
 		i = i + 2

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS order_details (
     coupon_id BIGINT REFERENCES coupons(id),
     is_paid  BOOLEAN DEFAULT false,
     payment_id BIGINT REFERENCES payment(id),
-    status TEXT DEFAULT 'processing',
+    status TEXT DEFAULT 'waiting',
     total NUMERIC(20,2) NOT NULL,
     created_at TIMESTAMP,
     updated_at TIMESTAMP

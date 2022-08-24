@@ -14,7 +14,7 @@ COPY . .
 COPY .env .
 COPY start.sh .
 COPY wait-for.sh .
-COPY /migrations ./migration
+
 
 EXPOSE 8080
 CMD [ "/app/main" ]

@@ -119,7 +119,6 @@ func (c *userHandler) GetAllProducts() http.HandlerFunc {
 		var filter model.Filter
 
 		user_id, _ := strconv.Atoi(r.Header.Get("user_id"))
-		// page, _ := strconv.Atoi(chi.URLParam(r, "page"))
 
 		page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 		pageSize, _ := strconv.Atoi(r.URL.Query().Get("pagesize"))
@@ -136,9 +135,11 @@ func (c *userHandler) GetAllProducts() http.HandlerFunc {
 		filter.Sort.Price = r.URL.Query().Get("sortbyprice")
 		filter.Sort.Latest = r.URL.Query().Get("sortbylatest")
 		priceRange := r.URL.Query().Get("range")
-		price := strings.Split(priceRange, "-")
-		filter.PriceRange.Min, _ = strconv.Atoi(price[0])
-		filter.PriceRange.Max, _ = strconv.Atoi(price[1])
+		if priceRange != "" {
+			price := strings.Split(priceRange, "-")
+			filter.PriceRange.Min, _ = strconv.Atoi(price[0])
+			filter.PriceRange.Max, _ = strconv.Atoi(price[1])
+		}
 
 		pagenation := utils.Filter{
 			Page:     page,

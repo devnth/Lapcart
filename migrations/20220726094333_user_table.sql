@@ -15,12 +15,10 @@ CREATE TABLE IF NOT EXISTS users (
 INSERT INTO users (first_name, last_name, password, email, phone_number)
 VALUES 
  ('Dev', 'Anil', '5f4dcc3b5aa765d61d8327deb882cf99', 'dev@email.com', 9999999898), 
- ('Anu', 'Anil', '5f4dcc3b5aa765d61d8327deb882cf99', 'anu@email.com', 9999999898),
- ('Manu', 'Anil', '5f4dcc3b5aa765d61d8327deb882cf99', 'manu@email.com', 9999999898),
  ('Tanu', 'Anil', '5f4dcc3b5aa765d61d8327deb882cf99', 'Tanu@email.com', 9999999898);
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS users CASCADE;
+-- DROP TABLE IF EXISTS users CASCADE;
 -- +goose StatementEnd

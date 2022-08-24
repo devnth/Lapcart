@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS order_items (
 
 -- +goose Down
 -- +goose StatementBegin
-
+-- 
 -- +goose StatementEnd

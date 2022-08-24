@@ -9,5 +9,5 @@ description VARCHAR(500) DEFAULT 'brand description'
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS brand;
+-- DROP TABLE IF EXISTS brand;
 -- +goose StatementEnd

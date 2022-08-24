@@ -322,23 +322,46 @@ func (c *userRepo) AddOrder(orderDetails model.OrderDetails) (uint, error) {
 
 func (c *userRepo) AddOrderItems(orderItems model.OrderItems) error {
 
-	query := `
+	var query string
+
+	if orderItems.DiscountID != 0 {
+
+		query = `
 				INSERT INTO
-				   order_items ( order_id, product_id, discount_id, quantity, created_at) 
+				   order_items ( order_id, product_id, quantity, created_at,discount_id) 
 				VALUES
 				   (
-				      $1, $2, $3, $4, $5
+				      $1, $2, $3, $4, $5 
+				   )
+				;`
+
+		err := c.db.QueryRow(query,
+			orderItems.OrderID,
+			orderItems.ProductID,
+			orderItems.Quantity,
+			orderItems.Created_At,
+			orderItems.DiscountID).Err()
+
+		return err
+	}
+
+	query = `
+				INSERT INTO
+				   order_items ( order_id, product_id, quantity, created_at) 
+				VALUES
+				   (
+				      $1, $2, $3, $4
 				   )
 				;`
 
 	err := c.db.QueryRow(query,
 		orderItems.OrderID,
 		orderItems.ProductID,
-		orderItems.DiscountID,
 		orderItems.Quantity,
 		orderItems.Created_At).Err()
 
 	return err
+
 }
 
 func (c *userRepo) FindOrderByUserID(user_id int) (uint, float64, error) {

@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS order_details (
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS order_details ;
+-- DROP TABLE IF EXISTS order_details ;
 -- +goose StatementEnd

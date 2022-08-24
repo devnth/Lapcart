@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE product (
+CREATE TABLE IF NOT EXISTS product (
 id BIGSERIAL PRIMARY KEY,
 code VARCHAR(200) NOT NULL,
 name VARCHAR(400) NOT NULL,
@@ -23,5 +23,5 @@ deleted_at TIMESTAMP
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS product CASCADE;
+-- DROP TABLE IF EXISTS product CASCADE;
 -- +goose StatementEnd 

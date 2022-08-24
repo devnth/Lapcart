@@ -1,11 +1,4 @@
-postgres:
-	docker run --name postgres14 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=1234 -p 127.0.0.1:5434:80 -d postgres:14-alpine
 
-createdb:
-	docker exec -it postgres14 createdb --username=postgres --owner=postgres lapcart -U postgres
-
-dropdb:
-	docker exec -it postgres14 dropdb lapcart -U postgres
 
 goose_reset:
 	goose -dir migrations postgres "user=postgres password=1234 dbname=lapcart sslmode=disable" reset
@@ -19,4 +12,13 @@ goose_down:
 goose_status:
 	goose -dir migrations postgres "user=postgres password=1234 dbname=lapcart sslmode=disable" status
 
-.PHONY: postgres createdb dropdb goose_reset goose_up goose_status goose_down
+docker_build:
+	docker compose build --no-cache
+
+docker_up:
+	docker compose up
+
+docker_down:
+	docker compose down
+
+.PHONY: goose_reset goose_up goose_status goose_down docker__build docker_up docker_down

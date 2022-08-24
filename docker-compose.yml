@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=lapcart
+    volumes:
+      - psql-data:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_SOURCE=postgresql://postgres:1234@postgres:5432/lapcart?sslmode=disable
+    depends_on:
+      - postgres
+    entrypoint:
+      [
+        "/app/wait-for.sh",
+        "postgres:5432",
+        "--",
+        "/app/start.sh"
+      ]
+    command: [ "/app/main" ]
+volumes:
+  psql-data:
+

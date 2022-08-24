@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS wishlist (
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS wishlist;
+-- DROP TABLE IF EXISTS wishlist;
 -- +goose StatementEnd

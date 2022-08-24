@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS address(
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS "address";
+-- DROP TABLE IF EXISTS "address";
 -- +goose StatementEnd

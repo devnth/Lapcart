@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS verify_email (
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS verify_email;
+-- DROP TABLE IF EXISTS verify_email;
 -- +goose StatementEnd

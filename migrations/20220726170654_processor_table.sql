@@ -9,5 +9,5 @@ description VARCHAR (500) DEFAULT 'processor description'
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS processor;
+-- DROP TABLE IF EXISTS processor;
 -- +goose StatementEnd

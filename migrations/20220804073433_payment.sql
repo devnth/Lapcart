@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS payment(
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS payment;
+-- DROP TABLE IF EXISTS payment;
 -- +goose StatementEnd

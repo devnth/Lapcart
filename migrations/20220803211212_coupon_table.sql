@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS coupons(
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS coupons;
+-- DROP TABLE IF EXISTS coupons;
 -- +goose StatementEnd

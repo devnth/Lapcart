@@ -10,10 +10,10 @@ CREATE TABLE IF NOT EXISTS admin(
       created_at TIMESTAMP DEFAULT NOW()
    );
 INSERT INTO admin (first_name, last_name, password, email, phone_number)
-VALUES ('Devanath', 'Anil', '5f4dcc3b5aa765d61d8327deb882cf99', 'dev@dev.com', 8111923509);
+VALUES ('Devanath', 'Anil', '5f4dcc3b5aa765d61d8327deb882cf99', 'devanilkumar05@gmail.com', 8111923509);
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS admin;
+-- DROP TABLE IF EXISTS admin;
 -- +goose StatementEnd

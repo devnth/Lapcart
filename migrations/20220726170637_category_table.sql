@@ -9,5 +9,5 @@ description VARCHAR(500) DEFAULT 'category description'
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE  IF EXISTS category;
+-- DROP TABLE  IF EXISTS category;
 -- +goose StatementEnd

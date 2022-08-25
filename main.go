@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"lapcart/config"
-	v1 "lapcart/handler/v1"
+	v1 "lapcart/handler"
 	m "lapcart/middleware"
 	"lapcart/repo"
 	"lapcart/routes"

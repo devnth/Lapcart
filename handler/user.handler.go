@@ -1,4 +1,4 @@
-package v1
+package handler
 
 import (
 	"encoding/json"
@@ -410,7 +410,7 @@ func (c *userHandler) CancelOrder() http.HandlerFunc {
 }
 
 func (c *userHandler) Success() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, _ *http.Request) {
 
 		parsedTemplate, _ := template.ParseFiles("template/success.html")
 		parsedTemplate.Execute(w, nil)

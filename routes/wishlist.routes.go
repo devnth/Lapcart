@@ -1,7 +1,7 @@
 package routes
 
 import (
-	v1 "lapcart/handler/v1"
+	v1 "lapcart/handler"
 	m "lapcart/middleware"
 
 	"github.com/go-chi/chi"

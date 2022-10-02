@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/devanath/Documents/Go WorkSpace/Lapcart'
+goose -dir migrations postgres "user=postgres password=1234 dbname=lapcart sslmode=disable" reset
+make: Leaving directory `/Users/devanath/Documents/Go WorkSpace/Lapcart'
+ 

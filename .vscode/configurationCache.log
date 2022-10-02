@@ -1,0 +1,1 @@
+{"buildTargets":["docker__build","docker_build","docker_down","docker_up","goose_down","goose_reset","goose_status","goose_up"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

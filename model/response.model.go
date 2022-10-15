@@ -29,7 +29,7 @@ type UserResponse struct {
 	Token string `json:"token,omitempty"`
 }
 
-//table schema for user address
+// table schema for user address
 type AddressResponse struct {
 	Id          int    `json:"address_id,omitempty"`
 	AddressType string `json:"address_type"`
@@ -58,7 +58,9 @@ type GetProduct struct {
 	DiscountName  string  `json:"discount_name,omitempty"`
 	Price         float64 `json:"price"`
 	DiscountPrice float64 `json:"discount_price,omitempty"`
-	Image         string  `json:"image"`
+	Image1        string  `json:"image1"`
+	Image2        string  `json:"image2"`
+	Image3        string  `json:"image3"`
 	WishList      bool    `json:"wishlist,omitempty"`
 }
 
@@ -74,7 +76,7 @@ type GetCategory struct {
 	Description string `json:"description,omitempty"`
 }
 
-//table schema for product color
+// table schema for product color
 type GetColor struct {
 	Name []string `json:"name"`
 }
@@ -84,7 +86,7 @@ type GetProcessor struct {
 	Name string `json:"name"`
 }
 
-//table schema for product_discount
+// table schema for product_discount
 type GetDiscount struct {
 	ID          uint    `json:"id,omitempty"`
 	Name        string  `json:"name"`

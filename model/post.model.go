@@ -25,7 +25,7 @@ type User struct {
 	Verification_Code int       `json:"verification_code,omitempty"`
 }
 
-//table schema for user address
+// table schema for user address
 type Address struct {
 	User_id     int    `json:"user_id,omitempty"`
 	AddressType string `json:"address_type"`
@@ -59,7 +59,9 @@ type Product struct {
 	Colors      []Color   `json:"colors"`
 	Price       float64   `json:"price"`
 	Rating      float32   `json:"rating"`
-	Image       string    `json:"image"`
+	Image1      string    `json:"image1"`
+	Image2      string    `json:"image2"`
+	Image3      string    `json:"image3"`
 	IsDeleted   bool      `json:"is_deleted,omitempty"`
 	Updated_At  time.Time `json:"updated_at,omitempty"`
 }
@@ -71,27 +73,27 @@ type Category struct {
 	Description string `json:"description,omitempty"`
 }
 
-//table scehma for product_branding
+// table scehma for product_branding
 type Brand struct {
 	ID          uint   `json:"id,omitempty"`
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 }
 
-//table schema for product color
+// table schema for product color
 type Color struct {
 	Name  string `json:"name"`
 	Stock int    `json:"quantity"`
 }
 
-//tabel schema for product_processor
+// tabel schema for product_processor
 type Processor struct {
 	ID          uint   `json:"id,omitempty"`
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 }
 
-//table schema for product_discount
+// table schema for product_discount
 type Discount struct {
 	ArgId        int
 	ID           int
@@ -219,7 +221,9 @@ type UpdateProduct struct {
 	NewColor       string    `json:"new_color"`
 	NewQuantity    int       `json:"new_quantity"`
 	Price          float64   `json:"price"`
-	Image          string    `json:"image"`
+	Image1         string    `json:"image1"`
+	Image2         string    `json:"image2"`
+	Image3         string    `json:"image3"`
 	Updated_At     time.Time `json:"updated_at"`
 }
 

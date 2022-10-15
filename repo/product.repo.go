@@ -59,7 +59,9 @@ func (c *productRepo) FindProductByCode(productCode string) (model.ProductRespon
 				processor.name,
 				product.price,
 				product.rating,
-				product.image,
+				product.image1,
+				product.image2,
+				prouct.image3,
 				product.is_deleted
 				FROM product
 				INNER JOIN category ON category.id = product.category_id
@@ -90,7 +92,9 @@ func (c *productRepo) FindProductByCode(productCode string) (model.ProductRespon
 		&product.Processor.Name,
 		&product.Price,
 		&product.Rating,
-		&product.Image,
+		&product.Image1,
+		&product.Image2,
+		&product.Image3,
 		&product.IsDeleted,
 	)
 
@@ -159,8 +163,11 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 				processor_id,
 				category_id,
 				price,
-				stock)
-				VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+				stock,
+				image1,
+				image2,
+				image3)
+				VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 				RETURNING code;`
 
 	// First You begin a transaction with a call to db.Begin()
@@ -225,7 +232,10 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 			product.Processor.ID,
 			product.Category.ID,
 			product.Price,
-			stock).Scan(
+			stock,
+			product.Image1,
+			product.Image2,
+			product.Image3).Scan(
 			&product.Code,
 		)
 
@@ -421,7 +431,9 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			  	  p.category_id,
 			  	  p.brand_id,
 			  	  p.processor_id,
-			  	  p.image,
+			  	  p.image1,
+				  p.image2,
+				  p.image3,
 			  	  p.price,
 			  	  w.wishlist,
 				  p.color,
@@ -441,7 +453,9 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			  	  p.brand_id,
 			  	  p.processor_id,
 			  	  p.discount_id,
-			  	  p.image,
+			  	  p.image1,
+				  p.image2,
+				  p.image3,
 			  	  p.price,
 				  p.color,
 			  	  w.wishlist,
@@ -456,7 +470,9 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			     c.name,
 			     b.name,
 			     pr.name,
-			     p.image,
+			     p.image1,
+				 p.image2,
+				 p.image3,
 			     p.price,
 			     COALESCE(p.wishlist, false),
 			     p.colors,
@@ -648,7 +664,9 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			&product.GetCategory.Name,
 			&product.GetBrand.Name,
 			&product.GetProcessor.Name,
-			&product.Image,
+			&product.Image1,
+			&product.Image2,
+			&product.Image3,
 			&product.Price,
 			&product.WishList,
 			pq.Array(&product.GetColor.Name),
@@ -870,14 +888,36 @@ func (c *productRepo) UpdateProductByCode(data model.UpdateProduct) error {
 		i++
 	}
 
-	if data.Image != "" {
+	if data.Image1 != "" {
 
 		if i > 1 {
 			query = query + `, `
 		}
 
-		query = query + fmt.Sprintf(`image = $%d`, i)
-		arg = append(arg, data.Image)
+		query = query + fmt.Sprintf(`image1 = $%d`, i)
+		arg = append(arg, data.Image1)
+		i++
+	}
+
+	if data.Image2 != "" {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		query = query + fmt.Sprintf(`image2 = $%d`, i)
+		arg = append(arg, data.Image2)
+		i++
+	}
+
+	if data.Image3 != "" {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		query = query + fmt.Sprintf(`image3 = $%d`, i)
+		arg = append(arg, data.Image3)
 		i++
 	}
 

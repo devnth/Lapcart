@@ -93,7 +93,9 @@ func (c *wishListRepo) GetWishList(user_id int) ([]model.GetProduct, error) {
 					  ARRAY_AGG(p.id) as id, 
 					  p.name, 
 					  p.code,
-					  p.image,
+					  p.image1,
+					  p.image2,
+					  p.image3,
 					  p.price,
 					  ARRAY_AGG(p.color) as color, 
 					  p.brand_id,
@@ -104,7 +106,7 @@ func (c *wishListRepo) GetWishList(user_id int) ([]model.GetProduct, error) {
 					  GROUP BY 
 					  p.name, p.brand_id, p.category_id, p.processor_id, p.code, p.image, p.price
 					   )
-			SELECT pr.id, pr.code, pr.name, pr.color, c.name, b.name, p.name ,pr.image, pr.price
+			SELECT pr.id, pr.code, pr.name, pr.color, c.name, b.name, p.name ,pr.image1, pr.image2, pr.image3, pr.price
 			FROM product pr
 			JOIN category c ON pr.category_id = c.id
 			JOIN brand b ON pr.brand_id = b.id
@@ -131,7 +133,9 @@ func (c *wishListRepo) GetWishList(user_id int) ([]model.GetProduct, error) {
 			&product.GetCategory.Name,
 			&product.GetBrand.Name,
 			&product.GetProcessor.Name,
-			&product.Image,
+			&product.Image1,
+			&product.Image2,
+			&product.Image3,
 			&product.Price)
 
 		if err != nil {

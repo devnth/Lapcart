@@ -2,8 +2,10 @@ package repo
 
 import (
 	"database/sql"
+	"fmt"
 	"lapcart/model"
 	"lapcart/utils"
+	"log"
 )
 
 type AdminRepository interface {
@@ -14,6 +16,9 @@ type AdminRepository interface {
 	FindDiscountByName(name string) (uint, error)
 	GetAllOrders(pagenation utils.Filter) ([]model.GetOrders, utils.Metadata, error)
 	ManageOrders(data model.ManageOrder) error
+	AddCategory(data model.Category) error
+	GetAllCategory() ([]model.Category, error)
+	UpdateCategory(data model.Category) error
 }
 
 type adminRepo struct {
@@ -267,4 +272,96 @@ func (c *adminRepo) GetAllOrders(pagenation utils.Filter) ([]model.GetOrders, ut
 
 	return orders, utils.ComputeMetaData(totalRecords, pagenation.Page, pagenation.PageSize), nil
 
+}
+
+func (c *adminRepo) AddCategory(data model.Category) error {
+
+	query := `INSERT INTO 
+				category 
+					   (name, description)
+   			VALUES 
+						($1, $2);`
+
+	err := c.db.QueryRow(query, data.Name, data.Description).Err()
+
+	return err
+}
+
+func (c *adminRepo) GetAllCategory() ([]model.Category, error) {
+
+	var categories []model.Category
+
+	query := ` SELECT * FROM category;`
+
+	rows, err := c.db.Query(query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	//Loop through each rows
+	for rows.Next() {
+		var category model.Category
+		err := rows.Scan(&category.ID,
+			&category.Name,
+			&category.Description)
+
+		if err != nil {
+			return categories, err
+		}
+		categories = append(categories, category)
+	}
+	if err = rows.Err(); err != nil {
+		return categories, err
+	}
+
+	return categories, nil
+
+}
+
+func (c *adminRepo) UpdateCategory(data model.Category) error {
+
+	query := `UPDATE 
+				category 
+				SET
+				`
+
+	var arg []interface{}
+	i := 1
+
+	if data.Name != "" {
+
+		query = query + fmt.Sprintf(`name = $%d`, i)
+		arg = append(arg, data.Name)
+		i++
+
+	}
+
+	if data.Description != "" {
+
+		if i > 1 {
+			query = query + `, `
+		}
+
+		query = query + fmt.Sprintf(`description = $%d`, i)
+		arg = append(arg, data.Description)
+		i++
+	}
+
+	statement, err := c.db.Prepare(query)
+
+	if err != nil {
+		log.Println("Error", "query exec failed", err)
+		return err
+	}
+
+	err = statement.QueryRow(arg...).Err()
+
+	if err != nil {
+		log.Println("Error", "query exec failed: ", err)
+	}
+
+	return err
 }

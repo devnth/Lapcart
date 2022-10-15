@@ -17,6 +17,9 @@ type AdminService interface {
 	AddCoupon(coupon model.Coupon) error
 	GetAllOrders(pagenation utils.Filter) (*[]model.GetOrders, *utils.Metadata, error)
 	ManageOrders(data model.ManageOrder) error
+	AddCategory(data model.Category) error
+	ViewCategory() (*[]model.Category, error)
+	UpdateCategory(data model.Category) error
 }
 
 type adminService struct {
@@ -146,4 +149,37 @@ func (c *adminService) GetAllOrders(pagenation utils.Filter) (*[]model.GetOrders
 	}
 
 	return &orders, &metadata, nil
+}
+
+func (c *adminService) AddCategory(data model.Category) error {
+
+	err := c.adminRepo.AddCategory(data)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (c *adminService) ViewCategory() (*[]model.Category, error) {
+
+	Category, err := c.adminRepo.GetAllCategory()
+
+	if err != nil {
+		return nil, err
+	}
+	return &Category, nil
+}
+
+func (c *adminService) UpdateCategory(data model.Category) error {
+
+	err := c.adminRepo.UpdateCategory(data)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }

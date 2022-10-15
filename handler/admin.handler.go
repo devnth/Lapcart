@@ -18,6 +18,9 @@ type AdminHandler interface {
 	AddCoupon() http.HandlerFunc
 	ManageOrder() http.HandlerFunc
 	GetAllOrders() http.HandlerFunc
+	AddCategory() http.HandlerFunc
+	ViewCategory() http.HandlerFunc
+	UpdateCategory() http.HandlerFunc
 }
 
 type adminHandler struct {
@@ -194,5 +197,76 @@ func (c *adminHandler) GetAllOrders() http.HandlerFunc {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)
+	}
+}
+
+func (c *adminHandler) AddCategory() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var data model.Category
+
+		json.NewDecoder(r.Body).Decode(&data)
+
+		err := c.adminService.AddCategory(data)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "category added")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *adminHandler) ViewCategory() http.HandlerFunc {
+	return func(w http.ResponseWriter, _ *http.Request) {
+
+		categories, err := c.adminService.ViewCategory()
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", categories)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *adminHandler) UpdateCategory() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var data model.Category
+
+		json.NewDecoder(r.Body).Decode(&data)
+
+		err := c.adminService.UpdateCategory(data)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "category updated")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
 	}
 }

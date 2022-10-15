@@ -209,22 +209,26 @@ type ManageOrder struct {
 }
 
 type UpdateProduct struct {
-	ProductID      int       `json:"product_id"`
-	Code           string    `json:"new_item_code"`
-	OldCode        string    `json:"item_code"`
-	Name           string    `json:"product_name"`
-	Brand          string    `json:"brand_name"`
-	Category       string    `json:"category"`
-	Processor      string    `json:"processor"`
-	ChangeColor    string    `json:"change_color"`
-	ChangeQuantity int       `json:"change_quantity"`
-	NewColor       string    `json:"new_color"`
-	NewQuantity    int       `json:"new_quantity"`
-	Price          float64   `json:"price"`
-	Image1         string    `json:"image1"`
-	Image2         string    `json:"image2"`
-	Image3         string    `json:"image3"`
-	Updated_At     time.Time `json:"updated_at"`
+	ProductID            int       `json:"product_id"`
+	Code                 string    `json:"new_item_code"`
+	OldCode              string    `json:"item_code"`
+	Name                 string    `json:"product_name"`
+	ProductDescription   string    `json:"product_description"`
+	Brand                string    `json:"brand_name"`
+	BrandDescription     string    `json:"brand_description"`
+	Category             string    `json:"category"`
+	CategoryDescription  string    `json:"category_description"`
+	Processor            string    `json:"processor"`
+	ProcessorDescription string    `json:"processor_description"`
+	ChangeColor          string    `json:"change_color"`
+	ChangeQuantity       int       `json:"change_quantity"`
+	NewColor             string    `json:"new_color"`
+	NewQuantity          int       `json:"new_quantity"`
+	Price                float64   `json:"price"`
+	Image1               string    `json:"image1"`
+	Image2               string    `json:"image2"`
+	Image3               string    `json:"image3"`
+	Updated_At           time.Time `json:"updated_at"`
 }
 
 type DeleteProduct struct {

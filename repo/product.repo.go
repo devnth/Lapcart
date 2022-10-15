@@ -62,7 +62,7 @@ func (c *productRepo) FindProductByCode(productCode string) (model.ProductRespon
 				product.image1,
 				product.image2,
 				prouct.image3,
-				product.is_deleted
+				product.is_deleted,
 				FROM product
 				INNER JOIN category ON category.id = product.category_id
 				INNER  JOIN brand ON brand.id = product.brand_id
@@ -142,16 +142,16 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 	var stock int
 	ctx := context.Background()
 
-	query3 := `INSERT INTO processor(name)
-				VALUES($1)
+	query3 := `INSERT INTO processor(name, description)
+				VALUES($1, $2)
 				RETURNING id;`
 
-	query2 := `INSERT INTO brand(name)
-				VALUES($1)
+	query2 := `INSERT INTO brand(name, description)
+				VALUES($1, $2)
 				RETURNING id;`
 
-	query1 := `INSERT INTO category(name)
-				VALUES($1)
+	query1 := `INSERT INTO category(name, description)
+				VALUES($1, $2)
 				RETURNING id;`
 
 	query4 := `
@@ -166,8 +166,9 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 				stock,
 				image1,
 				image2,
-				image3)
-				VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+				image3,
+				description)
+				VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
 				RETURNING code;`
 
 	// First You begin a transaction with a call to db.Begin()
@@ -181,7 +182,7 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 
 	if !ok {
 		err = tx.QueryRow(query1,
-			product.Category.Name).Scan(&product.Category.ID)
+			product.Category.Name, product.Category.Description).Scan(&product.Category.ID)
 		if err != nil {
 			// Incase we find any error in the query execution, rollback the transaction
 			tx.Rollback()
@@ -195,7 +196,7 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 	id, ok = c.FindBrand(product.Brand.Name)
 	if !ok {
 		err = tx.QueryRow(query2,
-			product.Brand.Name).Scan(&product.Brand.ID)
+			product.Brand.Name, product.Brand.Description).Scan(&product.Brand.ID)
 		if err != nil {
 			// Incase we find any error in the query execution, rollback the transaction
 			tx.Rollback()
@@ -209,7 +210,7 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 	id, ok = c.FindProcessor(product.Processor.Name)
 	if !ok {
 		err = tx.QueryRow(query3,
-			product.Processor.Name).Scan(&product.Processor.ID)
+			product.Processor.Name, product.Processor.Description).Scan(&product.Processor.ID)
 		if err != nil {
 			// Incase we find any error in the query execution, rollback the transaction
 			tx.Rollback()
@@ -235,7 +236,8 @@ func (c *productRepo) AddProduct(product model.Product) (string, error) {
 			stock,
 			product.Image1,
 			product.Image2,
-			product.Image3).Scan(
+			product.Image3,
+			product.Description).Scan(
 			&product.Code,
 		)
 
@@ -281,8 +283,9 @@ func (c *productRepo) UpdateProduct(color model.Color, product model.ProductResp
 				processor_id,
 				category_id,
 				price,
-				stock)
-				VALUES($1, $2, $3, $4, $5, $6, $7, $8);
+				stock,
+				description)
+				VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9);
 				`
 
 	err := c.db.QueryRow(
@@ -295,6 +298,7 @@ func (c *productRepo) UpdateProduct(color model.Color, product model.ProductResp
 		product.Category.ID,
 		product.Price,
 		color.Stock,
+		product.Description,
 	).Err()
 
 	return err
@@ -440,7 +444,8 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			  	  p.discount_id,
 			  	  ARRAY_AGG(color) AS colors,
 				  p.is_deleted,
-				  p.created_at
+				  p.created_at,
+				  p.description
 			     FROM
 			  	  product p 
 			  	  LEFT JOIN
@@ -460,7 +465,8 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 				  p.color,
 			  	  w.wishlist,
 				  p.is_deleted,
-				  p.created_at
+				  p.created_at,
+				  p.description
 			  )
 			  SELECT
 			     COUNT(*) OVER(),
@@ -477,7 +483,8 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			     COALESCE(p.wishlist, false),
 			     p.colors,
 			     COALESCE(d.name, ''),
-			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price 
+			     COALESCE(cast((p.price * (1 - d.percentage / 100)) AS NUMERIC(10,2)),0) AS discount_price,
+				 p.description 
 			  FROM
 			     product p 
 			     JOIN
@@ -672,6 +679,7 @@ func (c *productRepo) GetAllProducts(filter model.Filter, user_id int, pagenatio
 			pq.Array(&product.GetColor.Name),
 			&product.DiscountName,
 			&product.DiscountPrice,
+			&product.Description,
 		)
 
 		if err != nil {
@@ -794,13 +802,13 @@ func (c *productRepo) UpdateProductByCode(data model.UpdateProduct) error {
 
 				`INSERT INTO 
 				 category 
-						(name)
+						(name, description)
 				VALUES 
-				     	($1)
+				     	($1, $2)
 				RETURNING id;
 						`
 
-			err = tx.QueryRow(insertQuery, data.Category).Scan(&category_id)
+			err = tx.QueryRow(insertQuery, data.Category, data.CategoryDescription).Scan(&category_id)
 
 			if err != nil {
 				tx.Rollback()
@@ -826,13 +834,13 @@ func (c *productRepo) UpdateProductByCode(data model.UpdateProduct) error {
 
 				`	INSERT INTO 
 				 Brand 
-						(name)
+						(name, description)
 				VALUES 
-				     	($1)
+				     	($1, $2)
 				RETURNING id;
 						`
 
-			err = tx.QueryRow(insertQuery, data.Brand).Scan(&brand_id)
+			err = tx.QueryRow(insertQuery, data.Brand, data.BrandDescription).Scan(&brand_id)
 
 			if err != nil {
 				tx.Rollback()
@@ -858,13 +866,13 @@ func (c *productRepo) UpdateProductByCode(data model.UpdateProduct) error {
 
 				`	INSERT INTO 
 				 Processor 
-						(name)
+						(name, description)
 				VALUES 
-				     	($1)
+				     	($1, $2)
 				RETURNING id;
 						`
 
-			err = tx.QueryRow(insertQuery, data.Brand).Scan(&processor_id)
+			err = tx.QueryRow(insertQuery, data.Processor, data.ProcessorDescription).Scan(&processor_id)
 
 			if err != nil {
 				tx.Rollback()
@@ -992,9 +1000,9 @@ func (c *productRepo) InsertNewColor(data model.UpdateProduct) error {
 	query := `
 	INSERT INTO
 		product
-		(code, name, brand_id, processor_id, category_id, color, stock, price, updated_at)
+		(code, name, brand_id, processor_id, category_id, color, stock, price, updated_at, image1, image2, image3, description)
 	VALUES
-		($1, $2, $3, $4, $5, $6, $7, $8, $9);
+		($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);
 	`
 
 	err := c.db.QueryRow(
@@ -1008,6 +1016,10 @@ func (c *productRepo) InsertNewColor(data model.UpdateProduct) error {
 		data.NewQuantity,
 		product.Price,
 		data.Updated_At,
+		data.Image1,
+		data.Image2,
+		data.Image3,
+		data.ProductDescription,
 	).Err()
 
 	return err

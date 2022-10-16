@@ -21,6 +21,7 @@ type AdminHandler interface {
 	AddCategory() http.HandlerFunc
 	ViewCategory() http.HandlerFunc
 	UpdateCategory() http.HandlerFunc
+	DeleteCategory() http.HandlerFunc
 }
 
 type adminHandler struct {
@@ -264,6 +265,31 @@ func (c *adminHandler) UpdateCategory() http.HandlerFunc {
 		}
 
 		response := response.BuildResponse(true, "OK!", "category updated")
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		utils.ResponseJSON(w, response)
+
+	}
+}
+
+func (c *adminHandler) DeleteCategory() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		var data model.Category
+
+		json.NewDecoder(r.Body).Decode(&data)
+
+		err := c.adminService.DeleteCategory(data.ID)
+
+		if err != nil {
+			response := response.BuildErrorResponse("error processing request", err.Error(), nil)
+			w.Header().Add("Content-Type", "application/json")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			utils.ResponseJSON(w, response)
+			return
+		}
+
+		response := response.BuildResponse(true, "OK!", "category deleted")
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		utils.ResponseJSON(w, response)

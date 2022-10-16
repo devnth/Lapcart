@@ -20,6 +20,7 @@ type AdminService interface {
 	AddCategory(data model.Category) error
 	ViewCategory() (*[]model.Category, error)
 	UpdateCategory(data model.Category) error
+	DeleteCategory(id uint) error
 }
 
 type adminService struct {
@@ -175,6 +176,24 @@ func (c *adminService) ViewCategory() (*[]model.Category, error) {
 func (c *adminService) UpdateCategory(data model.Category) error {
 
 	err := c.adminRepo.UpdateCategory(data)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
+func (c *adminService) DeleteCategory(id uint) error {
+
+	err := c.adminRepo.DeleteCategory(id)
+
+	if err != nil {
+		return err
+	}
+
+	err = c.adminRepo.DeleteProductByCategory(id)
 
 	if err != nil {
 		return err

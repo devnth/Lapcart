@@ -6,6 +6,7 @@ import (
 	"lapcart/model"
 	"lapcart/utils"
 	"log"
+	"time"
 )
 
 type AdminRepository interface {
@@ -19,6 +20,8 @@ type AdminRepository interface {
 	AddCategory(data model.Category) error
 	GetAllCategory() ([]model.Category, error)
 	UpdateCategory(data model.Category) error
+	DeleteCategory(id uint) error
+	DeleteProductByCategory(id uint) error
 }
 
 type adminRepo struct {
@@ -364,4 +367,33 @@ func (c *adminRepo) UpdateCategory(data model.Category) error {
 	}
 
 	return err
+}
+
+func (c *adminRepo) DeleteCategory(id uint) error {
+
+	query := `Update 
+				 category 
+				SET is_deleted = true
+				WHERE id = $1;`
+
+	err := c.db.QueryRow(query, id).Err()
+
+	return err
+
+}
+
+func (c *adminRepo) DeleteProductByCategory(id uint) error {
+
+	deleted_at, _ := time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+	query := `Update 
+				 product 
+				SET is_deleted = true, deleted_at = $1
+				WHERE category_id = $2;
+				`
+
+	err := c.db.QueryRow(query, deleted_at, id).Err()
+
+	return err
+
 }
